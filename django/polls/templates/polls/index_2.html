@@ -1,0 +1,27 @@
+<!-- improves on index_1.html in that:
+(1) The %url command used by the href tag is relative.
+(2) It uses a static style.css file. -->
+
+{% load static %} <!-- "generates the absolute URL of static files." -->
+<link rel = "stylesheet"
+      type = "text/css"
+      href = "{% static 'polls/style.css' %}" >
+
+{% if latest_question_list %}
+  <ul>
+    {% for question in latest_question_list %}
+    <li>
+      <a href =
+         "{% url 'polls:detail' question.id %}">
+        <!-- `polls` is, I suspect, looked up in <project-name>/urls.py,
+              but it could conceivably come from polls.urls.app_name. -->
+        <!-- `detail` is looked up in `urlpatterns` in polls/urls.py-->
+        <!-- 'href' means "hyperlink". -->
+        {{ question.question_text }}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No polls are available.</p>
+{% endif %}

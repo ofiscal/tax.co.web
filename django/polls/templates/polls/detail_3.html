@@ -1,0 +1,31 @@
+<h1>{{ question.question_text }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<!-- "when somebody selects one of the radio buttons and submits the form, it’ll send the POST data choice=# where # is the ID of the selected choice" -->
+
+<!-- The %url% just after this comment could instead be "hard-coded" thus:
+<li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
+but that makes the design brittle. The %url% function looks up things in the urls.py file(s).
+
+In 'polls:vote' below, 'polls' corresponds to the app_name in polls/urls.py,
+and 'vote' to one of the name fields of one of the paths defined there.
+-->
+<form action="{% url 'polls:vote' question.id %}" method="post">
+  <!-- "action" is what will happen. In this case it will run "vote()",
+       defined (I think) in polls/views.py. -->
+  <!-- "Whenever you create a form that alters data server-side,
+       use method="post". -->
+  {% csrf_token %}
+    <!-- "all POST forms that are targeted at internal URLs should use the
+         {% csrf_token %} template tag",
+         to protect against "Cross Site Request Forgeries." -->
+  {% for choice in question.choice_set.all %}
+  <input type="radio"
+         name="chosen"
+         id="choice{{ forloop.counter }}"
+         value="{{ choice.id }}">
+    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+  {% endfor %}
+  <input type="submit" value="Vote">
+</form>

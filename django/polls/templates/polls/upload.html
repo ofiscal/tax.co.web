@@ -1,0 +1,16 @@
+<form action="{% url 'polls:upload' %}"
+      enctype="multipart/form-data"
+      method="post" >
+  {% csrf_token %}
+    <!-- "all POST forms that are targeted at internal URLs should use the
+         {% csrf_token %} template tag",
+         to protect against "Cross Site Request Forgeries." -->
+  {% for choice in question.choice_set.all %}
+  <input type="radio"
+         name="chosen"
+         id="choice{{ forloop.counter }}"
+         value="{{ choice.id }}">
+    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+  {% endfor %}
+  <input type="submit" value="Vote">
+</form>

@@ -1,0 +1,23 @@
+<h1>{{ question.question_text }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<!--This form uses method='post' because it writes data server-side.
+It could be achieved with a 'get' but that would be dangerous.-->
+<form action="{% url 'polls:vote' question.id %}"
+      method="post">
+  {% csrf_token %}
+  {% for choice in question.choice_set.all %}
+    <!-- Deleting the "id=" clause below seems to do nothing.
+`forloop.counter` starts at 1, and indicates how many times the loop has run.
+-->
+    <input type="radio"
+           name="chosen"
+           id="choice{{ forloop.counter }}"
+           value="{{ choice.id }}" >
+    <label for="choice{{ forloop.counter }}">
+      {{ choice.choice_text }} </label>
+    <br>
+  {% endfor %}
+  <input type="submit" value="Vote">
+</form>

@@ -1,0 +1,10 @@
+images
+*~
+.emacs.desktop*
+secret*
+migrations
+*.pyc
+git-comment*
+__pycache__/
+TAGS
+django/run_make/fake_make/*.json

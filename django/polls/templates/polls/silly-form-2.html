@@ -1,0 +1,9 @@
+<form action = "{% url 'polls:silly-form-2'%}"
+      method = "post">
+    {% csrf_token %}
+    <!-- Somehow, Django expands the word `form` between brackets above
+    to accord with the definition of the `form` variable
+    in the definition ov `views.get_name`. -->
+    {{ form }}
+    <input type="submit" value="Submit">
+</form>
