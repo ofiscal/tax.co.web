@@ -1,0 +1,20 @@
+<!-- from this tutorial:
+       https://simpleisbetterthancomplex.com/tutorial/2016/08/01/how-to-upload-files-with-django.html
+       https://github.com/sibtc/simple-file-upload
+         cloned at aws/upload-tutorial
+-->
+
+{% load static %}
+
+{% block content %}
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="myfile">
+    <input type="file" name="myfile2">
+    <button type="submit">Upload</button>
+  </form>
+
+  {% if evidence_of_upload %}
+    <p>Upload successful!</p>
+  {% endif %}
+{% endblock %}

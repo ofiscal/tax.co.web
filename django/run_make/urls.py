@@ -22,7 +22,11 @@ urlpatterns = [
           views.download,
           name='download'),
 
-    path( 'upload',
-           views.upload,
-           name="upload" )
+    path( 'upload_and_show_url',
+           views.upload_and_show_url,
+           name="upload_and_show_url" ),
+
+    path( 'upload_multiple',
+           views.upload_multiple,
+           name="upload_multiple" )
 ]
