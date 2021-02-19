@@ -1,15 +1,15 @@
-from django.core.files.storage import FileSystemStorage
+from   datetime import datetime # for datetime.datetime.now
+import hashlib
 import json
 import os
 import subprocess
-from datetime import datetime # for datetime.datetime.now
-import hashlib
 
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
-from django.urls import reverse
+from   django.core.files.storage import FileSystemStorage
+from   django.http import HttpResponseRedirect
+from   django.shortcuts import render
+from   django.urls import reverse
 
-from .forms import TaxConfigForm
+from   .forms import TaxConfigForm
 
 
 def write_time ( request ):
