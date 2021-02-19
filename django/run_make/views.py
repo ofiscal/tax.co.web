@@ -43,7 +43,7 @@ def ingest_spec ( request ):
       return HttpResponseRedirect (
         reverse (
           'run_make:thank-for-spec',
-          kwargs = { "email" : form . cleaned_data [ "email" ]
+          kwargs = { "user_email" : form . cleaned_data [ "user_email" ]
                    } ) )
 
   else:
@@ -52,10 +52,10 @@ def ingest_spec ( request ):
                       'run_make/ingest_spec.html',
                       { 'form' :  form } )
 
-def thank_for_spec ( request, email ):
+def thank_for_spec ( request, user_email ):
   return render ( request,
                   'run_make/thank_for_spec.html',
-                  { 'email' :  email } )
+                  { 'user_email' :  user_email } )
 
 def download ( request ):
   return render ( request,

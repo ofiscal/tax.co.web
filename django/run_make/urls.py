@@ -14,7 +14,7 @@ urlpatterns = [
           views.ingest_spec,
           name='ingest_spec'),
 
-    path( 'thank-for-spec/<email>',
+    path( 'thank-for-spec/<user_email>',
           views.thank_for_spec,
           name='thank-for-spec'),
 
