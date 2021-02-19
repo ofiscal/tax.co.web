@@ -3,7 +3,7 @@ it is handed (per the form's "action =" option)
 back to the same URL where it was generated.
 That's because that URL treats gets and posts differently.
 See ingest_spec in views.py for details. -->
-<form action = "{% url 'run_make:ingest-spec'%}"
+<form action = "{% url 'run_make:ingest_spec'%}"
       method = "post">
   {% csrf_token %}
   {% for field in form %}

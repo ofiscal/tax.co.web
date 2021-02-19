@@ -10,9 +10,9 @@ urlpatterns = [
           views.write_time,
           name='write_time'),
 
-    path( 'ingest-spec',
+    path( 'ingest_spec',
           views.ingest_spec,
-          name='ingest-spec'),
+          name='ingest_spec'),
 
     path( 'thank-for-spec/<email>',
           views.thank_for_spec,
