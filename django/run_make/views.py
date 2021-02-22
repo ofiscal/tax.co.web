@@ -37,10 +37,11 @@ def ingest_spec ( request ):
     form = TaxConfigForm ( request . POST )
     if form . is_valid ():
       os . chdir ( "/mnt/web/run_make/fake_make" )
-      h = ( hashlib . md5 (
-              form . cleaned_data ["user_email"] . encode () )
-            . hexdigest () )
-      hp = os.path.join ( '/mnt/tax/users/', h )
+      hp = os.path.join (
+           '/mnt/tax/users/',
+           ( hashlib . md5 (
+               form . cleaned_data ["user_email"] . encode () )
+             . hexdigest () ) )
       if not os.path.exists ( hp ):
           os.mkdir ( hp )
       with open ( os.path.join ( hp, 'shell.json' ),
