@@ -9,7 +9,7 @@ from   django.http import HttpResponseRedirect
 from   django.shortcuts import render
 from   django.urls import reverse
 
-from   .forms import TaxConfigForm
+from   run_make.forms import TaxConfigForm
 
 
 def write_time ( request ):

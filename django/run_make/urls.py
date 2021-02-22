@@ -1,32 +1,32 @@
 from django.urls import path
 
-from . import views
+import run_make.views.examples as vx
 
 
 app_name = 'run_make'
 
 urlpatterns = [
     path( 'write_time',
-          views.write_time,
+          vx.write_time,
           name='write_time'),
 
     path( 'ingest_json',
-          views.ingest_json,
+          vx.ingest_json,
           name='ingest_json'),
 
     path( 'thank-for-spec/<user_email>',
-          views.thank_for_spec,
+          vx.thank_for_spec,
           name='thank-for-spec'),
 
     path( 'download',
-          views.download,
+          vx.download,
           name='download'),
 
     path( 'upload_and_show_url',
-           views.upload_and_show_url,
+           vx.upload_and_show_url,
            name="upload_and_show_url" ),
 
     path( 'upload_multiple',
-           views.upload_multiple,
+           vx.upload_multiple,
            name="upload_multiple" )
 ]
