@@ -25,7 +25,7 @@ def write_time ( request ):
     { "wd" : wd,
       "now" : now } )
 
-def ingest_spec ( request ):
+def ingest_json ( request ):
   """ PITFALL: Strange, slightly-recursive call structure.
   The user first visits this URL with a GET.
   They see a blank form, corresponding to the second ("else") branch below.
@@ -58,7 +58,7 @@ def ingest_spec ( request ):
   else:
       form = TaxConfigForm ()
       return render ( request,
-                      'run_make/ingest_spec.html',
+                      'run_make/ingest_json.html',
                       { 'form' :  form } )
 
 def thank_for_spec ( request, user_email ):
