@@ -10,6 +10,7 @@ from   django.shortcuts import render
 from   django.urls import reverse
 
 from   run_make.forms import TaxConfigForm
+import run_make.views.lib as lib
 
 
 def write_time ( request ):
@@ -36,19 +37,14 @@ def ingest_json ( request ):
   if request . method == 'POST':
     form = TaxConfigForm ( request . POST )
     if form . is_valid ():
+
+      lib.write_form_to_maybe_new_user_folder (
+          '/mnt/tax/users/',
+          form )
+
       os . chdir ( "/mnt/web/run_make/fake_make" )
-      hp = os.path.join (
-           '/mnt/tax/users/',
-           ( hashlib . md5 (
-               form . cleaned_data ["user_email"] . encode () )
-             . hexdigest () ) )
-      if not os.path.exists ( hp ):
-          os.mkdir ( hp )
-      with open ( os.path.join ( hp, 'shell.json' ),
-                  'w' ) as f:
-        json . dump ( form . cleaned_data,
-                      f )
       subprocess . run ( [ "make", "output.json" ] )
+
       return HttpResponseRedirect (
         reverse (
           'run_make:thank-for-spec',
