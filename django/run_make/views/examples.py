@@ -1,6 +1,4 @@
 from   datetime import datetime # for datetime.datetime.now
-import hashlib
-import json
 import os
 import subprocess
 

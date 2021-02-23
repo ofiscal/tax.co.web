@@ -1,12 +1,14 @@
 <!-- PITFALL: COnfusingly, when the form below is submitted,
 it is handed (per the form's "action =" option)
 back to the same URL where it was generated.
-That's because that URL treats gets and posts differently.
-See ingest_spec in views.py for details. -->
+That URL treats gets and posts differently.
+See ingest_json in views/examples.py for details. -->
 <form action = "{% url 'run_make:ingest_json'%}"
       method = "post">
   {% csrf_token %}
-  {% for field in form %}
+  {% for field in form %} <!-- PITFALL: This "form" is data from Django, but
+                               the earlier "form" is an HTML keyword. -->
+
     <div class="fieldWrapper">
       {{ field.errors }}
       {{ field.label_tag }} {{ field }}
