@@ -6,9 +6,9 @@ See ingest_json in views/examples.py for details. -->
 <form action = "{% url 'run_make:ingest_json'%}"
       method = "post">
   {% csrf_token %}
+
   {% for field in form %} <!-- PITFALL: This "form" is data from Django, but
                                the earlier "form" is an HTML keyword. -->
-
     <div class="fieldWrapper">
       {{ field.errors }}
       {{ field.label_tag }} {{ field }}
