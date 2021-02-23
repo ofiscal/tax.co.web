@@ -77,9 +77,10 @@ def download ( request ):
 def upload_multiple ( request ):
     # Demonstrates that the return value of "filename" is redundant;
     # only the IO performed before its assignment matters.
+    table_names = [ "myfile", "myfile2" ]
     if request.method == 'POST':
-      fs = FileSystemStorage()
-      for fn in ["myfile","myfile2"]:
+      fs = FileSystemStorage ()
+      for fn in table_names:
         if request . FILES [ fn ]:
           myfile = request.FILES[fn]
           filename = fs.save(
@@ -89,8 +90,12 @@ def upload_multiple ( request ):
       return render(
           request,
           'run_make/upload_multiple.html',
-          { 'evidence_of_upload' : True } )
-    return render(request, 'run_make/upload_multiple.html')
+          { "table_names" : table_names,
+            'evidence_of_upload' : True } )
+    return render(
+        request,
+        'run_make/upload_multiple.html',
+        { 'table_names' : table_names } )
 
 def upload_and_show_url ( request ):
     # Just for learning.
