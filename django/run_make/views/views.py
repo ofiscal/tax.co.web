@@ -12,14 +12,21 @@ import run_make.views.lib as lib
 
 
 def ingest_full_spec ( request ):
-  """ For comments and simpler illustrations, see the functions
+  """ For commentary and simpler illustrations, see the functions
       ingest_json() and upload_multiple() in examples.py.
   """
 
   # PITFALL: Django treats as root every DocumentRoot folder
   # configured in apache2.conf. Name collisions must be hell.
-  tables = { "vat_by_coicop"     : "/vat-by-coicop.csv",
-             "vat_by_capitulo_c" : "/vat-by-capitulo-c.csv" }
+  vat_tables = {
+      "El IVA asignado por código COICOP:" : "/vat-by-coicop.csv",
+      "El IVA asignado por código 'capitulo c'. (La mayoría de las compras en la ENPH son identificados por el COICOP, pero algunos usan este sistema alternativo.)" : "/vat-by-capitulo-c.csv" }
+
+  marginal_rate_tables = {
+      "El impuesto para la mayoría de las categorías de ingreso:" : "/marginal_rates/most.csv",
+      "El impuesto para los dividendos:" : "/marginal_rates/dividend.csv",
+      "El impuesto más alto para los ingresos ocasionales:" : "/marginal_rates/ocasional_high.csv",
+      "El impuesto más bajo para los ingresos ocasionales:" : "/marginal_rates/ocasional_low.csv" }
 
   if request . method == 'POST':
     form = TaxConfigForm ( request . POST )
@@ -40,5 +47,6 @@ def ingest_full_spec ( request ):
       return render ( request,
                       'run_make/ingest_full_spec.html',
                       { 'form' :  form,
-                        "tables" : tables
+                        "vat_tables" : vat_tables,
+                        "marginal_rate_tables" : marginal_rate_tables
                       } )

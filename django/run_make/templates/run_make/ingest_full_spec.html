@@ -1,0 +1,47 @@
+<form action = "{% url 'run_make:ingest_json'%}"
+      method = "post">
+  {% csrf_token %}
+
+  {% for field in form %}
+    <div class="fieldWrapper">
+      {{ field.errors }}
+      {{ field.label_tag }} {{ field }}
+      {% if field.help_text %}
+        <p class="help">{{ field.help_text|safe }}</p>
+      {% endif %}
+      <br>
+    </div>
+  {% endfor %}
+
+  <hr>
+  <hr>
+  Cada una de las siguientes tablas son opcionales.
+  Le permiten cambiar varios aspectos de la ley de tributación.
+  <hr>
+
+  {% for name,path in marginal_rate_tables.items %}
+    {{name}}<br>
+    <a href={{path}} download>
+      Descargar modelo.
+    </a>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      Subir su versión modificado:
+      <input type="file" name={{name}}>
+    </form>
+  {% endfor %}
+
+  {% for name,path in vat_tables.items %}
+    {{name}}<br>
+    <a href={{path}} download>
+      Descargar modelo.<br>
+    </a>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      Subir su versión modificado:
+      <input type="file" name={{name}}>
+    </form>
+  {% endfor %}
+
+  <input type="submit" value="Submit">
+</form>
