@@ -19,14 +19,14 @@ def ingest_full_spec ( request ):
   # PITFALL: Django treats as root every DocumentRoot folder
   # configured in apache2.conf. Name collisions must be hell.
   vat_tables = {
-      "El IVA asignado por código COICOP:" : "/vat-by-coicop.csv",
-      "El IVA asignado por código 'capitulo c'. (La mayoría de las compras en la ENPH son identificados por el COICOP, pero algunos usan este sistema alternativo.)" : "/vat-by-capitulo-c.csv" }
+      "/vat-by-coicop.csv" : "El IVA asignado por código COICOP:",
+      "/vat-by-capitulo-c.csv" : "El IVA asignado por código 'capitulo c'. (La mayoría de las compras en la ENPH son identificados por el COICOP, pero algunos usan este sistema alternativo.)" }
 
   marginal_rate_tables = {
-      "El impuesto para la mayoría de las categorías de ingreso:" : "/marginal_rates/most.csv",
-      "El impuesto para los dividendos:" : "/marginal_rates/dividend.csv",
-      "El impuesto más alto para los ingresos ocasionales:" : "/marginal_rates/ocasional_high.csv",
-      "El impuesto más bajo para los ingresos ocasionales:" : "/marginal_rates/ocasional_low.csv" }
+      "/marginal_rates/most.csv" : "El impuesto para la mayoría de las categorías de ingreso:",
+      "/marginal_rates/dividend.csv" : "El impuesto para los dividendos:",
+      "/marginal_rates/ocasional_high.csv" : "El impuesto más alto para los ingresos ocasionales:",
+      "/marginal_rates/ocasional_low.csv" : "El impuesto más bajo para los ingresos ocasionales:" }
 
   if request . method == 'POST':
     form = TaxConfigForm ( request . POST )

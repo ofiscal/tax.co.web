@@ -19,27 +19,27 @@
   Le permiten cambiar varios aspectos de la ley de tributación.
   <hr>
 
-  {% for name,path in marginal_rate_tables.items %}
-    {{name}}<br>
+  {% for path,comment in marginal_rate_tables.items %}
+    {{comment}}<br>
     <a href={{path}} download>
       Descargar modelo.
     </a>
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       Subir su versión modificado:
-      <input type="file" name={{name}}>
+      <input type="file" name={{path}}>
     </form>
   {% endfor %}
 
-  {% for name,path in vat_tables.items %}
-    {{name}}<br>
+  {% for path,comment in vat_tables.items %}
+    {{comment}}<br>
     <a href={{path}} download>
       Descargar modelo.<br>
     </a>
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       Subir su versión modificado:
-      <input type="file" name={{name}}>
+      <input type="file" name={{path}}>
     </form>
   {% endfor %}
 
