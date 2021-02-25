@@ -1,8 +1,9 @@
 <form action = "{% url 'run_make:ingest_json'%}"
+      enctype="multipart/form-data"
       method = "post">
   {% csrf_token %}
 
-  {% for field in form %}
+  {% for field in advanced_specs_form %}
     <div class="fieldWrapper">
       {{ field.errors }}
       {{ field.label_tag }} {{ field }}
@@ -19,28 +20,14 @@
   Le permiten cambiar varios aspectos de la ley de tributación.
   <hr>
 
-  {% for path,comment in marginal_rate_tables.items %}
-    {{comment}}<br>
-    <a href={{path}} download>
-      Descargar modelo.
-    </a>
-    <form method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      Subir su versión modificado:
-      <input type="file" name={{path}}>
-    </form>
-  {% endfor %}
-
-  {% for path,comment in vat_tables.items %}
+  {% for path,comment in rate_tables.items %}
     {{comment}}<br>
     <a href={{path}} download>
       Descargar modelo.<br>
     </a>
-    <form method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      Subir su versión modificado:
-      <input type="file" name={{path}}>
-    </form>
+    Subir su versión modificado:
+    <input type="file" name={{path}}>
+    <hr>
   {% endfor %}
 
   <input type="submit" value="Submit">

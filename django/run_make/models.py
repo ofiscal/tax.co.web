@@ -2,6 +2,9 @@ from django.db import models
 
 
 class TaxConfig ( models . Model ):
+  # With the except of the user's email, these specs are "advanced" --
+  # without studying the tax.co code,
+  # users won't have any idea what they are about.
   user_email = models . EmailField (
       verbose_name = "Su correo electrónico",
       default = "quien@donde.net" )
