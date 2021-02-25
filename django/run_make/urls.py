@@ -1,5 +1,6 @@
 from django.urls import path
 
+import run_make.views.views    as vs
 import run_make.views.examples as vx
 
 
@@ -13,6 +14,10 @@ urlpatterns = [
     path( 'ingest_json',
           vx.ingest_json,
           name='ingest_json'),
+
+    path( 'ingest_full_spec',
+          vs.ingest_full_spec,
+          name='ingest_full_spec'),
 
     path( 'thank-for-spec/<user_email>',
           vx.thank_for_spec,
