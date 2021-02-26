@@ -11,21 +11,22 @@ from   run_make.forms import TaxConfigForm
 import run_make.views.lib as lib
 
 
-def ingest_full_spec ( request ):
-  """ For commentary and simpler illustrations, see the functions
-      ingest_json() and upload_multiple() in examples.py.
-  """
 
-  # PITFALL: Django treats as root every DocumentRoot folder
-  # configured in apache2.conf. Name collisions must be hell.
-
-  rate_tables = {
+# PITFALL: These paths are simpler than one would expect because
+# Django treats as root every DocumentRoot folder
+# configured in apache2.conf. Name collisions must be hell.
+rate_tables = {
       "/marginal_rates/most.csv" : "El impuesto para la mayoría de las categorías de ingreso:",
       "/marginal_rates/dividend.csv" : "El impuesto para los dividendos:",
       "/marginal_rates/ocasional_high.csv" : "El impuesto más alto para los ingresos ocasionales:",
       "/marginal_rates/ocasional_low.csv" : "El impuesto más bajo para los ingresos ocasionales:",
       "/vat-by-coicop.csv" : "El IVA, asignado por código COICOP:",
       "/vat-by-capitulo-c.csv" : "El IVA, asignado por código 'capitulo c'. (La mayoría de las compras en la ENPH son identificados por el COICOP, pero algunos usan este sistema alternativo.)" }
+
+def ingest_full_spec ( request ):
+  """ For commentary and simpler illustrations, see the functions
+      ingest_json() and upload_multiple() in examples.py.
+  """
 
   if request . method == 'POST':
     advanced_specs_form = TaxConfigForm ( request . POST )
@@ -43,10 +44,9 @@ def ingest_full_spec ( request ):
                      advanced_specs_form . cleaned_data [ "user_email" ]
                    } ) )
 
-  else:
-      advanced_specs_form = TaxConfigForm ()
-      return render ( request,
-                      'run_make/ingest_full_spec.html',
-                      { 'advanced_specs_form' : advanced_specs_form,
-                        "rate_tables"         : rate_tables
-                      } )
+  else: return render (
+      request,
+      'run_make/ingest_full_spec.html',
+      { 'advanced_specs_form' : TaxConfigForm (),
+       "rate_tables"         : rate_tables
+       } )
