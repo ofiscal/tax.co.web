@@ -9,12 +9,21 @@ class TaxConfig ( models . Model ):
       verbose_name = "Su correo electrónico",
       default = "quien@donde.net" )
   subsample = models . IntegerField (
-      verbose_name = "Reciproca del tamaño de la submuestra (1, 10, 100 o 1000)",
-      default = 1 )
+      verbose_name = "Tamaño de la submuestra usado",
+      default = 1,
+      choices =
+          [ ( 1, "Use todos los datos del ENPH." )
+          , (10, "Use 1/10 de los datos del ENPH.")
+          , (100, "Use 1/100 de los datos del ENPH.")
+          , (1000, "Use 1/1000 de los datos del ENPH.") ] )
   strategy = models . CharField (
       max_length = 64, # PITFALL: Mandatory for CharFields
       verbose_name = "Estrategia",
-      default = "detail" )
+      default = "detail",
+      choices = [ ("detail", "(Por ahora solomente hay una estrategia disponible.)") ] )
   year = models . IntegerField (
-      verbose_name = "Año de la ley de impuestos (2016, 2018, 2019)",
-      default = 2019 )
+      verbose_name = "Año de la ley de impuestos",
+      default = 2019,
+      choices = [ (2019,"2019")
+                , (2018,"2018")
+                , (2016,"2016") ] )
