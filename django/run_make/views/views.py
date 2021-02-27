@@ -28,15 +28,29 @@ def ingest_full_spec ( request ):
       ingest_json() and upload_multiple() in examples.py.
   """
 
+  log = open ( "/mnt/web/logs/log_outer.txt", "a" )
+  log . write ( "Here, it writes to the filesystem.\n" )
+  log . close ()
+
   if request . method == 'POST':
     advanced_specs_form = TaxConfigForm ( request . POST )
 
     if advanced_specs_form . is_valid ():
 
+      log = open ( "/mnt/web/logs/log_inner.txt", "a" )
+      log . write ( "But this doesn't get written." )
+      # This is what I'd like to write.
+      #log . write( "\n".join(
+      #    [ "user email: " + user_email,
+      #      "user hash: " + user_hash,
+      #      "user path: " + user_path ] ) )
+      log . close ()
+
       user_email = advanced_specs_form . cleaned_data [ "user_email" ]
+      user_hash = lib.hash_from_str ( user_email )
       user_path = os.path.join (
           '/mnt/tax/users/',
-          lib.hash_from_str ( user_email ) )
+          user_hash )
 
       lib.write_form_to_maybe_new_user_folder (
           user_path,
