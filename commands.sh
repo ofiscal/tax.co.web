@@ -21,3 +21,10 @@ docker stop webapp && docker rm webapp
 bash /mnt/apache2/link.sh
 service apache2 start
 service apache2 stop
+
+
+####
+#### also handy
+####
+
+service apache2 start && service apache2 stop
