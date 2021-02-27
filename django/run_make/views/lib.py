@@ -12,13 +12,9 @@ def hash_from_str ( s : str ) -> str:
       . hexdigest () )
 
 def write_form_to_maybe_new_user_folder (
-    users_folder : str,
+    user_path : str,
     form : ModelForm ):
   """ Completely IO; returns nothing. """
-  user_path = os.path.join (
-       users_folder,
-       hash_from_str (
-           form . cleaned_data ["user_email"] ) )
   if not os.path.exists ( user_path ):
       os.mkdir ( user_path )
   with open ( os.path.join ( user_path, 'shell.json' ),

@@ -34,8 +34,12 @@ def ingest_full_spec ( request ):
     if advanced_specs_form . is_valid ():
 
       user_email = advanced_specs_form . cleaned_data [ "user_email" ]
-      lib.write_form_to_maybe_new_user_folder (
+      user_path = os.path.join (
           '/mnt/tax/users/',
+          lib.hash_from_str ( user_email ) )
+
+      lib.write_form_to_maybe_new_user_folder (
+          user_path,
           advanced_specs_form )
 
       return HttpResponseRedirect (
