@@ -12,7 +12,7 @@ def hash_from_str ( s : str ) -> str:
       . hexdigest () )
 
 def write_form_to_maybe_new_user_folder (
-    users_folder : str, # a path
+    users_folder : str,
     form : ModelForm ):
   """ Completely IO; returns nothing. """
   user_path = os.path.join (

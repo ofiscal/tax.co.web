@@ -41,12 +41,11 @@ def ingest_full_spec ( request ):
       return HttpResponseRedirect (
         reverse (
           'run_make:thank-for-spec',
-          kwargs = { "user_email" : user_email
-                   } ) )
+          kwargs = { "user_email" : user_email } ) )
 
   else: return render (
       request,
       'run_make/ingest_full_spec.html',
       { 'advanced_specs_form' : TaxConfigForm (),
-       "rate_tables"         : rate_tables
+        "rate_tables"         : rate_tables
        } )
