@@ -33,6 +33,7 @@ def ingest_full_spec ( request ):
 
     if advanced_specs_form . is_valid ():
 
+      user_email = advanced_specs_form . cleaned_data [ "user_email" ]
       lib.write_form_to_maybe_new_user_folder (
           '/mnt/tax/users/',
           advanced_specs_form )
@@ -40,8 +41,7 @@ def ingest_full_spec ( request ):
       return HttpResponseRedirect (
         reverse (
           'run_make:thank-for-spec',
-          kwargs = { "user_email" :
-                     advanced_specs_form . cleaned_data [ "user_email" ]
+          kwargs = { "user_email" : user_email
                    } ) )
 
   else: return render (
