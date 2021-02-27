@@ -117,10 +117,11 @@ def upload_multiple_with_logging ( request ):
     # Demonstrates that the return value of "filename" is redundant;
     # only the IO performed before its assignment matters.
     # TODO move to studies/, along with a copy of the template.
+    table_names = [ "myfile", "myfile2" ]
     if request.method == 'POST':
       log = open ( "/mnt/web/logs/upload-var-names.txt", "a" )
       fs = FileSystemStorage()
-      for fn in ["myfile","myfile2"]:
+      for fn in table_names:
         if request . FILES [ fn ]:
           log . write("fn = " + fn + "\n")
           myfile = request.FILES[fn]
@@ -134,5 +135,10 @@ def upload_multiple_with_logging ( request ):
       return render(
           request,
           'run_make/upload_multiple.html',
-          { 'evidence_of_upload' : True } )
-    return render(request, 'run_make/upload_multiple.html')
+          { 'evidence_of_upload' : True,
+            "table_names" : table_names } )
+
+    return render(
+        request,
+        'run_make/upload_multiple.html',
+        { "table_names" : table_names } )

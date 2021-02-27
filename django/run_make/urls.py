@@ -27,6 +27,10 @@ urlpatterns = [
           vx.download,
           name='download'),
 
+    path( "upload_multiple_with_logging",
+          vx.upload_multiple_with_logging,
+          name="upload_multiple_with_logging" ),
+
     path( 'upload_and_show_url',
            vx.upload_and_show_url,
            name="upload_and_show_url" ),
