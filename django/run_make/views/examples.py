@@ -24,42 +24,6 @@ def write_time ( request ):
     { "wd" : wd,
       "now" : now } )
 
-def ingest_json ( request ):
-  """ PITFALL: Strange, slightly-recursive call structure.
-  The user first visits this URL with a GET.
-  They see a blank form, corresponding to the second ("else") branch below.
-  Once they fill out and submit the form, it is sent via POST
-  to this same function, and goes through the first ("if") branch.
-  """
-
-  if request . method == 'POST':
-    form = TaxConfigForm ( request . POST )
-    if form . is_valid ():
-
-      lib.write_form_to_maybe_new_user_folder (
-          '/mnt/tax/users/',
-          form )
-
-      os . chdir ( "/mnt/web/run_make/fake_make" )
-      subprocess . run ( [ "make", "output.json" ] )
-
-      return HttpResponseRedirect (
-        reverse (
-          'run_make:thank-for-spec',
-          kwargs = { "user_email" : form . cleaned_data [ "user_email" ]
-                   } ) )
-
-  else:
-      form = TaxConfigForm ()
-      return render ( request,
-                      'run_make/ingest_json.html',
-                      { 'form' :  form } )
-
-def thank_for_spec ( request, user_email ):
-  return render ( request,
-                  'run_make/thank_for_spec.html',
-                  { 'user_email' :  user_email } )
-
 def download ( request ):
   return render ( request,
                   'run_make/download.html' )

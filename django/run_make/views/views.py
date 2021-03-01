@@ -24,8 +24,15 @@ rate_tables = {
       "/vat-by-capitulo-c.csv" : "El IVA, asignado por código 'capitulo c'. (La mayoría de las compras en la ENPH son identificados por el COICOP, pero algunos usan este sistema alternativo.)" }
 
 def ingest_full_spec ( request ):
-  """ For commentary and simpler illustrations, see the functions
-      ingest_json() and upload_multiple() in examples.py.
+  """
+  SEE ALSO:
+  To understand this it might be helpful to look at `upload_multiple` in `run_make.views.examples` too.
+
+  PITFALL: Strange, slightly-recursive call structure.
+  The user first visits this URL with a GET.
+  They see a blank form, corresponding to the second ("else") branch below.
+  Once they fill out and submit the form, it is sent via POST
+  to this same function, and goes through the first ("if") branch.
   """
 
   log = open ( "/mnt/web/logs/log_outer.txt", "a" )
@@ -40,7 +47,6 @@ def ingest_full_spec ( request ):
 
       log = open ( "/mnt/web/logs/log_inner.txt", "a" )
       log . write ( "But this doesn't get written." )
-      # This is what I'd like to write.
       #log . write( "\n".join(
       #    [ "user email: " + user_email,
       #      "user hash: " + user_hash,
@@ -48,19 +54,19 @@ def ingest_full_spec ( request ):
       log . close ()
 
       user_email = advanced_specs_form . cleaned_data [ "user_email" ]
-#      user_hash = lib.hash_from_str ( user_email )
-#      user_path = os.path.join (
-#          '/mnt/tax/users/',
-#          user_hash )
-#
-#      lib.write_form_to_maybe_new_user_folder (
-#          user_path,
-#          advanced_specs_form )
+      user_hash = lib.hash_from_str ( user_email )
+      user_path = os.path.join (
+          '/mnt/tax/users/',
+          user_hash )
 
-#      return HttpResponseRedirect (
-#        reverse (
-#          'run_make:thank-for-spec',
-#          kwargs = { "user_email" : user_email } ) )
+      lib.write_form_to_maybe_new_user_folder (
+          user_path,
+          advanced_specs_form )
+
+      return HttpResponseRedirect (
+        reverse (
+          'run_make:thank-for-spec',
+          kwargs = { "user_email" : user_email } ) )
 
   else: return render (
       request,
@@ -68,3 +74,8 @@ def ingest_full_spec ( request ):
       { 'advanced_specs_form' : TaxConfigForm (),
         "rate_tables"         : rate_tables
        } )
+
+def thank_for_spec ( request, user_email ):
+  return render ( request,
+                  'run_make/thank_for_spec.html',
+                  { 'user_email' :  user_email } )

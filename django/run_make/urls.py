@@ -11,16 +11,12 @@ urlpatterns = [
           vx.write_time,
           name='write_time'),
 
-    path( 'ingest_json',
-          vx.ingest_json,
-          name='ingest_json'),
-
     path( 'ingest_full_spec',
           vs.ingest_full_spec,
           name='ingest_full_spec'),
 
     path( 'thank-for-spec/<user_email>',
-          vx.thank_for_spec,
+          vs.thank_for_spec,
           name='thank-for-spec'),
 
     path( 'download',
