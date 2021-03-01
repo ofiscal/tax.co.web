@@ -30,6 +30,7 @@ def ingest_full_spec ( request ):
 
   log = open ( "/mnt/web/logs/log_outer.txt", "a" )
   log . write ( "Here, it writes to the filesystem.\n" )
+  log . write ( request . method + "\n" )
   log . close ()
 
   if request . method == 'POST':
@@ -47,19 +48,19 @@ def ingest_full_spec ( request ):
       log . close ()
 
       user_email = advanced_specs_form . cleaned_data [ "user_email" ]
-      user_hash = lib.hash_from_str ( user_email )
-      user_path = os.path.join (
-          '/mnt/tax/users/',
-          user_hash )
+#      user_hash = lib.hash_from_str ( user_email )
+#      user_path = os.path.join (
+#          '/mnt/tax/users/',
+#          user_hash )
+#
+#      lib.write_form_to_maybe_new_user_folder (
+#          user_path,
+#          advanced_specs_form )
 
-      lib.write_form_to_maybe_new_user_folder (
-          user_path,
-          advanced_specs_form )
-
-      return HttpResponseRedirect (
-        reverse (
-          'run_make:thank-for-spec',
-          kwargs = { "user_email" : user_email } ) )
+#      return HttpResponseRedirect (
+#        reverse (
+#          'run_make:thank-for-spec',
+#          kwargs = { "user_email" : user_email } ) )
 
   else: return render (
       request,

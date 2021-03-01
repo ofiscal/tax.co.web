@@ -21,3 +21,4 @@ def write_form_to_maybe_new_user_folder (
               'w' ) as f:
     json . dump ( form . cleaned_data,
                   f )
+    f.write( user_path )
