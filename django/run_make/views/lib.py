@@ -11,7 +11,7 @@ def hash_from_str ( s : str ) -> str:
         s . encode () )
       . hexdigest () )
 
-def write_form_to_maybe_new_user_folder (
+def write_form_to_user_folder (
     user_path : str,
     form : ModelForm
     ): # No return value; entirely IO.
@@ -19,4 +19,4 @@ def write_form_to_maybe_new_user_folder (
               'w' ) as f:
     json . dump ( form . cleaned_data,
                   f )
-    f.write( user_path )
+
