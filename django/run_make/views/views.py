@@ -46,7 +46,9 @@ def ingest_full_spec ( request ):
           '/mnt/tax/users/',
           user_hash )
 
-      lib.write_form_to_maybe_new_user_folder (
+      if not os.path.exists ( user_path ):
+        os.mkdir ( user_path )
+      lib . write_form_to_user_folder (
           user_path,
           advanced_specs_form )
 

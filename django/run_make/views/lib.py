@@ -13,10 +13,8 @@ def hash_from_str ( s : str ) -> str:
 
 def write_form_to_maybe_new_user_folder (
     user_path : str,
-    form : ModelForm ):
-  """ Completely IO; returns nothing. """
-  if not os.path.exists ( user_path ):
-      os.mkdir ( user_path )
+    form : ModelForm
+    ): # No return value; entirely IO.
   with open ( os.path.join ( user_path, 'shell.json' ),
               'w' ) as f:
     json . dump ( form . cleaned_data,
