@@ -1,3 +1,4 @@
+from   django.core.files.storage import FileSystemStorage
 from   django.forms import ModelForm
 import hashlib
 import json
@@ -20,3 +21,26 @@ def write_form_to_user_folder (
     json . dump ( form . cleaned_data,
                   f )
 
+def write_uploaded_files_to_user_folder (
+    table_rel_paths : List [ str ], # Will be relative to the user folder.
+    user_path : str,
+    default_tables_path : str, # If the user does not supply a table,
+                               # a default one can be found here.
+    request_files # The Django docs are vague about what this is,
+                  # calling it only a "dictionary-like object"
+                  # from names (probably strings) to `UploadedFile`s.
+    ): # No return value; entirely IO.
+
+  fs = FileSystemStorage ()
+  for trp in table_rel_paths:
+    if request_files [ trp ]:
+      myfile = request_files [ trp ]
+      filename = fs . save (
+        os . path . join (
+          user_path,
+          trp . strip ("/") ), # Remove leading slashes. Otherwise,
+                               # path.join discards its first arg.
+        myfile )
+    else: os . symlink (
+      os . path . join ( default_tables_path , trp ),
+      os . path . join ( user_path           , trp ) )

@@ -2,7 +2,6 @@ from   datetime import datetime # for datetime.datetime.now
 import os
 import subprocess
 
-from   django.core.files.storage import FileSystemStorage
 from   django.http import HttpResponseRedirect
 from   django.shortcuts import render
 from   django.urls import reverse
@@ -42,15 +41,19 @@ def ingest_full_spec ( request ):
 
       user_email = advanced_specs_form . cleaned_data [ "user_email" ]
       user_hash = lib . hash_from_str ( user_email )
-      user_path = os . path . join (
-          '/mnt/tax/users/',
-          user_hash )
+      user_path = os . path . join ( '/mnt/tax/users/',
+                                     user_hash )
 
-      if not os.path.exists ( user_path ):
-        os.mkdir ( user_path )
-      lib . write_form_to_user_folder (
-          user_path,
-          advanced_specs_form )
+      if not os . path . exists ( user_path ):
+        os . mkdir (                    user_path )
+        os . mkdir ( os . path . join ( user_path, "marginal_rates" ) )
+      lib . write_form_to_user_folder ( user_path,
+                                        advanced_specs_form )
+      lib . write_uploaded_files_to_user_folder (
+        table_rel_paths = list ( rate_tables . keys () ),
+        user_path = user_path,
+        default_tables_path = "/mnt/tax/to-serve",
+        request_files = request . FILES )
 
       return HttpResponseRedirect (
         reverse (
