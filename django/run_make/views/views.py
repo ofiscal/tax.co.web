@@ -35,27 +35,14 @@ def ingest_full_spec ( request ):
   to this same function, and goes through the first ("if") branch.
   """
 
-  log = open ( "/mnt/web/logs/log_outer.txt", "a" )
-  log . write ( "Here, it writes to the filesystem.\n" )
-  log . write ( request . method + "\n" )
-  log . close ()
-
   if request . method == 'POST':
     advanced_specs_form = TaxConfigForm ( request . POST )
 
     if advanced_specs_form . is_valid ():
 
-      log = open ( "/mnt/web/logs/log_inner.txt", "a" )
-      log . write ( "But this doesn't get written." )
-      #log . write( "\n".join(
-      #    [ "user email: " + user_email,
-      #      "user hash: " + user_hash,
-      #      "user path: " + user_path ] ) )
-      log . close ()
-
       user_email = advanced_specs_form . cleaned_data [ "user_email" ]
-      user_hash = lib.hash_from_str ( user_email )
-      user_path = os.path.join (
+      user_hash = lib . hash_from_str ( user_email )
+      user_path = os . path . join (
           '/mnt/tax/users/',
           user_hash )
 

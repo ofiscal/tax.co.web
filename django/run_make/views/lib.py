@@ -1,8 +1,8 @@
+from   django.forms import ModelForm
 import hashlib
 import json
 import os
-
-from   django.forms import ModelForm
+from   typing import List
 
 
 def hash_from_str ( s : str ) -> str:
