@@ -1,5 +1,5 @@
 ####
-#### Start and enter Docker container
+#### From host system
 ####
 
 docker run --name webapp -it                    \
@@ -9,21 +9,20 @@ docker run --name webapp -it                    \
   -p 8000:8000 -d -h 127.0.0.1                  \
   ofiscal/tax.co:latest
 
+docker start webapp
+
 docker exec -it webapp bash
 
 docker stop webapp && docker rm webapp
 
 
 ####
-#### In Docker container, configure and run apache
+#### From within Docker container
 ####
 
+# initialize
 bash /mnt/apache2/link.sh
 service apache2 start
 
-
-####
-#### also handy
-####
-
+# restart
 service apache2 stop && service apache2 start
