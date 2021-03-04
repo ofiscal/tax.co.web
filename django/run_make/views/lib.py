@@ -33,14 +33,12 @@ def write_uploaded_files_to_user_folder (
 
   fs = FileSystemStorage ()
   for trp in table_rel_paths:
-    if request_files [ trp ]:
-      myfile = request_files [ trp ]
-      filename = fs . save (
-        os . path . join (
-          user_path,
-          trp . strip ("/") ), # Remove leading slashes. Otherwise,
-                               # path.join discards its first arg.
-        myfile )
+    trp_stripped = trp . strip ("/")
+      # Remove leading slashes. Otherwise,
+      # path.join discards any args preceding this one.
+    if trp in request_files: fs . save (
+      os . path . join ( user_path, trp_stripped ),
+      request_files [ trp ] )
     else: os . symlink (
-      os . path . join ( default_tables_path , trp ),
-      os . path . join ( user_path           , trp ) )
+      os . path . join ( default_tables_path , trp_stripped ),
+      os . path . join ( user_path           , trp_stripped ) )
