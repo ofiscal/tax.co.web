@@ -128,5 +128,12 @@ STATIC_URL = '/static/'
 
 # Apparently needed for uploads, per
 #  https://simpleisbetterthancomplex.com/tutorial/2016/08/01/how-to-upload-files-with-django.html
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os . path . join ( BASE_DIR , 'media' )
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os . path . join ( BASE_DIR , 'media' )
+MEDIA_ROOT = "/mnt/tax"
+  # TODO ? Is this bad?
+  # Previously I had the commented-out text immediately above,
+  # but then I could only write the user's uploads to /media,
+  # which is located (mysteriously by Django)
+  # at /mnt/web/media, whereas I want them to go to
+  # /mnt/tax/user/<user name>/

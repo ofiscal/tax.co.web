@@ -1,14 +1,12 @@
 from   datetime import datetime # for datetime.datetime.now
-import os
-import subprocess
-
 from   django.http import HttpResponseRedirect
 from   django.shortcuts import render
 from   django.urls import reverse
+import os
+import subprocess
 
 from   run_make.forms import TaxConfigForm
 import run_make.views.lib as lib
-
 
 
 # PITFALL: These paths are simpler than one would expect because
