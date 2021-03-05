@@ -39,7 +39,7 @@ def ingest_full_spec ( request ):
 
       user_email = advanced_specs_form . cleaned_data [ "user_email" ]
       user_hash = lib . hash_from_str ( user_email )
-      user_path = os . path . join ( '/mnt/tax/users/',
+      user_path = os . path . join ( '/mnt/tax_co/users/',
                                      user_hash )
 
       if not os . path . exists ( user_path ):
@@ -50,7 +50,7 @@ def ingest_full_spec ( request ):
       lib . write_uploaded_files_to_user_folder (
         table_rel_paths = list ( rate_tables . keys () ),
         user_path = user_path,
-        default_tables_path = "/mnt/tax/to-serve",
+        default_tables_path = "/mnt/tax_co/to-serve",
         request_files = request . FILES )
 
       return HttpResponseRedirect (
