@@ -130,7 +130,7 @@ STATIC_URL = '/static/'
 #  https://simpleisbetterthancomplex.com/tutorial/2016/08/01/how-to-upload-files-with-django.html
 # MEDIA_URL = '/media/'
 # MEDIA_ROOT = os . path . join ( BASE_DIR , 'media' )
-MEDIA_ROOT = "/mnt/tax"
+MEDIA_ROOT = "/mnt/tax_co"
   # TODO ? Is this bad?
   # Previously I had the commented-out text immediately above,
   # but then I could only write the user's uploads to /media,
