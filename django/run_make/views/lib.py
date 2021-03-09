@@ -47,10 +47,10 @@ def write_uploaded_files_to_user_folder (
     if trp in request_files:
       fs . save (
         tapu,
-      request_files [ trp ] )
+        request_files [ trp ] )
     else:
       os . symlink (
-      os . path . join ( default_tables_path , trp_stripped ),
+        os . path . join ( default_tables_path , trp_stripped ),
         tapu )
 
 def append_request_to_db ( user_hash : str ):
