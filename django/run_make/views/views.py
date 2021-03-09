@@ -9,8 +9,7 @@ from   run_make.forms import TaxConfigForm
 import run_make.views.lib as lib
 
 
-# PITFALL: These paths are simpler than one would expect because
-# Django treats as root every DocumentRoot folder
+# PITFALL: Django treats as root every DocumentRoot folder
 # configured in apache2.conf. Name collisions must be hell.
 rate_tables = {
       "/marginal_rates/most.csv" : "El impuesto para la mayoría de las categorías de ingreso:",
@@ -44,13 +43,14 @@ def ingest_full_spec ( request ):
 
       if not os . path . exists ( user_path ):
         os . mkdir (                    user_path )
-        os . mkdir ( os . path . join ( user_path, "marginal_rates" ) )
+        os . mkdir ( os . path . join ( user_path, "config" ) )
+        os . mkdir ( os . path . join ( user_path, "config/marginal_rates" ) )
       lib . write_form_to_user_folder ( user_path,
                                         advanced_specs_form )
       lib . write_uploaded_files_to_user_folder (
         table_rel_paths = list ( rate_tables . keys () ),
         user_path = user_path,
-        default_tables_path = "/mnt/tax_co/to-serve",
+        default_tables_path = "/mnt/tax_co/config",
         request_files = request . FILES )
 
       return HttpResponseRedirect (

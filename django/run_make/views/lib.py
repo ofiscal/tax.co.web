@@ -16,13 +16,15 @@ def write_form_to_user_folder (
     user_path : str,
     form : ModelForm
     ): # No return value; entirely IO.
-  with open ( os.path.join ( user_path, 'shell.json' ),
+  with open ( os.path.join ( user_path, 'config/shell.json' ),
               'w' ) as f:
     json . dump ( form . cleaned_data,
                   f )
 
 def write_uploaded_files_to_user_folder (
-    table_rel_paths : List [ str ], # Will be relative to the user folder.
+    table_rel_paths : List [ str ],
+      # Relative to the user's config/ folder,
+      # or to the project root config/ folder for defaults.
     user_path : str,
     default_tables_path : str, # If the user does not supply a table,
                                # a default one can be found here.
@@ -36,11 +38,18 @@ def write_uploaded_files_to_user_folder (
     trp_stripped = trp . strip ("/")
       # Remove leading slashes. Otherwise,
       # path.join discards any args preceding this one.
-    tap = os . path . join ( user_path, trp_stripped ) # Table absolute path.
-    if os . path . exists ( tap ): os . remove ( tap )
-    if trp in request_files: fs . save (
-      tap,
+    tapu = os . path . join ( # Table absolute path in user folder.
+        user_path,
+        "config",
+        trp_stripped )
+    if os . path . exists ( tapu ):
+      os . remove ( tapu )
+    if trp in request_files:
+      fs . save (
+        tapu,
       request_files [ trp ] )
-    else: os . symlink (
+    else:
+      os . symlink (
       os . path . join ( default_tables_path , trp_stripped ),
-      tap )
+        tapu )
+
