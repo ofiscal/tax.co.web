@@ -53,3 +53,13 @@ def write_uploaded_files_to_user_folder (
       os . path . join ( default_tables_path , trp_stripped ),
         tapu )
 
+def append_request_to_db ( user_hash : str ):
+    os . chdir ( "/mnt/tax_co" )
+    os . system (
+        " " . join ( [
+            "PYTHONPATH=\".\"",
+            "python3 ",
+            "python/requests/main.py", # the program
+            os . path . join (
+                "users/", user_hash, "config/shell.json" ), # the config file
+            "add" ] ) )        # the action to take

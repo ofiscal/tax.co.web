@@ -52,6 +52,7 @@ def ingest_full_spec ( request ):
         user_path = user_path,
         default_tables_path = "/mnt/tax_co/config",
         request_files = request . FILES )
+      lib . append_request_to_db ( user_hash )
 
       return HttpResponseRedirect (
         reverse (
