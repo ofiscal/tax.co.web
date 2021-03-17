@@ -61,13 +61,21 @@ def append_request_to_db ( user_hash : str ):
     tax_co_root_path = "/mnt/tax_co"
     user_root_path = os.path.join ( tax_co_root_path, "users/", user_hash )
     os . chdir ( tax_co_root_path )
+    if True: # Refine the environment.
     my_env = os . environ . copy ()
+        env_additions = ":" . join (
+            [ tax_co_root_path,
+              "/opt/conda/lib/python3.8/site-packages" ] )
+              # TODO ? Why must this second folder be specified?
+              # It's the default when I run python3 from the shell.
     my_env["PYTHONPATH"] = (
-        tax_co_root_path + ":" + my_env [ "PYTHONPATH" ]
+            ":" . join ( [ env_additions,
+                           my_env [ "PYTHONPATH" ] ] )
         if "PYTHONPATH" in my_env . keys ()
-        else tax_co_root_path )
+            else env_additions )
     sp = subprocess . run (
-        [ "python3",
+        [ "/opt/conda/bin/python3.8", # TODO : Why do I have to specify kthis?
+                                      # It's the default python in the shell.
           "python/requests/main.py", # run this program
           os . path . join (         # use this config file
                 "users/", user_hash, "config/shell.json" ),
@@ -81,8 +89,3 @@ def append_request_to_db ( user_hash : str ):
                   "a" ) as f:
         f . write ( str ( datetime.now () ) + "\n" )
         f . write ( source . decode () )
-
-# BUG: The below works from the REPL,
-# but views.ingest_full_spec() fails to run append_request_to_db.
-#   user_hash = "u972411cda1a01ae85f6c36b1b68118c3"
-#   append_request_to_db ( user_hash )
