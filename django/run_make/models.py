@@ -21,7 +21,7 @@ class TaxConfig ( models . Model ):
       verbose_name = "Estrategia",
       default = "detail",
       choices = [ ("detail", "(Por ahora solomente hay una estrategia disponible.)") ] )
-  year = models . IntegerField (
+  regime_year = models . IntegerField (
       verbose_name = "Año de la ley de impuestos",
       default = 2019,
       choices = [ (2019,"2019")
