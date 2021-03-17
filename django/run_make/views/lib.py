@@ -3,14 +3,16 @@ from   django.forms import ModelForm
 import hashlib
 import json
 import os
+import subprocess
 from   typing import List
 
 
 def hash_from_str ( s : str ) -> str:
   return (
-      hashlib . md5 (
-        s . encode () )
-      . hexdigest () )
+    "u" + # Because Python library paths must start with letters, not numbers.
+    hashlib . md5 (
+      s . encode () )
+    . hexdigest () )
 
 def write_form_to_user_folder (
     user_path : str,
