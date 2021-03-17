@@ -59,9 +59,9 @@ def append_request_to_db ( user_hash : str ):
     os . chdir ( "/mnt/tax_co" )
     os . system (
         " " . join ( [
-            "PYTHONPATH=\".\"",
+            "PYTHONPATH=/mnt/tax_co/",
             "python3 ",
             "python/requests/main.py", # the program
-            os . path . join (
-                "users/", user_hash, "config/shell.json" ), # the config file
-            "add" ] ) )        # the action to take
+            os . path . join (         # the config file
+                "users/", user_hash, "config/shell.json" ),
+            "add-to-temp-queue" ] ) )  # the action to take

@@ -16,8 +16,8 @@ rate_tables = {
       "/marginal_rates/dividend.csv" : "El impuesto para los dividendos:",
       "/marginal_rates/ocasional_high.csv" : "El impuesto más alto para los ingresos ocasionales:",
       "/marginal_rates/ocasional_low.csv" : "El impuesto más bajo para los ingresos ocasionales:",
-      "/vat-by-coicop.csv" : "El IVA, asignado por código COICOP:",
-      "/vat-by-capitulo-c.csv" : "El IVA, asignado por código 'capitulo c'. (La mayoría de las compras en la ENPH son identificados por el COICOP, pero algunos usan este sistema alternativo.)" }
+      "/vat_by_coicop.csv" : "El IVA, asignado por código COICOP:",
+      "/vat_by_capitulo_c.csv" : "El IVA, asignado por código 'capitulo c'. (La mayoría de las compras en la ENPH son identificados por el COICOP, pero algunos usan este sistema alternativo.)" }
 
 def ingest_full_spec ( request ):
   """
