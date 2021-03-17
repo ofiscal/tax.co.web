@@ -1,3 +1,5 @@
+if True:
+  from   datetime import datetime
 from   django.core.files.storage import FileSystemStorage
 from   django.forms import ModelForm
 import hashlib
@@ -56,12 +58,31 @@ def write_uploaded_files_to_user_folder (
         tapu )
 
 def append_request_to_db ( user_hash : str ):
-    os . chdir ( "/mnt/tax_co" )
-    os . system (
-        " " . join ( [
-            "PYTHONPATH=/mnt/tax_co/",
-            "python3 ",
-            "python/requests/main.py", # the program
-            os . path . join (         # the config file
+    tax_co_root_path = "/mnt/tax_co"
+    user_root_path = os.path.join ( tax_co_root_path, "users/", user_hash )
+    os . chdir ( tax_co_root_path )
+    my_env = os . environ . copy ()
+    my_env["PYTHONPATH"] = (
+        tax_co_root_path + ":" + my_env [ "PYTHONPATH" ]
+        if "PYTHONPATH" in my_env . keys ()
+        else tax_co_root_path )
+    sp = subprocess . run (
+        [ "python3",
+          "python/requests/main.py", # run this program
+          os . path . join (         # use this config file
                 "users/", user_hash, "config/shell.json" ),
-            "add-to-temp-queue" ] ) )  # the action to take
+          "add-to-temp-queue" ],     # take this action
+        env    = my_env,
+        stdout = subprocess . PIPE,
+        stderr = subprocess . PIPE )
+    for ( path, source ) in [ ("view.stdout.txt", sp.stdout),
+                              ("view.stderr.txt", sp.stderr) ]:
+      with open ( os.path.join ( user_root_path, path ),
+                  "a" ) as f:
+        f . write ( str ( datetime.now () ) + "\n" )
+        f . write ( source . decode () )
+
+# BUG: The below works from the REPL,
+# but views.ingest_full_spec() fails to run append_request_to_db.
+#   user_hash = "u972411cda1a01ae85f6c36b1b68118c3"
+#   append_request_to_db ( user_hash )
