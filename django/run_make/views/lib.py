@@ -62,24 +62,24 @@ def append_request_to_db ( user_hash : str ):
     user_root_path = os.path.join ( tax_co_root_path, "users/", user_hash )
     os . chdir ( tax_co_root_path )
     if True: # Refine the environment.
-    my_env = os . environ . copy ()
+        my_env = os . environ . copy ()
         env_additions = ":" . join (
             [ tax_co_root_path,
               "/opt/conda/lib/python3.8/site-packages" ] )
               # TODO ? Why must this second folder be specified?
               # It's the default when I run python3 from the shell.
-    my_env["PYTHONPATH"] = (
+        my_env["PYTHONPATH"] = (
             ":" . join ( [ env_additions,
                            my_env [ "PYTHONPATH" ] ] )
-        if "PYTHONPATH" in my_env . keys ()
+            if "PYTHONPATH" in my_env . keys ()
             else env_additions )
     sp = subprocess . run (
         [ "/opt/conda/bin/python3.8", # TODO : Why do I have to specify kthis?
                                       # It's the default python in the shell.
-          "python/requests/main.py", # run this program
-          os . path . join (         # use this config file
+          "/mnt/tax_co/python/requests/main.py", # run this program
+          os . path . join (                     # use this config file
                 "users/", user_hash, "config/shell.json" ),
-          "add-to-temp-queue" ],     # take this action
+          "add-to-temp-queue" ],                 # take this action
         env    = my_env,
         stdout = subprocess . PIPE,
         stderr = subprocess . PIPE )
