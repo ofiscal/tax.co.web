@@ -41,10 +41,11 @@ def ingest_full_spec ( request ):
       user_path = os . path . join ( '/mnt/tax_co/users/',
                                      user_hash )
 
-      if not os . path . exists ( user_path ):
-        os . mkdir (                    user_path )
-        os . mkdir ( os . path . join ( user_path, "config" ) )
-        os . mkdir ( os . path . join ( user_path, "config/marginal_rates" ) )
+      for p in [                    user_path,
+                 os . path . join ( user_path, "config" ),
+                 os . path . join ( user_path, "config/marginal_rates" ) ]:
+         if not os . path . exists ( p ):
+             os . mkdir ( p )
       lib . write_form_to_user_folder ( user_path,
                                         advanced_specs_form )
       lib . write_uploaded_files_to_user_folder (
