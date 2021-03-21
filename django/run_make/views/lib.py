@@ -9,6 +9,8 @@ if True:
   from   typing import List
 
 
+log_path = "/mnt/tax_co/users/view_log.txt"
+
 def hash_from_str ( s : str ) -> str:
   return (
     "u" + # Because Python library paths must start with letters, not numbers.
@@ -61,6 +63,10 @@ def append_request_to_db ( user_hash : str ):
     tax_co_root_path = "/mnt/tax_co"
     user_root_path = os.path.join ( tax_co_root_path, "users/", user_hash )
     os . chdir ( tax_co_root_path )
+
+    with open( log_path, "a" ) as f:
+        f.write( "trying to append request\n" )
+
     if True: # Refine the environment.
         my_env = os . environ . copy ()
         env_additions = ":" . join (
