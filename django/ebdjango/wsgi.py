@@ -11,9 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-# With the exception of this line, this file was created by Django automatically.
-import polls
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ebdjango.settings')
 
 application = get_wsgi_application()

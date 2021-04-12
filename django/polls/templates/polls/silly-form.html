@@ -1,9 +1,0 @@
-<form action="{% url 'polls:silly-form-process'%}" method="post">
-    {% csrf_token %}
-    <label for="What's your name?">Your name: </label>
-    <input id="your_name"
-           type="text"
-           name="your_name"
-           value="{{ default_name }}">
-    <input type="submit" value="OK">
-</form>
