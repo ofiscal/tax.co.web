@@ -1,6 +1,9 @@
 #!/bin/bash
 
-target=/etc/apache2/apache2.conf
+away=/etc/apache2
+home=/mnt/apache2
 
-rm    $target
-ln -s /mnt/apache2/apache2.conf $target
+for i in apache2.conf ports.conf; do
+    rm    ${away}/$i
+    ln -s ${home}/$i ${away}/$i
+done
