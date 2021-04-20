@@ -16,7 +16,7 @@ from .secret import EMAIL_HOST
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...).
 # TODO ? What magic is this? I can't evaluate __file__ in a shell.
-# But if I import this file, BASE_DIR evaluates to `/mnt/web`.
+# But if I import this file, BASE_DIR evaluates to `/mnt/django`.
 BASE_DIR = os . path . dirname (
     os . path . dirname (
         os . path . abspath (  __file__ ) ) )
@@ -134,5 +134,5 @@ MEDIA_ROOT = "/mnt/tax_co"
   # Previously I had the commented-out text immediately above,
   # but then I could only write the user's uploads to /media,
   # which is located (mysteriously by Django)
-  # at /mnt/web/media, whereas I want them to go to
+  # at /mnt/django/media, whereas I want them to go to
   # /mnt/tax/user/<user name>/

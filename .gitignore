@@ -8,4 +8,6 @@ migrations
 git-comment*
 __pycache__/
 TAGS
+TAGS2
+paths.json
 django/run_make/fake_make/*.json

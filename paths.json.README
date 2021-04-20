@@ -1,0 +1,13 @@
+# PITFALL: This is not valid JSON -- JSON doesn't have comments.
+# But the data below models what paths.json should look like.
+# It indicates the location of some files -- some on the base system,
+# some in the docker container being hosted by the base systeb.
+
+{ "paths":
+  { "base_system_tax_co"     : "/home/jeff/of/tax.co/master",
+    "base_system_tax_co_web" : "/home/jeff/of/tax.co.web",
+    "docker_tax_co"          : "/mnt/tax_co",
+    "docker_django"          : "/mnt/django",
+    "docker_apache"          : "/mnt/apache2"
+  }
+}

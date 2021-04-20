@@ -83,7 +83,7 @@ def upload_multiple_with_logging ( request ):
     # TODO move to studies/, along with a copy of the template.
     table_names = [ "myfile", "myfile2" ]
     if request.method == 'POST':
-      log = open ( "/mnt/web/logs/upload-var-names.txt", "a" )
+      log = open ( "/mnt/django/logs/upload-var-names.txt", "a" )
       fs = FileSystemStorage()
       for fn in table_names:
         if request . FILES [ fn ]:
