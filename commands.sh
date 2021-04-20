@@ -1,5 +1,5 @@
 ####
-#### From host system
+#### Start the Docker container
 ####
 
 eval "$(jq -r '.paths | to_entries | .[] | .key + "=\"" + .value + "\""' < paths.json)"
@@ -24,17 +24,15 @@ docker run --name tax.co.web -it                   \
   -p 80:80                                         \
   ofiscal/tax.co:latest
 
-docker start tax.co.web
-docker exec -it tax.co.web bash
-
 docker stop tax.co.web && docker rm tax.co.web
 
 
 ####
-#### From within Docker container
+#### Once it's running
 ####
 
-# initialize & restart
+docker start tax.co.web
+docker exec -it tax.co.web bash # after this, should be in it
 bash /mnt/apache2/link.sh
 cd /mnt/
 service apache2 stop && service apache2 start
