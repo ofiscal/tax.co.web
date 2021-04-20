@@ -30,7 +30,7 @@ SECRET_KEY = 'kwf)oxf8oe)0%1ytgm^!r4br1253%uyxn43$q0#q17&^ln^nai'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.localhost', '127.0.0.1', "sim.jefbrown.net"]
+ALLOWED_HOSTS = ['.localhost', '127.0.0.1']
 
 
 # Application definition
