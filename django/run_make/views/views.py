@@ -12,12 +12,12 @@ import run_make.views.lib as lib
 # PITFALL: Django treats as root every DocumentRoot folder
 # configured in apache2.conf. Name collisions must be hell.
 rate_tables = {
-      "/marginal_rates/most.csv" : "El impuesto para la mayoría de las categorías de ingreso:",
-      "/marginal_rates/dividend.csv" : "El impuesto para los dividendos:",
-      "/marginal_rates/ocasional_high.csv" : "El impuesto más alto para los ingresos ocasionales:",
-      "/marginal_rates/ocasional_low.csv" : "El impuesto más bajo para los ingresos ocasionales:",
-      "/vat_by_coicop.csv" : "El IVA, asignado por código COICOP:",
-      "/vat_by_capitulo_c.csv" : "El IVA, asignado por código 'capitulo c'. (La mayoría de las compras en la ENPH son identificados por el COICOP, pero algunos usan este sistema alternativo.)" }
+      "/config/marginal_rates/most.csv" : "El impuesto para la mayoría de las categorías de ingreso:",
+      "/config/marginal_rates/dividend.csv" : "El impuesto para los dividendos:",
+      "/config/marginal_rates/ocasional_high.csv" : "El impuesto más alto para los ingresos ocasionales:",
+      "/config/marginal_rates/ocasional_low.csv" : "El impuesto más bajo para los ingresos ocasionales:",
+      "/config/vat_by_coicop.csv" : "El IVA, asignado por código COICOP:",
+      "/config/vat_by_capitulo_c.csv" : "El IVA, asignado por código 'capitulo c'. (La mayoría de las compras en la ENPH son identificados por el COICOP, pero algunos usan este sistema alternativo.)" }
 
 def ingest_full_spec ( request ):
   """
