@@ -44,9 +44,8 @@ def write_uploaded_files_to_user_folder (
     trp_stripped = trp . strip ("/")
       # Remove leading slashes. Otherwise,
       # path.join discards any args preceding this one.
-    tapu = os . path . join ( # Table absolute path in user folder.
+    tapu = os . path . join ( # Table Absolute Path in User folder.
         user_path,
-        "config",
         trp_stripped )
     if os . path . exists ( tapu ):
       os . remove ( tapu )
