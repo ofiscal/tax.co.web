@@ -3,7 +3,9 @@ from   django.http import HttpResponseRedirect
 from   django.shortcuts import render
 from   django.urls import reverse
 import os
+from   shutil import rmtree
 import subprocess
+
 
 from   run_make.forms import TaxConfigForm
 import run_make.views.lib as lib
@@ -41,6 +43,8 @@ def ingest_full_spec ( request ):
       user_path = os . path . join ( '/mnt/tax_co/users/',
                                      user_hash )
 
+      rmtree( user_path, ignore_errors = True )
+        # Remove the path; don't worry if it doesn't exist.
       for p in [                    user_path,
                  os . path . join ( user_path, "config" ),
                  os . path . join ( user_path, "config/marginal_rates" ) ]:
