@@ -32,7 +32,7 @@ def write_uploaded_files_to_user_folder (
       # Relative to the user's config/ folder,
       # or to the project root config/ folder for defaults.
     user_path : str,
-    default_tables_path : str, # If the user does not supply a table,
+    tax_co_root : str, # If the user does not supply a table,
                                # a default one can be found here.
     request_files # The Django docs are vague about what this is,
                   # calling it only a "dictionary-like object"
@@ -55,7 +55,7 @@ def write_uploaded_files_to_user_folder (
         request_files [ trp ] )
     else:
       os . symlink (
-        os . path . join ( default_tables_path , trp_stripped ),
+        os . path . join ( tax_co_root , trp_stripped ),
         tapu )
 
 def append_request_to_db ( user_hash : str ):

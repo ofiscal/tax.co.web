@@ -55,7 +55,7 @@ def ingest_full_spec ( request ):
       lib . write_uploaded_files_to_user_folder (
         table_rel_paths = list ( rate_tables . keys () ),
         user_path = user_path,
-        default_tables_path = "/mnt/tax_co/config",
+        tax_co_root = "/mnt/tax_co",
         request_files = request . FILES )
       lib . append_request_to_db ( user_hash )
 
