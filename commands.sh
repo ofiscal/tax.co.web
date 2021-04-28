@@ -2,6 +2,8 @@
 #### Start the Docker container
 ####
 
+# PITFALL: Run this from the root of the tax.co.web repo,
+# which defines paths.json.
 eval "$(jq -r '.paths | to_entries | .[] | .key + "=\"" + .value + "\""' < paths.json)"
 
 # Running locally, without connection to internet.
