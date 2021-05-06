@@ -4,18 +4,36 @@
          cloned at aws/upload-tutorial
 -->
 
-{% load static %}
-
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% crispy form %}
 {% block content %}
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {% for name in table_names %}
-      <input type="file" name={{name}}>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title"></h5>
+        <div class="form-group">
+          <label class="control-label">Subir Csv
+          </label>
+          <div class="bcontent">
+            <div class="custom-file" style="width: 50%;">
+              <input type="file" class="custom-file-input" name={{name}}>
+              <label class="custom-file-label" for="customFile">Archivo</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
     {% endfor %}
-    <button type="submit">Upload</button>
+    <button  class="btn btn-primary" type="submit">Subir <i class="fa fa-cloud-upload" aria-hidden="true"></i></button>
   </form>
 
   {% if evidence_of_upload %}
-    <p>Upload successful!</p>
+    <div class="alert alert-success" role="alert">
+      Upload succesful!
+    </div>
   {% endif %}
 {% endblock %}

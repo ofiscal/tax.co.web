@@ -1,6 +1,14 @@
-<center>
-Thank you for your submission.<br>
-When the results have been computed,<br>
-you will be notified by email at<br>
-{{user_email}}.
-</center>
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% crispy form %}
+{% block content %}
+<div class="jumbotron text-center">
+    <h1 class="display-3">Thank You!</h1>
+    <p class="lead">When the results have been computed,<br>
+    you will be notified by email at<br</p>
+    <hr>
+    <p class="lead">
+        {{user_email}}
+    </p>
+</div>
+{% endblock %}

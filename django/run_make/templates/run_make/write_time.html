@@ -1,5 +1,18 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% crispy form %}
+{% block content %}
 This is the run_make index.<br>
 The current timestamp is:
-  {{now}}<br>
+<div class="input-group">
+  <i class="fa fa-clock-o" aria-hidden="true"></i>
+  <input type="text" class="form-control" placeholder="Enter Name Here" value="{{now}}">
+</div>
+  <br>
 The current working directory is:
-  {{wd}}<br>
+<div class="input-group">
+  <i class="fa fa-folder-open" aria-hidden="true"></i>
+  <input type="text" class="form-control" placeholder="Enter Name Here" value="{{wd}}">
+</div>
+ <br>
+  {% endblock %}

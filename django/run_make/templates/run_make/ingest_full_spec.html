@@ -1,36 +1,65 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% crispy form %}
+{% block content %}
+<div class="container-md">
+<br />
 <form action = "{% url 'run_make:ingest_full_spec'%}"
       enctype="multipart/form-data"
       method = "post">
   {% csrf_token %}
-
-  {% for field in advanced_specs_form %}
-    <div class="fieldWrapper">
-      {{ field.errors }}
-      {{ field.label_tag }} {{ field }}
-      {% if field.help_text %}
-        <p class="help">{{ field.help_text|safe }}</p>
-      {% endif %}
-      <br>
+  <div class="card card-1">
+    <div class="card-heading"></div>
+    <div class="card-body">
+      <div class="container-sm">
+      {% for field in advanced_specs_form %}
+        {{ field.errors }}
+        {{ field | as_crispy_field}}
+        {% if field.help_text %}
+          <p class="help">{{ field.help_text|safe }}</p>
+        {% endif %}
+      {% endfor %}
+      </div>
     </div>
-  {% endfor %}
-
-  <hr>
-  <hr>
+  </div>
+    
+  <br />
+  <p>
   Cada una de las siguientes tablas son opcionales.
-  Le permiten cambiar varios aspectos de la ley de tributación.
-  <hr>
+  Le permiten cambiar varios aspectos de la ley de tributación.</p>
+
 
   {% for path,comment in rate_tables.items %}
-    {{comment}}<br>
-    <a href={{path}} download>
-      Descargar modelo.<br>
-    </a>
-    Subir su versión modificado:
-    <input type="file" name={{path}}>
-    <hr>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">{{comment}}</h5>
+      <a href={{path}} class="btn btn-primary" download> <i class="fa fa-download"></i> Descargar modelo</a>
+      <br />
+      <br />
+      <div class="form-group">
+        <label class="control-label">
+          Subir su versión modificado:
+        </label>
+        <div class="bcontent">
+          <div class="custom-file" style="width: 50%;">
+            <input type="file" class="custom-file-input" name={{path}}>
+            <label class="custom-file-label" for="customFile">Archivo</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
   {% endfor %}
 
-  Ojo: Si ya has presentado una solicitud, presentar una nueva borrará la previa.<br>
+  <div class="alert alert-warning" role="alert">
+    Ojo: Si ya has presentado una solicitud, presentar una nueva borrará la previa.
+  </div>
 
-  <input type="submit" value="Submit">
+  <br/>
+
+  <input class="btn btn-primary" type="submit" value="Submit">
 </form>
+<br />
+</div>
+{% endblock %}

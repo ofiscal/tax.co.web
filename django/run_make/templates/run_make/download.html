@@ -1,6 +1,14 @@
-Download
-<a href="/config/user-12/repl.json"
-   download>
-  repl.json
-</a>
-from tax.co/config/.
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% crispy form %}
+{% block content %}
+
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Download from tax.co/config/.</h5>
+    <p class="card-text">
+      <a href='/config/user-12/repl.json' class="btn btn-primary" download> <i class="fa fa-download"></i> </a>
+    </p>
+  </div>
+</div>
+{% endblock %}

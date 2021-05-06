@@ -3,19 +3,33 @@ it is handed (per the form's "action =" option)
 back to the same URL where it was generated.
 That URL treats gets and posts differently.
 See ingest_json in views/examples.py for details. -->
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% crispy form %}
+{% block content %
 <form action = "{% url 'run_make:ingest_json'%}"
       method = "post">
   {% csrf_token %}
 
   {% for field in form %} <!-- PITFALL: This "form" is data from Django, but
                                the earlier "form" is an HTML keyword. -->
-    <div class="fieldWrapper">
-      {{ field.errors }}
-      {{ field.label_tag }} {{ field }}
-      {% if field.help_text %}
-      <p class="help">{{ field.help_text|safe }}</p>
-      {% endif %}
-    </div>
-  {% endfor %}
-  <input type="submit" value="Submit">
+      <div class="card card-1">
+        <div class="card-heading"></div>
+        <div class="card-body">
+          <div class="container-sm">
+            {% for field in form %}
+            {{ field.errors }}
+            {{ field | as_crispy_field}}
+            {% if field.help_text %}
+            <p class="help">{{ field.help_text|safe }}</p>
+            {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      
+      <br />
+
+  <input class="btn btn-primary" type="submit" value="Submit">
 </form>
+{% endblock %}
