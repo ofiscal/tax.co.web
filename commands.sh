@@ -1,5 +1,5 @@
 ####
-#### Start the Docker container
+#### Create the Docker container
 ####
 
 # PITFALL: Run this from the root of the tax.co.web repo,
@@ -26,15 +26,26 @@ docker run --name tax.co.web -it                   \
   -p 80:80                                         \
   ofiscal/tax.co:latest
 
+# Destroy it
 docker stop tax.co.web && docker rm tax.co.web
 
 
 ####
-#### Once it's running
+#### Once it's been created
 ####
 
 docker start tax.co.web
-docker exec -it tax.co.web bash # after this, should be in it
+
+docker exec -it -u 0 tax.co.web bash
+cp /mnt/tax_co/cron/*_cron /etc/cron.d
+echo "" > /etc/cron.deny
+service cron stop && service cron start
+
+# enter docker container as root, do some stuff
+docker exec -it tax.co.web bash
 bash /mnt/apache2/link.sh
-cd /mnt/
 service apache2 stop && service apache2 start
+
+# enter docker container as appuser
+docker exec -it tax.co.web bash
+cd /mnt/
