@@ -22,7 +22,7 @@ def write_form_to_user_folder (
     user_path : str,
     form : ModelForm
     ): # No return value; entirely IO.
-  with open ( os.path.join ( user_path, 'config/shell.json' ),
+  with open ( os.path.join ( user_path, 'config/config.json' ),
               'w' ) as f:
     json . dump ( form . cleaned_data,
                   f )
@@ -83,7 +83,7 @@ def append_request_to_db ( user_hash : str ):
                                       # It's the default python in the shell.
           "/mnt/tax_co/python/requests/main.py", # run this program
           os . path . join (                     # use this config file
-                "users/", user_hash, "config/shell.json" ),
+                "users/", user_hash, "config/config.json" ),
           "add-to-temp-queue" ],                 # take this action
         env    = my_env,
         stdout = subprocess . PIPE,
