@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-from .secret import EMAIL_HOST
+from .secret import DJANGO_SECRET_KEY
+  # PITFALL: The whole .secret module cannot, for some reason, be imported,
+  # but individual defs from it can be.
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...).
@@ -25,10 +27,10 @@ BASE_DIR = os . path . dirname (
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'kwf)oxf8oe)0%1ytgm^!r4br1253%uyxn43$q0#q17&^ln^nai'
+SECRET_KEY = DJANGO_SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['.localhost', '127.0.0.1', "sim.jefbrown.net"]
 
