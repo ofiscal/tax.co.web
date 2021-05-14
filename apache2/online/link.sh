@@ -1,7 +1,7 @@
 #!/bin/bash
 
-away=/etc/apache2
-home=/mnt/apache2
+away=/etc/apache2/online
+home=/mnt/apache2/online
 
 for i in apache2.conf ports.conf; do
     rm    ${away}/$i

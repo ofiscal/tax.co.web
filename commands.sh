@@ -36,14 +36,22 @@ docker stop tax.co.web && docker rm tax.co.web
 
 docker start tax.co.web
 
-# enter docker container as root, set up cron
+# Enter Docker container as root, set up cron.
 docker exec -it -u 0 tax.co.web bash
 cp /mnt/tax_co/cron/*_cron /etc/cron.d
 echo "" > /etc/cron.deny
 service cron stop && service cron start
 
-# enter docker container as appuser, set up apache
+# ONLINE use:
+# Enter Docker container as appuser, set up Apache.
 docker exec -it tax.co.web bash
-bash /mnt/apache2/link.sh
+bash /mnt/apache2/online/link.sh
+service apache2 stop && service apache2 start
+cd /mnt/
+
+# OFFLINE use:
+# Enter Docker container as appuser, set up Apache.
+docker exec -it tax.co.web bash
+bash /mnt/apache2/offline/link.sh
 service apache2 stop && service apache2 start
 cd /mnt/
