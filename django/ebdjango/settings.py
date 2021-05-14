@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-from .secret import EMAIL_HOST
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...).
@@ -25,12 +24,18 @@ BASE_DIR = os . path . dirname (
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'kwf)oxf8oe)0%1ytgm^!r4br1253%uyxn43$q0#q17&^ln^nai'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'changeme')
+#SECRET_KEY = 'kwf)oxf8oe)0%1ytgm^!r4br1253%uyxn43$q0#q17&^ln^nai'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(int(os.environ.get('DEBUG', 0)))
 
 ALLOWED_HOSTS = ['.localhost', '127.0.0.1', "sim.jefbrown.net"]
+ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
+if ALLOWED_HOSTS_ENV:
+    ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(','))
+
+#ALLOWED_HOSTS = ['.localhost', '127.0.0.1', "sim.jefbrown.net"]
 
 
 # Application definition
@@ -126,13 +131,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/static/static/'
+MEDIA_URL = '/static/media/'
 
+STATIC_ROOT = '/vol/web/static'
+MEDIA_ROOT = '/vol/web/media'
 # Apparently needed for uploads, per
 #  https://simpleisbetterthancomplex.com/tutorial/2016/08/01/how-to-upload-files-with-django.html
 # MEDIA_URL = '/media/'
 # MEDIA_ROOT = os . path . join ( BASE_DIR , 'media' )
-MEDIA_ROOT = "/mnt/tax_co"
+# MEDIA_ROOT = "/mnt/tax_co"
   # TODO ? Is this bad?
   # Previously I had the commented-out text immediately above,
   # but then I could only write the user's uploads to /media,

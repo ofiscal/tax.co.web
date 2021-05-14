@@ -14,3 +14,8 @@ but I've kept it around for reference.
 I've since changed the permissions in
 `django/ebdjango/settings.py` and `apache/apache2.conf`,
 which probably broke some of that legacy code that was for uploading or downloading files.
+
+
+docker-compose up
+docker-compose -f docker-compose-deploy.yml up --build
+# Then go to http://localhost:8080/run_make/ingest_full_spec 
