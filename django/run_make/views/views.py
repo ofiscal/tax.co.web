@@ -45,6 +45,7 @@ def ingest_full_spec ( request ):
       rmtree( user_path, ignore_errors = True )
         # Remove the path; don't worry if it doesn't exist.
       for p in [                    user_path,
+                 os . path . join ( user_path, "logs" ),
                  os . path . join ( user_path, "config" ),
                  os . path . join ( user_path, "config/marginal_rates" ) ]:
          if not os . path . exists ( p ):

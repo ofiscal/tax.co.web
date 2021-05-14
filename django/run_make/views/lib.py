@@ -9,7 +9,7 @@ if True:
   from   typing import List
 
 
-log_path = "/mnt/tax_co/users/view_log.txt"
+global_requests_log = "/mnt/tax_co/requests-log.txt"
 
 def hash_from_str ( s : str ) -> str:
   return (
@@ -60,11 +60,14 @@ def write_uploaded_files_to_user_folder (
 
 def append_request_to_db ( user_hash : str ):
     tax_co_root_path = "/mnt/tax_co"
-    user_root_path = os.path.join ( tax_co_root_path, "users/", user_hash )
+    user_root_path = os.path.join (
+      tax_co_root_path, "users/", user_hash )
+    user_logs_path = os.path.join (
+      user_root_path, "logs" )
     os . chdir ( tax_co_root_path )
 
-    with open( log_path, "a" ) as f:
-        f.write( "trying to append request\n" )
+    with open( global_requests_log, "a" ) as f:
+        f.write( "django: trying to append request\n" )
 
     if True: # Refine the environment.
         my_env = os . environ . copy ()
@@ -88,9 +91,9 @@ def append_request_to_db ( user_hash : str ):
         env    = my_env,
         stdout = subprocess . PIPE,
         stderr = subprocess . PIPE )
-    for ( path, source ) in [ ("view.stdout.txt", sp.stdout),
-                              ("view.stderr.txt", sp.stderr) ]:
-      with open ( os.path.join ( user_root_path, path ),
+    for ( path, source ) in [ ("django.stdout.txt", sp.stdout),
+                              ("django.stderr.txt", sp.stderr) ]:
+      with open ( os.path.join ( user_logs_path, path ),
                   "a" ) as f:
         f . write ( str ( datetime.now () ) + "\n" )
         f . write ( source . decode () )
