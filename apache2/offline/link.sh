@@ -1,6 +1,6 @@
 #!/bin/bash
 
-away=/etc/apache2/offline
+away=/etc/apache2
 home=/mnt/apache2/offline
 
 for i in apache2.conf ports.conf; do
