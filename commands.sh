@@ -1,3 +1,15 @@
+# USAGE:
+# Run the `jq` and `docker` commands from the host system,
+# from the root of tax.co.web.
+# The other commands are for running inside the docker container.
+
+# PITFALL: By "offline" I mean the *website* is offline --
+# available at 127.0.0.1:8000, not connected to the internet.
+# But the code still has internet access, and will send email,
+# provided email credentials are available in tax.co.web/apache2/secret/
+# (see python/email.py in the tax.co repo for details).
+
+
 ####
 #### Create the Docker container
 ####
