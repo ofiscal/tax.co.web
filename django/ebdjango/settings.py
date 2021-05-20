@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-from .secret import DJANGO_SECRET_KEY
+import sys
+sys.path.insert(1,'/mnt/apache2')
+from secret.django import DJANGO_SECRET_KEY
   # PITFALL: The whole .secret module cannot, for some reason, be imported,
   # but individual defs from it can be.
 
