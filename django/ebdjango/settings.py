@@ -24,14 +24,17 @@ BASE_DIR = os . path . dirname (
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# changme is if default if this doesnt find secret key
 SECRET_KEY = os.environ.get('SECRET_KEY', 'changeme')
 #SECRET_KEY = 'kwf)oxf8oe)0%1ytgm^!r4br1253%uyxn43$q0#q17&^ln^nai'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# 0 false value, for production 
 DEBUG = bool(int(os.environ.get('DEBUG', 0)))
-
+#specified hosts name for production, I guess this is your website
 ALLOWED_HOSTS = ['.localhost', '127.0.0.1', "sim.jefbrown.net"]
 ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
+#if its true we extend, to allow different hosts separated comma
 if ALLOWED_HOSTS_ENV:
     ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(','))
 
@@ -132,10 +135,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/static/'
-MEDIA_URL = '/static/media/'
+MEDIA_URL = '/static/tax_co/'
 
 STATIC_ROOT = '/vol/web/static'
-MEDIA_ROOT = '/vol/web/media'
+MEDIA_ROOT = '/vol/web/tax_co'
 # Apparently needed for uploads, per
 #  https://simpleisbetterthancomplex.com/tutorial/2016/08/01/how-to-upload-files-with-django.html
 # MEDIA_URL = '/media/'
