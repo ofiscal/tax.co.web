@@ -1,13 +1,17 @@
 version: "3.7"
-
+#version of docker compose we will use
 services:
   app:
     build:
+      #context of our build will be our local directory. so we will be using Dockerfile in root
       context: .
     ports:
+      #map port 8000 to docker container port 8000
       - "8000:8000"
     volumes:
+      #maps our django django directory in our docker container
       - ./django:/django
     command: sh -c "python manage.py runserver 0.0.0.0:8000"
+    #for local development only
     environment:
       - DEBUG=1

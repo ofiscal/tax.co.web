@@ -1,24 +1,30 @@
 version: "3.7"
-
+#version of docker compose we will use
 services:
   app:
     build:
       context: .
+      #context of our build will be our local directory. so we will be using Dockerfile in root
     volumes:
       - static_data:/vol/web
     environment:
+      #secret key passed from maybe use docker-compose env file
       - SECRET_KEY=samplesecret123
+      #this will make available to our localhost. use env file for production by using ip from aws
       - ALLOWED_HOSTS=127.0.0.1,localhost
 
   proxy:
     build:
+      #this will proxy container from our proxy location
       context: ./proxy
     volumes:
       - static_data:/vol/static
     ports:
+      #port to map to our proxy
       - "8080:8080"
     depends_on:
       - app
 
 volumes:
+  #to create a new volume called static_data
   static_data:
