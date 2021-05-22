@@ -1,21 +1,28 @@
 <!DOCTYPE html>
 <html lang="es">
 {% load static %}
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Taxconfig</title>
+    <link rel="shortcut icon" href="{% static 'images/favicon-96x96.png' type='image/x-icon' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/all.css' %}">
 </head>
+
 <body>
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
         <div class="container">
-            <a class="navbar-brand" href="#">LOGO</a>
+            <a class="navbar-brand" href="{{ ingest_full_spec }}">
+                <img style="width:40%;height:40%;border-radius: 100px;
+                -webkit-border-radius: 100px;-moz-border-radius: 100px;" 
+                src="{% static 'images/logo.jpeg' %}" alt="logo">
+            </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -46,4 +53,5 @@
 </body>
 <script src="{% static 'js/jquery.slim.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
 </html>
