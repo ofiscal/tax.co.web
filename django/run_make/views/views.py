@@ -1,13 +1,15 @@
-from   datetime import datetime # for datetime.datetime.now
-from   django.http import HttpResponseRedirect
-from   django.shortcuts import render
-from   django.urls import reverse
-import os
-from   shutil import rmtree
-
-
-from   run_make.forms import TaxConfigForm
-import run_make.views.lib as lib
+if True:
+  from   datetime import datetime # for datetime.datetime.now
+  from   django.http import HttpResponseRedirect
+  from   django.shortcuts import render
+  from   django.urls import reverse
+  import json
+  import os
+  from   shutil import rmtree
+  #
+  import run_make.common as common
+  from   run_make.forms import TaxConfigForm
+  import run_make.views.lib as lib
 
 
 # PITFALL: Django treats as root every DocumentRoot folder
@@ -39,7 +41,8 @@ def ingest_full_spec ( request ):
 
       user_email = advanced_specs_form . cleaned_data [ "user_email" ]
       user_hash = lib . hash_from_str ( user_email )
-      user_path = os . path . join ( '/mnt/tax_co/users/',
+      user_path = os . path . join ( common.tax_co_root,
+                                     "users/",
                                      user_hash )
 
       rmtree( user_path, ignore_errors = True )
@@ -55,7 +58,6 @@ def ingest_full_spec ( request ):
       lib . write_uploaded_files_to_user_folder (
         table_rel_paths = list ( rate_tables . keys () ),
         user_path = user_path,
-        tax_co_root = "/mnt/tax_co",
         request_files = request . FILES )
       lib . append_request_to_db ( user_hash )
 

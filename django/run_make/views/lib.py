@@ -7,9 +7,12 @@ if True:
   import os
   import subprocess
   from   typing import List
+  #
+  import run_make.common as common
 
 
-global_requests_log = "/mnt/tax_co/requests-log.txt"
+global_requests_log = os.path.join ( common.tax_co_root,
+                                     "requests-log.txt" )
 
 def hash_from_str ( s : str ) -> str:
   return (
@@ -32,8 +35,6 @@ def write_uploaded_files_to_user_folder (
       # Relative to the user's config/ folder,
       # or to the project root config/ folder for defaults.
     user_path : str,
-    tax_co_root : str, # If the user does not supply a table,
-                               # a default one can be found here.
     request_files # The Django docs are vague about what this is,
                   # calling it only a "dictionary-like object"
                   # from names (probably strings) to `UploadedFile`s.
@@ -55,16 +56,16 @@ def write_uploaded_files_to_user_folder (
         request_files [ trp ] )
     else:
       os . symlink (
-        os . path . join ( tax_co_root , trp_stripped ),
+        os . path . join ( common.tax_co_root ,
+                           trp_stripped ),
         tapu )
 
 def append_request_to_db ( user_hash : str ):
-    tax_co_root_path = "/mnt/tax_co"
     user_root_path = os.path.join (
-      tax_co_root_path, "users/", user_hash )
+      common.tax_co_root, "users/", user_hash )
     user_logs_path = os.path.join (
       user_root_path, "logs" )
-    os . chdir ( tax_co_root_path )
+    os . chdir ( common.tax_co_root )
 
     with open( global_requests_log, "a" ) as f:
         f.write( "django: trying to append request\n" )
@@ -72,7 +73,7 @@ def append_request_to_db ( user_hash : str ):
     if True: # Refine the environment.
         my_env = os . environ . copy ()
         env_additions = ":" . join (
-            [ tax_co_root_path,
+            [ common.tax_co_root,
               "/opt/conda/lib/python3.8/site-packages" ] )
               # TODO ? Why must this second folder be specified?
               # It's the default when I run python3 from the shell.
@@ -84,10 +85,11 @@ def append_request_to_db ( user_hash : str ):
     sp = subprocess . run (
         [ "/opt/conda/bin/python3.8", # TODO : Why do I have to specify kthis?
                                       # It's the default python in the shell.
-          "/mnt/tax_co/python/requests/main.py", # run this program
-          os . path . join (                     # use this config file
+          "python/requests/main.py", # Run this program.
+          os . path . join (         # Use this config file.
                 "users/", user_hash, "config/config.json" ),
-          "add-to-temp-queue" ],                 # take this action
+          "add-to-temp-queue" ],     # Take this action.
+        cwd    = common.tax_co_root,
         env    = my_env,
         stdout = subprocess . PIPE,
         stderr = subprocess . PIPE )
