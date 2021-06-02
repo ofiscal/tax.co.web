@@ -16,7 +16,9 @@
 
 # PITFALL: Run this from the root of the tax.co.web repo,
 # which defines paths.json.
-eval "$(jq -r '.paths | to_entries | .[] | .key + "=\"" + .value + "\""' < paths/paths.json)"
+
+eval "$(jq -r '.paths.base_system | to_entries | .[] | "base_system_" + .key + "=\"" + .value + "\""' < paths/paths.json)"
+eval "$(jq -r '.paths.docker | to_entries | .[] | "docker_" + .key + "=\"" + .value + "\""' < paths/paths.json)"
 
 # Running locally, without connection to internet.
 docker run --name tax.co.web -it                     \

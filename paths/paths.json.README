@@ -5,11 +5,15 @@
 
 # PITFALL: The first two values below differ by exactly one character, '.' vs. '/'.
 
-{ "paths":
-  { "base_system_tax_co"     : "/home/jeff/of/tax.co/web",
-    "base_system_tax_co_web" : "/home/jeff/of/tax.co.web",
-    "docker_tax_co"          : "/mnt/tax_co",
-    "docker_django"          : "/mnt/django",
-    "docker_apache"          : "/mnt/apache2"
-  }
-}
+{ "paths" : {
+    "base_system" : {
+        "tax_co"     : "/home/jeff/of/tax.co/online",
+        "tax_co_web" : "/home/jeff/of/tax.co.web"
+    },
+    "docker" : {
+        "tax_co"          : "/mnt/tax_co",
+        "django"          : "/mnt/django",
+        "apache"          : "/mnt/apache2",
+        "paths"           : "/mnt/paths"
+    }
+} }
