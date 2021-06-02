@@ -16,26 +16,28 @@
 
 # PITFALL: Run this from the root of the tax.co.web repo,
 # which defines paths.json.
-eval "$(jq -r '.paths | to_entries | .[] | .key + "=\"" + .value + "\""' < paths.json)"
+eval "$(jq -r '.paths | to_entries | .[] | .key + "=\"" + .value + "\""' < paths/paths.json)"
 
 # Running locally, without connection to internet.
-docker run --name tax.co.web -it                   \
-  -v $base_system_tax_co_web/apache2/:/mnt/apache2 \
-  -v $base_system_tax_co_web/django/:/mnt/django   \
-  -v $base_system_tax_co/:/mnt/tax_co              \
-  -p 8000:8000                                     \
-  -d -h 127.0.0.1                                  \
+docker run --name tax.co.web -it                     \
+  -v $base_system_tax_co_web/paths/:$docker_paths    \
+  -v $base_system_tax_co_web/apache2/:$docker_apache \
+  -v $base_system_tax_co_web/django/:$docker_django  \
+  -v $base_system_tax_co/:$docker_tax_co             \
+  -p 8000:8000                                       \
+  -d -h 127.0.0.1                                    \
   ofiscal/tax.co:latest
 
 # Serving to the internet.
-docker run --name tax.co.web -it                   \
-  -v $base_system_tax_co_web/apache2/:/mnt/apache2 \
-  -v $base_system_tax_co_web/django/:/mnt/django   \
-  -v $base_system_tax_co/:/mnt/tax_co              \
-  -p 8000:8000                                     \
-  -d -h 127.0.0.1                                  \
-  -p 443:443                                       \
-  -p 80:80                                         \
+docker run --name tax.co.web -it                     \
+  -v $base_system_tax_co_web/paths/:$docker_paths    \
+  -v $base_system_tax_co_web/apache2/:$docker_apache \
+  -v $base_system_tax_co_web/django/:$docker_django  \
+  -v $base_system_tax_co/:$docker_tax_co             \
+  -p 8000:8000                                       \
+  -d -h 127.0.0.1                                    \
+  -p 443:443                                         \
+  -p 80:80                                           \
   ofiscal/tax.co:latest
 
 # Destroy it
