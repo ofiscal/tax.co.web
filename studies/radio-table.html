@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+  <h1>Display Radio Buttons</h1>
+
+  <table>
+
+    <tr>
+      <td> Rates </td>
+      <td>
+        <input type="low rate" value=0
+               id="quantity" name="quantity"
+               min="0.01" max="0.99">
+      </td>
+      <td>
+        <input type="low rate" value=0.05
+               id="quantity" name="quantity"
+               min="0.01" max="0.99">
+      </td>
+      <td>
+        <input type="high rate" value=0.19
+               id="quantity" name="quantity"
+               min="0.01" max="0.99">
+      </td>
+    </tr>
+
+    <tr>
+      <form action="/action_page.php">
+        <td> Some tax: </td>
+        <td>
+          <input type="radio" id="html" name="fav_language" value="HTML">
+          <label for="html"></label>
+        </td>
+        <td>
+          <input type="radio" id="css" name="fav_language" value="CSS">
+          <label for="css"></label>
+        </td>
+        <td>
+          <input type="radio" id="css" name="fav_language" value="CSS">
+          <label for="css"></label>
+        </td>
+    </tr>
+
+    <tr>
+      <td> Another tax: </td>
+      <td>
+        <input type="radio" id="age1" name="age" value="30">
+        <label for="age1"></label>
+      </td>
+      <td>
+        <input type="radio" id="age2" name="age" value="60">
+        <label for="age2"></label>
+      </td>
+      <td>
+        <input type="radio" id="age3" name="age" value="100">
+        <label for="age3"></label>
+      </td>
+    </tr>
+
+    </form>
+  </table>
+
+</body>
+</html>
