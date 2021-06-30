@@ -1,0 +1,59 @@
+<html>
+<!--based on https://stackoverflow.com/a/6473259/916142-->
+<body>
+
+<div id="POItablediv">
+  <table id="POITable" border="1">
+    <tr>
+      <td>POI</td>
+      <td>Latitude</td>
+      <td>Longitude</td>
+      <td>Delete?</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td><input type="text" id="latbox" /></td>
+      <td><input type="text" id="lngbox" /></td>
+      <td><input type="button" id="delPOIbutton" value="Delete" onclick="deleteRow(this)"/></td>
+    </tr>
+  </table>
+</div>
+
+<input type="button"
+       id="addmorePOIbutton"
+       value="Add More POIs"
+       onclick="insRow()"/>
+
+</body>
+
+<script>
+  function deleteRow(row) {
+    var i=row.parentNode.parentNode.rowIndex;
+    document.getElementById('POITable').deleteRow(i);
+  }
+
+  function insRow() {
+    var x=document.getElementById('POITable');
+       // deep clone the targeted row
+    var new_row = x.rows[1].cloneNode(true);
+       // get the total number of rows
+    var len = x.rows.length;
+       // set the innerHTML of the first row
+    new_row.cells[0].innerHTML = len;
+
+       // grab the input from the first cell and update its ID and value
+    var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
+    inp1.id += len;
+    inp1.value = '';
+
+       // grab the input from the first cell and update its ID and value
+    var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
+    inp2.id += len;
+    inp2.value = '';
+
+       // append the new row to the table
+    x.appendChild( new_row );
+  }
+</script>
+
+</html>
