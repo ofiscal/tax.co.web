@@ -8,15 +8,15 @@
 
     <table id="POITable" border="1">
       <tr>
-        <td>POI</td>
-        <td>Latitude</td>
-        <td>Longitude</td>
-        <td>Delete?</td>
+        <td>Min income</td>
+        <td>Max income</td>
+        <td>Tax rate</td>
+        <td></td>
       </tr>
       <tr>
-        <td>1</td>
-        <td><input type="text" id="latbox" /></td>
-        <td><input type="text" id="lngbox" /></td>
+        <td><input type="number" step="any" id="Min income" /></td>
+        <td><input type="text" id="Max income" /></td>
+        <td><input type="text" id="Tax rate" /></td>
         <td><input type="button"
                    id="delPOIbutton"
                    value="Delete"
@@ -27,12 +27,14 @@
 
   <input type="button"
          id="addmorePOIbutton"
-         value="Add More POIs"
+         value="Add row"
          onclick="insertRow()"/>
 
 </body>
 
 <script>
+  var uniqueIdSuffix = 1 // PITFALL: Mutates.
+
   function deleteRow(row) {
     var table=document.getElementById('POITable');
     if (table.rows.length > 2) {
@@ -49,18 +51,18 @@
     var table=document.getElementById('POITable');
     // Deep clone the first data (not titles) row. (row[0] is titles.)
     var new_row = table.rows[1].cloneNode(true);
-    // Set the innerHTML of the first row
-    new_row.cells[0].innerHTML = table.rows.length;
 
-    // Grab the input from the first cell and update its ID and value.
-    var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
-    inp1.id += table.rows.length;
-    inp1.value = '';
-
-    // Grab the input from the first cell and update its ID and value.
-    var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
-    inp2.id += table.rows.length;
-    inp2.value = '';
+    for (let i = 0; i < 3; i++) {
+      // Give the first three rows unique IDs and empty values.
+      // (IDs for inputs have to be unique in a document.)
+      // PITFALL: These IDs are pretty useless -- they bear no relation
+      // to the row or column number. If I ever want to refer to them,
+      // I'll want to make them do that --
+      // which is complicated, because interior rows can be deleted.
+      var inp = new_row.cells[i].getElementsByTagName('input')[0];
+      inp.id += " - " + uniqueIdSuffix ++; // PITFALL: Implicit cast str->int
+      inp.value = '';
+    }
 
     // Append the new row to the table.
     table.appendChild( new_row );
