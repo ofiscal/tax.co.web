@@ -27,6 +27,22 @@ def download ( request ):
   return render ( request,
                   'run_make/download.html' )
 
+######################
+#### Dynamic form ####
+######################
+
+def dynamic_form ( request ):
+  if request . method == 'POST':
+    advanced_specs_form = TaxConfigForm ( request . POST )
+    if advanced_specs_form . is_valid ():
+      user_email = advanced_specs_form . cleaned_data [ "user_email" ]
+      return HttpResponseRedirect (
+        reverse (
+          'run_make:thank-for-spec',
+          kwargs = { "user_email" : "dynamic-form-user@nowhere.net" } ) )
+  else: return render (
+      request,
+      'run_make/dynamic_form.html' )
 
 #################
 #### Uploads ####

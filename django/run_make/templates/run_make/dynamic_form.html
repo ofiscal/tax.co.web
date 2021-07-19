@@ -1,0 +1,72 @@
+<!-- Based on these two earlier files:
+studies/dynamic-table.html
+django/run_make/templates/run_make/ingest_full_spec.html
+-->
+
+<form action = "{% url 'run_make:dynamic_form'%}"
+      enctype="multipart/form-data"
+      method = "post">
+  {% csrf_token %}
+
+    <table id="POITable" border="1">
+      <tr>
+        <td>Min income</td>
+        <td>Max income</td>
+        <td>Tax rate</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><input type="number" step="any" id="Min income" /></td>
+        <td><input type="text" id="Max income" /></td>
+        <td><input type="text" id="Tax rate" /></td>
+        <td><input type="button"
+                   id="delPOIbutton"
+                   value="Delete"
+                   onclick="deleteRow(this)"/></td>
+      </tr>
+    </table>
+
+  <input type="button"
+         id="addmorePOIbutton"
+         value="Add row"
+         onclick="insertRow()"/>
+
+  <input type="submit" value="Submit">
+</form>
+
+<script>
+  var uniqueIdSuffix = 1 // PITFALL: Mutates.
+
+  function deleteRow(row) {
+    var table=document.getElementById('POITable');
+    if (table.rows.length > 2) {
+      // PITFALL: If there are is only one row of values --
+      // the first row being titles, not values --
+      // then the user is not allowed to delete it.
+      // If they could, they could break `insertRow`.
+      var i=row.parentNode.parentNode.rowIndex;
+      document.getElementById('POITable').deleteRow(i);
+    }
+  }
+
+  function insertRow() {
+    var table=document.getElementById('POITable');
+    // Deep clone the first data (not titles) row. (row[0] is titles.)
+    var new_row = table.rows[1].cloneNode(true);
+
+    for (let i = 0; i < 3; i++) {
+      // Give the first three rows unique IDs and empty values.
+      // (IDs for inputs have to be unique in a document.)
+      // PITFALL: These IDs are pretty useless -- they bear no relation
+      // to the row or column number. If I ever want to refer to them,
+      // I'll want to make them do that --
+      // which is complicated, because interior rows can be deleted.
+      var inp = new_row.cells[i].getElementsByTagName('input')[0];
+      inp.id += " - " + uniqueIdSuffix ++; // PITFALL: Implicit cast str->int
+      inp.value = '';
+    }
+
+    // Append the new row to the table.
+    table.appendChild( new_row );
+  }
+</script>

@@ -19,6 +19,10 @@ urlpatterns = [
           vs.thank_for_spec,
           name='thank-for-spec'),
 
+    path( 'dynamic_form',
+          vx.dynamic_form,
+          name='dynamic_form'),
+
     path( 'download',
           vx.download,
           name='download'),
