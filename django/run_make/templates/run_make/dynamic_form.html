@@ -26,17 +26,17 @@ django/run_make/templates/run_make/ingest_full_spec.html
       method = "post">
   {% csrf_token %}
 
-   <div id="Income tax">
+  <div id="Income tax">
     <table id="Income tax table" border="1">
       <tr> <!-- PITFALL: This "head matter" could be wrapped in <thead> tags,
                 and similarly the input data rows wrapped in <tbody> tags.
                 Doing so doesn't accomplish what I'd hoped --
                 the 0th row of the table will still, awkwardly,
                 be the names of the columns. -->
-        <td>Min income</td>
-        <td>Max income</td>
-        <td>Tax rate</td>
-        <td></td>
+            <td>Min income</td>
+            <td>Max income</td>
+            <td>Tax rate</td>
+            <td></td>
       </tr>
       <tr>
         <!-- I distinguish strings like "min income id" and "min income"
@@ -60,9 +60,9 @@ django/run_make/templates/run_make/ingest_full_spec.html
       </tr>
     </table>
     <script>
-      insert_insertRowButton("Income tax")
+      insert_insertRowButton("Income tax") // Could be called from anywhere.
     </script>
-   </div>
+  </div>
 
   <input type="submit" value="Submit">
 </form>
