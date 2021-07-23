@@ -9,7 +9,11 @@ django/run_make/templates/run_make/ingest_full_spec.html
   {% csrf_token %}
 
     <table id="POITable" border="1">
-      <tr>
+      <tr> <!-- PITFALL: This "head matter" could be wrapped in <thead> tags,
+                and similarly the input data rows wrapped in <tbody> tags.
+                But that doesn't actually accomplish anything --
+                the 0th row of the table will still, awkwardly,
+                be the names of the columns. -->
         <td>Min income</td>
         <td>Max income</td>
         <td>Tax rate</td>
