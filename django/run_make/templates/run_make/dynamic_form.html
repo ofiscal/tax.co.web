@@ -3,12 +3,31 @@ studies/dynamic-table.html
 django/run_make/templates/run_make/ingest_full_spec.html
 -->
 
+<script>
+  function insert_insertRowButton (divName) {
+    // Equivalent placing the following HTML at the end of the section
+    // with id "divName":
+    //    <input type="button"
+    //           id="addmorePOIbutton"
+    //           value="Add row"
+    //           onclick="insertRow()"/>
+    var button = document.createElement('input');
+    button.type = 'button';
+    button.id = divName + ' button to add row';
+    button.value = 'Add row';
+    button.onclick = function() { insertRowf( divName ) };
+    ( document.getElementById ( divName )
+      .appendChild ( button ) );
+  }
+</script>
+
 <form action = "{% url 'run_make:dynamic_form'%}"
       enctype="multipart/form-data"
       method = "post">
   {% csrf_token %}
 
-    <table id="POITable" border="1">
+   <div id="Income tax">
+    <table id="Income tax table" border="1">
       <tr> <!-- PITFALL: This "head matter" could be wrapped in <thead> tags,
                 and similarly the input data rows wrapped in <tbody> tags.
                 Doing so doesn't accomplish what I'd hoped --
@@ -40,11 +59,10 @@ django/run_make/templates/run_make/ingest_full_spec.html
                    onclick="deleteRow(this)"/></td>
       </tr>
     </table>
-
-  <input type="button"
-         id="addmorePOIbutton"
-         value="Add row"
-         onclick="insertRow()"/>
+    <script>
+      insert_insertRowButton("Income tax")
+    </script>
+   </div>
 
   <input type="submit" value="Submit">
 </form>
@@ -53,19 +71,19 @@ django/run_make/templates/run_make/ingest_full_spec.html
   var uniqueIdSuffix = 1 // PITFALL: Mutates.
 
   function deleteRow(row) {
-    var table=document.getElementById('POITable');
+    var table=document.getElementById('Income tax table');
     if (table.rows.length > 2) {
       // PITFALL: If there are is only one row of values --
       // the first row being titles, not values --
       // then the user is not allowed to delete it.
       // If they could, they could break `insertRow`.
       var i=row.parentNode.parentNode.rowIndex;
-      document.getElementById('POITable').deleteRow(i);
+      document.getElementById('Income tax table').deleteRow(i);
     }
   }
 
-  function insertRow() {
-    var table=document.getElementById('POITable');
+  function insertRow (divName) {
+    var table=document.getElementById(divName + ' table');
     // Deep clone the first data (not titles) row. (row[0] is titles.)
     var new_row = table.rows[1].cloneNode(true);
 
