@@ -16,9 +16,20 @@ django/run_make/templates/run_make/ingest_full_spec.html
         <td></td>
       </tr>
       <tr>
-        <td><input type="number" step="any" id="Min income" /></td>
-        <td><input type="text" id="Max income" /></td>
-        <td><input type="text" id="Tax rate" /></td>
+        <!-- I distinguish strings like "min income id" and "min income"
+             to know later whether I'm looking at an ID or a name. -->
+        <td><input type="number"
+                   step="any"
+                   id="min income id"
+                   name="min income" /></td>
+        <td><input type="number"
+                   step="any"
+                   id="max income id"
+                   name="max income"/></td>
+        <td><input type="number"
+                   step="any"
+                   id="tax rate id"
+                   name="tax rate"/></td>
         <td><input type="button"
                    id="delPOIbutton"
                    value="Delete"
