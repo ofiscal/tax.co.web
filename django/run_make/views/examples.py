@@ -1,8 +1,10 @@
 from   datetime import datetime # for datetime.datetime.now
 import os
+import pickle
 import subprocess
 
 from   django.core.files.storage import FileSystemStorage
+from   django.http import HttpResponseRedirect
 from   django.shortcuts import render
 from   django.urls import reverse
 
@@ -16,7 +18,7 @@ def write_time ( request ):
   now = datetime . now () . timestamp()
   with open( "/home/appuser/" + str ( now ),
              'w' ) as f:
-    f . write( "Hello?\n" )
+    f . write( "Writing time (for run_make/write_time.html)\n" )
   return render (
     request,
     'run_make/write_time.html',
@@ -32,17 +34,34 @@ def download ( request ):
 ######################
 
 def dynamic_form ( request ):
+  """  This draws a dynamic (the user can add and delete rows)
+       table of numeric input boxes.
+       It then writes the pickled POST data to a file,
+       so that I can see from a REPL what the table output looks like.
+
+       Test it from Bash by pasting the following after visiting the page:
+cd /mnt/django
+python3 manage.py shell
+import pickle
+filename = '/home/appuser/dynamic_table.pickle'
+with open(filename,'rb') as file_object:
+  req = pickle.loads( file_object . read () )
+
+req.getlist("min income")
+  """
   if request . method == 'POST':
-    advanced_specs_form = TaxConfigForm ( request . POST )
-    if advanced_specs_form . is_valid ():
-      user_email = advanced_specs_form . cleaned_data [ "user_email" ]
-      return HttpResponseRedirect (
-        reverse (
-          'run_make:thank-for-spec',
-          kwargs = { "user_email" : "dynamic-form-user@nowhere.net" } ) )
+    filename = 'dynamic_table.pickle'
+    with open ( filename,'wb' ) as f:
+      f.write (
+        pickle.dumps ( request.POST ) )
+    return HttpResponseRedirect (
+      reverse (
+        'run_make:thank-for-spec',
+        kwargs = { "user_email" : "dynamic-form-user@nowhere.net" } ) )
   else: return render (
       request,
       'run_make/dynamic_form.html' )
+
 
 #################
 #### Uploads ####
