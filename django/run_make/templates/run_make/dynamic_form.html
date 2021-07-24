@@ -103,3 +103,44 @@ django/run_make/templates/run_make/ingest_full_spec.html
     table.appendChild( new_row );
   }
 </script>
+
+<script>
+  function inputCell ( name ) {
+    let cell = document.createElement("td")
+    let input = document.createElement('input');
+    input.id   = name + " id";
+    input.name = name;
+    input.step = "any";
+    input.type = "number";
+    cell.appendChild(input)
+    return cell;
+  }
+
+  function headingCell ( name ) {
+    let cell = document.createElement('th');
+    cell.innerHTML = "Min income";
+    return cell
+  }
+
+  function insertTable( divName ) {
+    let table = document.createElement('table');
+    table.border = "1";
+    document.getElementById(divName).appendChild(table);
+
+    let row_1 = document.createElement('tr');
+    row_1.appendChild( headingCell( "Min income" ) )
+    row_1.appendChild( headingCell( "Max income" ) )
+    row_1.appendChild( headingCell( "Tax rate" ) )
+    table.appendChild(row_1);
+
+    let row_2 = document.createElement('tr');
+    row_2.appendChild( inputCell( divName + ", Min income" ) )
+    row_2.appendChild( inputCell( divName + ", Max income" ) )
+    row_2.appendChild( inputCell( divName + ", Tax rate" ) )
+    table.appendChild(row_2);
+  }
+</script>
+
+<div id="div 2">
+  <script> insertTable("div 2") </script>
+</div>
