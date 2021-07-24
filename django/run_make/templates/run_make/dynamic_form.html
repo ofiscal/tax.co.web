@@ -64,14 +64,16 @@ django/run_make/templates/run_make/ingest_full_spec.html
 <script>
   var uniqueIdSuffix = 1 // PITFALL: Mutates.
 
-  function deleteRow(row) {
+  function deleteRow(button) {
     var table=document.getElementById('Income tax table');
     if (table.rows.length > 2) {
       // PITFALL: If there are is only one row of values --
       // the first row being titles, not values --
       // then the user is not allowed to delete it.
       // If they could, they could break `insertRow`.
-      var i=row.parentNode.parentNode.rowIndex;
+      var i= ( button.parentNode // the cell
+               .parentNode       // the row
+               .rowIndex );
       document.getElementById('Income tax table').deleteRow(i);
     }
   }
@@ -89,7 +91,7 @@ django/run_make/templates/run_make/ingest_full_spec.html
       // I'll want to make them do that --
       // which is complicated, because interior rows can be deleted.
       var inp = new_row.cells[i].getElementsByTagName('input')[0];
-      inp.id += " - " + uniqueIdSuffix ++; // PITFALL: Implicit cast str->int
+      inp.id += " - " + uniqueIdSuffix++; // PITFALL: Implicit cast str->int
       inp.value = '';
     }
 
