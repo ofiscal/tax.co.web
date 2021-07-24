@@ -120,6 +120,7 @@ django/run_make/templates/run_make/ingest_full_spec.html
 
   function insertTable( divName ) {
     let table = document.createElement('table');
+    table.id = divName + " table";
     table.border = "1";
     document.getElementById(divName).appendChild(table);
 
@@ -138,5 +139,8 @@ django/run_make/templates/run_make/ingest_full_spec.html
 </script>
 
 <div id="div 2">
-  <script> insertTable("div 2") </script>
+  <script>
+    insertTable("div 2")
+    insert_insertRowButton("div 2")
+  </script>
 </div>
