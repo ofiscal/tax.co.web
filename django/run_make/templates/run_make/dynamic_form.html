@@ -65,6 +65,7 @@ django/run_make/templates/run_make/ingest_full_spec.html
   var uniqueIdSuffix = 1 // PITFALL: Mutates.
 
   function deleteRow(button) {
+    console.log( button.nodeName )
     var table=document.getElementById('Income tax table');
     if (table.rows.length > 2) {
       // PITFALL: If there are is only one row of values --
@@ -101,6 +102,17 @@ django/run_make/templates/run_make/ingest_full_spec.html
 </script>
 
 <script>
+  function deleteRow_cell () {
+    let cell = document.createElement("td")
+    var button = document.createElement('input');
+    cell.appendChild ( button )
+    button.type = 'button';
+    button.id = "delete row id" + uniqueIdSuffix++;
+    button.value = 'delete row';
+    button.onclick = function() { deleteRow( button ) };
+    return cell
+  }
+
   function inputCell ( name ) {
     let cell = document.createElement("td")
     let input = document.createElement('input');
@@ -131,10 +143,11 @@ django/run_make/templates/run_make/ingest_full_spec.html
     table.appendChild(row_1);
 
     let row_2 = document.createElement('tr');
-    row_2.appendChild( inputCell( divName + ", Min income" ) )
-    row_2.appendChild( inputCell( divName + ", Max income" ) )
-    row_2.appendChild( inputCell( divName + ", Tax rate" ) )
-    table.appendChild(row_2);
+    row_2.appendChild ( inputCell( divName + ", Min income" ) )
+    row_2.appendChild ( inputCell( divName + ", Max income" ) )
+    row_2.appendChild ( inputCell( divName + ", Tax rate" ) )
+    row_2.appendChild ( deleteRow_cell() )
+    table.appendChild ( row_2 );
   }
 </script>
 
