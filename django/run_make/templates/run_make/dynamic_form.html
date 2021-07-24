@@ -5,12 +5,6 @@ django/run_make/templates/run_make/ingest_full_spec.html
 
 <script>
   function insert_insertRowButton (divName) {
-    // Equivalent placing the following HTML at the end of the section
-    // with id "divName":
-    //    <input type="button"
-    //           id="addmorePOIbutton"
-    //           value="Add row"
-    //           onclick="insertRow()"/>
     var button = document.createElement('input');
     button.type = 'button';
     button.id = divName + ' button to add row';
@@ -30,7 +24,7 @@ django/run_make/templates/run_make/ingest_full_spec.html
     <table id="Income tax table" border="1">
       <tr> <!-- PITFALL: This "head matter" could be wrapped in <thead> tags,
                 and similarly the input data rows wrapped in <tbody> tags.
-                Doing so doesn't accomplish what I'd hoped --
+                AFAIK, doing so doesn't accomplish anything I need --
                 the 0th row of the table will still, awkwardly,
                 be the names of the columns. -->
             <td>Min income</td>
