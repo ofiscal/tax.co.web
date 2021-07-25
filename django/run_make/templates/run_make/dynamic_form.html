@@ -65,17 +65,17 @@ django/run_make/templates/run_make/ingest_full_spec.html
   var uniqueIdSuffix = 1 // PITFALL: Mutates.
 
   function deleteRow(button) {
-    console.log( button.nodeName )
-    var table=document.getElementById('Income tax table');
+    console.log( button.nodeName );
+    var cell  = button . parentNode;
+    var row   = cell   . parentNode;
+    var table = row    . parentNode;
+    // PITFALL: If there are is only one row of values --
+    // the first row being titles, not values --
+    // then the user is not allowed to delete it.
+    // If they could, they could break `insertRow`.
     if (table.rows.length > 2) {
-      // PITFALL: If there are is only one row of values --
-      // the first row being titles, not values --
-      // then the user is not allowed to delete it.
-      // If they could, they could break `insertRow`.
-      var i= ( button.parentNode // the cell
-               .parentNode       // the row
-               .rowIndex );
-      document.getElementById('Income tax table').deleteRow(i);
+      var i = row    . rowIndex;
+      table . deleteRow( i );
     }
   }
 
