@@ -14,7 +14,7 @@ django/run_make/templates/run_make/ingest_full_spec.html
     // PITFALL: If there are is only one row of values --
     // the first row being titles, not values --
     // then the user is not allowed to delete it.
-    // If they could, they could break `insertRow()`.
+    // This isn't critical; it's just to keep the user from getting confused.
     if (table.rows.length > 2) {
       var i = row    . rowIndex;
       table . deleteRow( i );
@@ -22,24 +22,15 @@ django/run_make/templates/run_make/ingest_full_spec.html
   }
 
   function insertRow (divName) {
-    var table=document.getElementById(divName + ' table');
-    // Deep clone the first data (not titles) row. (row[0] is titles.)
-    var new_row = table.rows[1].cloneNode(true);
-
-    for (let i = 0; i < 3; i++) {
-      // Give the first three rows unique IDs and empty values.
-      // (IDs for inputs have to be unique in a document.)
-      // PITFALL: These IDs are pretty useless -- they bear no relation
-      // to the row or column number. If I ever want to refer to them,
-      // I'll want to make them do that --
-      // which is complicated, because interior rows can be deleted.
-      var inp = new_row.cells[i].getElementsByTagName('input')[0];
-      inp.id += " - " + uniqueIdSuffix++; // PITFALL: Implicit cast str->int
-      inp.value = '';
-    }
-
-    // Append the new row to the table.
-    table.appendChild( new_row );
+    // Duplicates some of the code in insertTable,
+    // and maybe some from insertRow.
+    var table = document.getElementById(divName + ' table');
+    var row   = document.createElement('tr');
+    table.appendChild ( row );
+    row . appendChild ( inputCell( divName + ", Min income" ) );
+    row . appendChild ( inputCell( divName + ", Max income" ) );
+    row . appendChild ( inputCell( divName + ", Tax rate" ) );
+    row . appendChild ( deleteRow_cell() );
   }
 
   function insert_insertRowButton (divName) {
@@ -140,12 +131,7 @@ django/run_make/templates/run_make/ingest_full_spec.html
     row_1.appendChild( headingCell( "Tax rate" ) )
     table.appendChild(row_1);
 
-    let row_2 = document.createElement('tr');
-    row_2.appendChild ( inputCell( divName + ", Min income" ) )
-    row_2.appendChild ( inputCell( divName + ", Max income" ) )
-    row_2.appendChild ( inputCell( divName + ", Tax rate" ) )
-    row_2.appendChild ( deleteRow_cell() )
-    table.appendChild ( row_2 );
+    insertRow( divName )
   }
 </script>
 
