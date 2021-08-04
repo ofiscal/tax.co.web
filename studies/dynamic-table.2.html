@@ -1,0 +1,47 @@
+<!-- Django-ish. Maybe better than dynamic-table.html. -->
+
+<form action = "{% url 'run_make:dynamic_form'%}"
+      enctype="multipart/form-data"
+      method = "post">
+  {% csrf_token %}
+
+  <div id="Income tax">
+    <table id="Income tax table" border="1">
+      <tr> <!-- PITFALL: This "head matter" could be wrapped in <thead> tags,
+                and similarly the input data rows wrapped in <tbody> tags.
+                AFAIK, doing so doesn't accomplish anything I need --
+                the 0th row of the table will still, awkwardly,
+                be the names of the columns. -->
+            <td>Income tax, min income</td>
+            <td>Income tax, max income</td>
+            <td>Income tax, tax rate</td>
+            <td></td>
+      </tr>
+      <tr>
+        <!-- I distinguish strings like "min income id" and "min income"
+             to know later whether I'm looking at an ID or a name. -->
+        <td><input type="number"
+                   step="any"
+                   id="Income tax, min income id"
+                   name="Income tax, min income" /></td>
+        <td><input type="number"
+                   step="any"
+                   id="Income tax, max income id"
+                   name="Income tax, max income"/></td>
+        <td><input type="number"
+                   step="any"
+                   id="Income tax, tax rate id"
+                   name="Income tax, tax rate"/></td>
+        <td><input type="button"
+                   id="delPOIbutton"
+                   value="delete row"
+                   onclick="deleteRow(this)"/></td>
+      </tr>
+    </table>
+    <script>
+      insert_insertRowButton("Income tax") // Could be called from anywhere.
+    </script>
+  </div>
+
+  <input type="submit" value="Submit">
+</form>
