@@ -83,6 +83,7 @@ django/run_make/templates/run_make/ingest_full_spec.html
     table . appendChild ( row_1 );
 
     insertRow ( host_element_name );
+    insert_insertRowButton ( host_element_name );
   }
 </script>
 
@@ -93,7 +94,6 @@ django/run_make/templates/run_make/ingest_full_spec.html
   {% csrf_token %}
   <script>
     insertTable("Income tax")
-    insert_insertRowButton("Income tax")
   </script>
   <br>
   <input type="submit" value="Submit">
