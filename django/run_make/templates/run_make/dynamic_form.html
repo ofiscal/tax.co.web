@@ -20,26 +20,26 @@ django/run_make/templates/run_make/ingest_full_spec.html
     }
   }
 
-  function insertRow (divName) {
+  function insertRow (tax_name) {
     // Duplicates some of the code in insertTable,
     // and maybe some from insertRow.
-    var table = document.getElementById(divName + ' table');
+    var table = document.getElementById( tax_name + ' table');
     var row   = document.createElement('tr');
-    table.appendChild ( row );
-    row . appendChild ( inputCell( divName + ", min income" ) );
-    row . appendChild ( inputCell( divName + ", max income" ) );
-    row . appendChild ( inputCell( divName + ", tax rate" ) );
+    table . appendChild ( row );
+    row . appendChild ( inputCell( tax_name + ", min income" ) );
+    row . appendChild ( inputCell( tax_name + ", max income" ) );
+    row . appendChild ( inputCell( tax_name + ", tax rate" ) );
     row . appendChild ( deleteRow_cell() );
   }
 
-  function insert_insertRowButton (divName) {
-    var button = document.createElement('input');
-    button.type = 'button';
-    button.id = divName + ' button to add row';
-    button.value = 'Add row';
-    button.onclick = function() { insertRow( divName ) };
-    ( document.getElementById ( divName )
-      .appendChild ( button ) );
+  function insert_insertRowButton (tableName) {
+    var button = document . createElement ( 'input' );
+    button . type = 'button';
+    button . id = tableName + ' button to add row';
+    button . value = 'Add row';
+    button . onclick = function () { insertRow ( tableName ) };
+    ( document . getElementById ( tableName )
+      . appendChild ( button ) );
   }
 </script>
 
