@@ -6,30 +6,30 @@ django/run_make/templates/run_make/ingest_full_spec.html
 <script>
   var uniqueIdSuffix = 1 // PITFALL: Mutates.
 
-  function deleteRow(button) {
-    console.log( button.nodeName );
+  function deleteRow ( button ) {
+    console.log ( button.nodeName );
     var cell  = button . parentNode;
     var row   = cell   . parentNode;
     var table = row    . parentNode;
-    if (table.rows.length > 2) {
+    if ( table.rows.length > 2 ) {
       // PITFALL: If there is only one row of values --
       // the first row being titles, not values --
       // then the user is not allowed to delete it.
       // This isn't critical; it just reduces user confusion.
-      table . deleteRow( row . rowIndex );
+      table . deleteRow ( row . rowIndex );
     }
   }
 
   function insertRow (tax_name) {
     // Duplicates some of the code in insertTable,
     // and maybe some from insertRow.
-    var table = document.getElementById( tax_name + ' table');
-    var row   = document.createElement('tr');
+    var table = document . getElementById (  tax_name + ' table' );
+    var row   = document . createElement ( 'tr' );
     table . appendChild ( row );
-    row . appendChild ( inputCell( tax_name + ", min income" ) );
-    row . appendChild ( inputCell( tax_name + ", max income" ) );
-    row . appendChild ( inputCell( tax_name + ", tax rate" ) );
-    row . appendChild ( deleteRow_cell() );
+    row . appendChild ( inputCell ( tax_name + ", min income" ) );
+    row . appendChild ( inputCell ( tax_name + ", max income" ) );
+    row . appendChild ( inputCell ( tax_name + ", tax rate" ) );
+    row . appendChild ( deleteRow_cell () );
   }
 
   function insert_insertRowButton (tableName) {
@@ -91,46 +91,46 @@ django/run_make/templates/run_make/ingest_full_spec.html
 
 <script>
   function deleteRow_cell () {
-    let cell = document.createElement("td")
-    var button = document.createElement('input');
-    cell.appendChild ( button )
-    button.type = 'button';
-    button.id = "delete row id" + uniqueIdSuffix++;
-    button.value = 'delete row';
-    button.onclick = function() { deleteRow( button ) };
-    return cell
+    let cell = document . createElement ( "td" );
+    var button = document . createElement ( 'input' );
+    cell . appendChild ( button );
+    button . type = 'button';
+    button . id = "delete row id" + uniqueIdSuffix ++;
+    button . value = 'delete row';
+    button . onclick = function () { deleteRow( button ) };
+    return cell;
   }
 
   function inputCell ( name ) {
-    let cell = document.createElement("td")
-    let input = document.createElement('input');
-    input.id   = name + " id";
-    input.name = name;
-    input.step = "any";
-    input.type = "number";
-    cell.appendChild(input)
+    let cell = document . createElement ( "td" );
+    let input = document . createElement ( 'input' );
+    input . id   = name + " id";
+    input . name = name;
+    input . step = "any";
+    input . type = "number";
+    cell . appendChild ( input );
     return cell;
   }
 
   function headingCell ( name ) {
-    let cell = document.createElement('th');
-    cell.innerHTML = "Min income";
-    return cell
+    let cell = document . createElement ( 'th' );
+    cell . innerHTML = "Min income";
+    return cell;
   }
 
   function insertTable( divName ) {
-    let table = document.createElement('table');
-    table.id = divName + " table";
-    table.border = "1";
-    document.getElementById(divName).appendChild(table);
+    let table = document . createElement ( 'table' );
+    table . id = divName + " table";
+    table . border = "1";
+    document . getElementById ( divName ) . appendChild ( table );
 
-    let row_1 = document.createElement('tr');
-    row_1.appendChild( headingCell( "Min income" ) )
-    row_1.appendChild( headingCell( "Max income" ) )
-    row_1.appendChild( headingCell( "Tax rate" ) )
-    table.appendChild(row_1);
+    let row_1 = document . createElement ( 'tr' );
+    row_1 . appendChild ( headingCell ( "Min income" ) );
+    row_1 . appendChild ( headingCell ( "Max income" ) );
+    row_1 . appendChild ( headingCell( "Tax rate" ) );
+    table . appendChild ( row_1 );
 
-    insertRow( divName )
+    insertRow ( divName );
   }
 </script>
 
