@@ -11,13 +11,12 @@ django/run_make/templates/run_make/ingest_full_spec.html
     var cell  = button . parentNode;
     var row   = cell   . parentNode;
     var table = row    . parentNode;
-    // PITFALL: If there are is only one row of values --
-    // the first row being titles, not values --
-    // then the user is not allowed to delete it.
-    // This isn't critical; it's just to keep the user from getting confused.
     if (table.rows.length > 2) {
-      var i = row    . rowIndex;
-      table . deleteRow( i );
+      // PITFALL: If there is only one row of values --
+      // the first row being titles, not values --
+      // then the user is not allowed to delete it.
+      // This isn't critical; it just reduces user confusion.
+      table . deleteRow( row . rowIndex );
     }
   }
 
