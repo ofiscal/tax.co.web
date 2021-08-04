@@ -27,9 +27,9 @@ django/run_make/templates/run_make/ingest_full_spec.html
     var table = document.getElementById(divName + ' table');
     var row   = document.createElement('tr');
     table.appendChild ( row );
-    row . appendChild ( inputCell( divName + ", Min income" ) );
-    row . appendChild ( inputCell( divName + ", Max income" ) );
-    row . appendChild ( inputCell( divName + ", Tax rate" ) );
+    row . appendChild ( inputCell( divName + ", min income" ) );
+    row . appendChild ( inputCell( divName + ", max income" ) );
+    row . appendChild ( inputCell( divName + ", tax rate" ) );
     row . appendChild ( deleteRow_cell() );
   }
 
@@ -56,9 +56,9 @@ django/run_make/templates/run_make/ingest_full_spec.html
                 AFAIK, doing so doesn't accomplish anything I need --
                 the 0th row of the table will still, awkwardly,
                 be the names of the columns. -->
-            <td>Min income</td>
-            <td>Max income</td>
-            <td>Tax rate</td>
+            <td>Income tax, min income</td>
+            <td>Income tax, max income</td>
+            <td>Income tax, tax rate</td>
             <td></td>
       </tr>
       <tr>
@@ -66,19 +66,19 @@ django/run_make/templates/run_make/ingest_full_spec.html
              to know later whether I'm looking at an ID or a name. -->
         <td><input type="number"
                    step="any"
-                   id="min income id"
-                   name="min income" /></td>
+                   id="Income tax, min income id"
+                   name="Income tax, min income" /></td>
         <td><input type="number"
                    step="any"
-                   id="max income id"
-                   name="max income"/></td>
+                   id="Income tax, max income id"
+                   name="Income tax, max income"/></td>
         <td><input type="number"
                    step="any"
-                   id="tax rate id"
-                   name="tax rate"/></td>
+                   id="Income tax, tax rate id"
+                   name="Income tax, tax rate"/></td>
         <td><input type="button"
                    id="delPOIbutton"
-                   value="Delete"
+                   value="delete row"
                    onclick="deleteRow(this)"/></td>
       </tr>
     </table>
