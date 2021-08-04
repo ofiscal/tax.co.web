@@ -70,11 +70,11 @@ django/run_make/templates/run_make/ingest_full_spec.html
     return cell;
   }
 
-  function insertTable( divName ) {
+  function insertTable ( host_element_name ) {
     let table = document . createElement ( 'table' );
-    table . id = divName + " table";
+    table . id = host_element_name + " table";
     table . border = "1";
-    document . getElementById ( divName ) . appendChild ( table );
+    document . getElementById ( host_element_name ) . appendChild ( table );
 
     let row_1 = document . createElement ( 'tr' );
     row_1 . appendChild ( headingCell ( "Min income" ) );
@@ -82,7 +82,7 @@ django/run_make/templates/run_make/ingest_full_spec.html
     row_1 . appendChild ( headingCell( "Tax rate" ) );
     table . appendChild ( row_1 );
 
-    insertRow ( divName );
+    insertRow ( host_element_name );
   }
 </script>
 
