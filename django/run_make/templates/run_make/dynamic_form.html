@@ -72,13 +72,12 @@ It does not change, but it does confuse at least this reader. -->
     return cell;
   }
 
-  function insertTable ( taxName ) {
+  function createTable ( taxName ) {
     let table = document . createElement ( 'table' );
     table . id = taxName + " table";
     table . createCaption ();
     table . innerHTML = taxName; // Set the caption.
     table . border = "1";
-    document . getElementById ( "Income tax" ) . appendChild ( table );
 
     let row_1 = document . createElement ( 'tr' );
     row_1 . appendChild ( headingCell ( "Min income" ) );
@@ -86,7 +85,16 @@ It does not change, but it does confuse at least this reader. -->
     row_1 . appendChild ( headingCell ( "Tax rate" ) );
     table . appendChild ( row_1 );
 
-    insertRow ( taxName );
+    return table;
+  }
+
+  function insertTable ( taxName ) {
+    table = createTable ( taxName );
+    document . getElementById ( "Income tax" ) . appendChild ( table );
+    insertRow ( taxName ); // Create row 2, the first data row
+      // TODO: Change:
+      // Unfortunately needs the table to be named in the document already;
+      // otherwise it would be part of `createTable`.
     insert_insertRowButton ( taxName );
   }
 </script>
