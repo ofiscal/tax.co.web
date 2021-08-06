@@ -90,7 +90,13 @@ It does not change, but it does confuse at least this reader. -->
 
   function insertTable ( taxName ) {
     let hostForm = document . getElementById ( "Income tax" )
-    table = createTable ( taxName );
+    let table = createTable ( taxName );
+    let linebreak = document . createElement ( "hr" );
+      // PITFALL: Bizarrely, if a "br" rather than an "hr" is created here,
+      // it only works for the first table.
+    linebreak . id = taxName + " id";
+
+    hostForm . appendChild ( linebreak );
     hostForm . appendChild ( table );
     insertRow ( taxName ); // Create row 2, the first data row
       // TODO: Move the call to `insertRow` into `createTable`.
