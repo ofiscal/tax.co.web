@@ -40,7 +40,7 @@ It does not change, but it does confuse at least this reader. -->
     button . id = tableName + ' button to add row';
     button . value = 'Add row';
     button . onclick = function () { insertRow ( tableName ) };
-    ( document . getElementById ( tableName )
+    ( document . getElementById ( "Income tax" )
       . appendChild ( button ) );
   }
 
@@ -78,7 +78,7 @@ It does not change, but it does confuse at least this reader. -->
     table . createCaption ();
     table . innerHTML = taxName; // Set the caption.
     table . border = "1";
-    document . getElementById ( taxName ) . appendChild ( table );
+    document . getElementById ( "Income tax" ) . appendChild ( table );
 
     let row_1 = document . createElement ( 'tr' );
     row_1 . appendChild ( headingCell ( "Min income" ) );
