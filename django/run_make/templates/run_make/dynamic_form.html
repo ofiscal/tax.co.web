@@ -28,9 +28,8 @@ It does not change, but it does confuse at least this reader. -->
     var table = document . getElementById ( tax_name + ' table' );
     var row   = document . createElement ( 'tr' );
     table . appendChild ( row );
-    row . appendChild ( inputCell ( tax_name + ", min income" ) );
-    row . appendChild ( inputCell ( tax_name + ", max income" ) );
     row . appendChild ( inputCell ( tax_name + ", tax rate" ) );
+    row . appendChild ( inputCell ( tax_name + ", min income" ) );
     row . appendChild ( deleteRow_cell () );
   }
 
@@ -80,9 +79,8 @@ It does not change, but it does confuse at least this reader. -->
     table . border = "1";
 
     let row_1 = document . createElement ( 'tr' );
-    row_1 . appendChild ( headingCell ( "Min income" ) );
-    row_1 . appendChild ( headingCell ( "Max income" ) );
     row_1 . appendChild ( headingCell ( "Tax rate" ) );
+    row_1 . appendChild ( headingCell ( "Min income subject to rate" ) );
     table . appendChild ( row_1 );
 
     return table;
