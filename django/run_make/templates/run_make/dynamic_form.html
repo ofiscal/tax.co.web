@@ -40,7 +40,7 @@ It does not change, but it does confuse at least this reader. -->
     button . id = tableName + ' button to add row';
     button . value = 'Add row';
     button . onclick = function () { insertRow ( tableName ) };
-    ( document . getElementById ( tableName )
+    ( document . getElementById ( "Income tax" )
       . appendChild ( button ) );
   }
 
@@ -78,7 +78,7 @@ It does not change, but it does confuse at least this reader. -->
     table . createCaption ();
     table . innerHTML = taxName; // Set the caption.
     table . border = "1";
-    document . getElementById ( "Tax on " ) . appendChild ( table );
+    document . getElementById ( "Income tax" ) . appendChild ( table );
 
     let row_1 = document . createElement ( 'tr' );
     row_1 . appendChild ( headingCell ( "Min income" ) );
@@ -87,18 +87,18 @@ It does not change, but it does confuse at least this reader. -->
     table . appendChild ( row_1 );
 
     insertRow ( taxName );
-    insert_insertRowButton ( taxName + " table" );
+    insert_insertRowButton ( taxName );
   }
 </script>
 
-<form id = "Tax on "
+<form id = "Income tax"
       action = "{% url 'run_make:dynamic_form'%}"
       enctype="multipart/form-data"
       method = "post">
   {% csrf_token %}
   <script>
-    insertTable("income")
-    insertTable("dividends")
+    insertTable("Mmost income")
+    insertTable("Dividends")
   </script>
   <br>
   <input type="submit" value="Submit">
