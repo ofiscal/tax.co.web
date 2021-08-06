@@ -72,11 +72,11 @@ It does not change, but it does confuse at least this reader. -->
     return cell;
   }
 
-  function insertTable ( host_element_name ) {
+  function insertTable ( taxName ) {
     let table = document . createElement ( 'table' );
-    table . id = host_element_name + " table";
+    table . id = taxName + " table";
     table . border = "1";
-    document . getElementById ( host_element_name ) . appendChild ( table );
+    document . getElementById ( taxName ) . appendChild ( table );
 
     let row_1 = document . createElement ( 'tr' );
     row_1 . appendChild ( headingCell ( "Min income" ) );
@@ -84,8 +84,8 @@ It does not change, but it does confuse at least this reader. -->
     row_1 . appendChild ( headingCell ( "Tax rate" ) );
     table . appendChild ( row_1 );
 
-    insertRow ( host_element_name );
-    insert_insertRowButton ( host_element_name );
+    insertRow ( taxName );
+    insert_insertRowButton ( taxName );
   }
 </script>
 
