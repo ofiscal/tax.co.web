@@ -89,12 +89,12 @@ It does not change, but it does confuse at least this reader. -->
   }
 
   function insertTable ( taxName ) {
+    let hostForm = document . getElementById ( "Income tax" )
     table = createTable ( taxName );
-    document . getElementById ( "Income tax" ) . appendChild ( table );
+    hostForm . appendChild ( table );
     insertRow ( taxName ); // Create row 2, the first data row
-      // TODO: Change:
-      // Unfortunately needs the table to be named in the document already;
-      // otherwise it would be part of `createTable`.
+      // TODO: Move the call to `insertRow` into `createTable`.
+      // (Currently `insertRow` needs to lookup the table in the document.)
     insert_insertRowButton ( taxName );
   }
 </script>
