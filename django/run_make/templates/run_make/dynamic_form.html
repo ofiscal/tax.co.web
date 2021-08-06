@@ -75,6 +75,8 @@ It does not change, but it does confuse at least this reader. -->
   function insertTable ( taxName ) {
     let table = document . createElement ( 'table' );
     table . id = taxName + " table";
+    table . createCaption ();
+    table . innerHTML = taxName; // Set the caption.
     table . border = "1";
     document . getElementById ( taxName ) . appendChild ( table );
 
