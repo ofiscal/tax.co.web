@@ -2,8 +2,18 @@
 studies/dynamic-table.html
 django/run_make/templates/run_make/ingest_full_spec.html
 
-PITFALL: The ID "Tax on " resembles a global variable.
-It does not change, but it does confuse at least this reader. -->
+PITFALL: Global-ish names
+-------------------------
+Basically the names of HTML things are a hidden bowl of spaghetti.
+Don't even trust the names described in this comment.
+Instead, to consult the single source of truth, open the page in Firefox,
+and then open the Inspector with Ctrl-Shift-C, to see the generated DOM.
+
+At the moment, the ID "Income tax" resembles a global variable.
+  It does not change, but it does confuse at least this reader.
+There are also some elements called `tax_name + " table"`,
+  where `tax_name` is some tax. For each tax, there should be such a table.
+-->
 
 <script>
   var uniqueIdSuffix = 1; // PITFALL: Mutates.
