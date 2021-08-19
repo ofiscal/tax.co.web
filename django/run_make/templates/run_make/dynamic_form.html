@@ -37,8 +37,8 @@ There are also some elements called `tax_name + " table"`,
                        min_income = null ) {
     // Duplicates some of the code in insertTable,
     // and maybe some from insertRow.
-    var table = document . getElementById ( tax_name + ' table' );
-    var row   = document . createElement ( 'tr' );
+    var table = document . getElementById ( tax_name + " table" );
+    var row   = document . createElement ( "tr" );
     table . appendChild ( row );
     row . appendChild ( inputCell ( tax_name + ", tax rate",
                                     value = rate ) );
@@ -48,10 +48,10 @@ There are also some elements called `tax_name + " table"`,
   }
 
   function insert_insertRowButton ( tableName ) {
-    var button = document . createElement ( 'input' );
-    button . type = 'button';
-    button . id = tableName + ' button to add row';
-    button . value = 'Add row';
+    var button = document . createElement ( "input" );
+    button . type = "button";
+    button . id = tableName + " button to add row";
+    button . value = "Add row";
     button . onclick = function () { insertRow ( tableName ) };
     ( document . getElementById ( "Income tax" )
       . appendChild ( button ) );
@@ -59,18 +59,18 @@ There are also some elements called `tax_name + " table"`,
 
   function deleteRow_cell () {
     let cell = document . createElement ( "td" );
-    var button = document . createElement ( 'input' );
+    var button = document . createElement ( "input" );
     cell . appendChild ( button );
-    button . type = 'button';
+    button . type = "button";
     button . id = "delete row id" + uniqueIdSuffix ++;
-    button . value = 'delete row';
+    button . value = "delete row";
     button . onclick = function () { deleteRow( button ) };
     return cell;
   }
 
   function inputCell ( name, value = null ) {
     let cell = document . createElement ( "td" );
-    let input = document . createElement ( 'input' );
+    let input = document . createElement ( "input" );
     input . id   = name + " id";
     input . name = name;
     input . step = "any";
@@ -81,19 +81,19 @@ There are also some elements called `tax_name + " table"`,
   }
 
   function headingCell ( name ) {
-    let cell = document . createElement ( 'th' );
+    let cell = document . createElement ( "th" );
     cell . innerHTML = name;
     return cell;
   }
 
-  function createTable ( taxName ) {
-    let table = document . createElement ( 'table' );
-    table . id = taxName + " table";
+  function createTable ( tax_name ) {
+    let table = document . createElement ( "table" );
+    table . id = tax_name + " table";
     table . createCaption ();
-    table . innerHTML = taxName; // Set the caption.
+    table . innerHTML = tax_name; // Set the caption.
     table . border = "1";
 
-    let row_1 = document . createElement ( 'tr' );
+    let row_1 = document . createElement ( "tr" );
     row_1 . appendChild ( headingCell ( "Tax rate" ) );
     row_1 . appendChild ( headingCell ( "Min income subject to rate" ) );
     table . appendChild ( row_1 );
@@ -101,21 +101,21 @@ There are also some elements called `tax_name + " table"`,
     return table;
   }
 
-  function insertTable ( taxName ) {
+  function insertTable ( tax_name ) {
     let hostForm = document . getElementById ( "Income tax" )
-    let table = createTable ( taxName );
+    let table = createTable ( tax_name );
     let linebreak = document . createElement ( "hr" );
       // PITFALL: Bizarrely, if a "br" rather than an "hr" is created here,
       // it only works for the first table.
-    linebreak . id = taxName + " id";
+    linebreak . id = tax_name + " id";
 
     hostForm . appendChild ( linebreak );
     hostForm . appendChild ( table );
-    insertRow ( taxName, 0, 0 ); // Create row 2, the first data row.
+    insertRow ( tax_name, 0, 0 ); // Create row 2, the first data row.
       // This is the only one that comes with default values.
       // TODO: Move the call to `insertRow` into `createTable`.
       // (Currently `insertRow` needs to lookup the table in the document.)
-    insert_insertRowButton ( taxName );
+    insert_insertRowButton ( tax_name );
   }
 </script>
 
@@ -125,7 +125,7 @@ There are also some elements called `tax_name + " table"`,
       method = "post">
   {% csrf_token %}
   <script>
-    insertTable("Mmost income")
+    insertTable("Most income")
     insertTable("Dividends")
   </script>
   <br>
