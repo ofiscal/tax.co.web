@@ -17,10 +17,14 @@ from secret.django import DJANGO_SECRET_KEY
   # PITFALL: The whole .secret module cannot, for some reason, be imported,
   # but individual defs from it can be.
 
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...).
 # TODO ? What magic is this? I can't evaluate __file__ in a shell.
 # But if I import this file, BASE_DIR evaluates to `/mnt/django`.
+# Each call to os.path.dirname returns the parent folder of its argument,
+# so I'm guessing __file__ is this `settings.py` file,
+# located at <project root>/django/ebdjango/settings.py.
+# At least, that's consistent with
+# dirname( dirname( __file__ ) ) = /mnt/django.
 BASE_DIR = os . path . dirname (
     os . path . dirname (
         os . path . abspath (  __file__ ) ) )

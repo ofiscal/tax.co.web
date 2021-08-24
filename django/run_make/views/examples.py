@@ -1,5 +1,6 @@
 from   datetime import datetime # for datetime.datetime.now
 import os
+import sys
 import pickle
 import subprocess
 
@@ -14,7 +15,6 @@ import run_make.views.lib as lib
 
 def write_time ( request ):
   """Demonstrates how visiting a URL can be made to (create and) write to a file."""
-  wd = os . getcwd ()
   now = datetime . now () . timestamp()
   with open( "/home/appuser/" + str ( now ),
              'w' ) as f:
@@ -22,8 +22,9 @@ def write_time ( request ):
   return render (
     request,
     'run_make/write_time.html',
-    { "wd" : wd,
-      "now" : now } )
+    { "wd"      : os . getcwd (),
+      "version" : str ( sys.version ),
+      "now"     : now } )
 
 def download ( request ):
   return render ( request,

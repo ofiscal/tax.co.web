@@ -9,6 +9,11 @@
 # provided email credentials are available in tax.co.web/apache2/secret/
 # (see python/email.py in the tax.co repo for details).
 
+####
+#### Destroy the Docker container
+####
+
+docker stop tax.co.web && docker rm tax.co.web
 
 ####
 #### Create the Docker container
@@ -41,9 +46,6 @@ docker run --name tax.co.web -it                     \
   -p 443:443                                         \
   -p 80:80                                           \
   ofiscal/tax.co:latest
-
-# Destroy it
-docker stop tax.co.web && docker rm tax.co.web
 
 
 ####
