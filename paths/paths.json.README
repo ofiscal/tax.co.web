@@ -1,6 +1,6 @@
 # HOW TO USE THIS FILE:
 # Leave it in place.
-# Make a copy of it in the same folder named `paths.json`.
+# Make a copy of it (in the same folder) named `paths.json`.
 # In that copy, delete these comments (the lines starting with `#`).
 # Then customize the `base_system` paths,
 # to point to your clones of the the tax.co and tax.co.web repos.
