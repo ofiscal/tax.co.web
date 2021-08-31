@@ -3,6 +3,11 @@
 # Crucially for tax.co.web, and unlike `pandas`,
 # `csv` is available from the strange Python environment that Apache uses.
 
+# PITFALL: The documentation[1] passes the argument `newline=''`
+# to a lot of these commands. I tested a lot, and it seems to have no effect,
+# so I have omitted that argument.
+# [1] https://docs.python.org/3/library/functions.html#open
+
 import csv
 import pandas
 
@@ -10,7 +15,6 @@ import pandas
 filename = "csvlib-test.csv"
 
 with open( filename, 'w',
-           newline='' # magic
           ) as csvfile:
   spamwriter = csv.writer(
     csvfile, delimiter=',',
@@ -22,16 +26,32 @@ with open( filename, 'w',
   spamwriter.writerow(['a','b','c','fourth column'])
   spamwriter.writerow(['Spam', 'Lovely Spam', 'Wonderful Spam',
                        "quote char \" yeah"])
+  spamwriter.writerow(['a2','b2','c2','d2'])
 
-with open( filename, newline='' ) as csvfile:
+# Print all rows, whole.
+with open( filename,
+          ) as csvfile:
   spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
   for row in spamreader:
     print(', '.join(row))
 
-with open(filename, newline='') as csvfile:
+# Dump data (strictly) into a variable.
+with open( filename,
+          ) as csvfile:
+  x = []
+  spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
+  for row in spamreader:
+    x.append( row )
+
+for i in x: print(i)
+
+# Fetch some portion of each row.
+with open(filename,
+          ) as csvfile:
   reader = csv.DictReader(csvfile)
   for row in reader:
     print(row['a'], "|", row['c'])
 
+# Pandas understands this file format.
 x = pandas.read_csv( filename )
 x
