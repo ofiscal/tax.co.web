@@ -9,7 +9,11 @@ app_name = 'run_make'
 urlpatterns = [
     path( 'write_time',
           vx.write_time,
-          name='write_time'),
+          name='write_time' ),
+
+    path( 'render_content_argument',
+          vx.render_content_argument,
+          name='render_content_argument' ),
 
     path( 'ingest_full_spec',
           vs.ingest_full_spec,

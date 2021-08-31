@@ -1,0 +1,18 @@
+Here are some arguments passed as the `content` argument to Django's `render` function.<br>
+
+The string is: {{the_string}}<br>
+The number is: {{the_number}}<br>
+The list is: {{the_list}}<br>
+
+The number plus one is:
+<script>
+  var x = {{the_number}} + 1;
+  document.write( x.toString() )
+</script>
+<br>
+
+The second element of the list is:
+<script>
+  document.write( {{the_list}}[1] )
+</script>
+<br>

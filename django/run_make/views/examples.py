@@ -13,6 +13,16 @@ from   run_make.forms import TaxConfigForm
 import run_make.views.lib as lib
 
 
+def render_content_argument ( request ):
+  """ This demonstrates how to pass in (at least somewhat) arbitrary data from Django to Javascript. Happily, non-strings are not converted to strings."""
+  return render (
+    request,
+    'run_make/render_content_argument.html',
+    { "the_string" : "A string.",
+      "the_number" : 33,
+      "the_list"   : [1,2]
+     } )
+
 def write_time ( request ):
   """Demonstrates how visiting a URL can be made to (create and) write to a file."""
   now = datetime . now () . timestamp()
@@ -29,6 +39,7 @@ def write_time ( request ):
 def download ( request ):
   return render ( request,
                   'run_make/download.html' )
+
 
 ######################
 #### Dynamic form ####
