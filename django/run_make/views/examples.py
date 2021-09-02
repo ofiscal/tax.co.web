@@ -20,7 +20,8 @@ def render_content_argument ( request ):
     'run_make/render_content_argument.html',
     { "the_string" : "A string.",
       "the_number" : 33,
-      "the_list"   : [1,2]
+      "the_list"   : [1,2],
+      "the_dict"   : {"a":"b"} # PITFALL: Dictionaries cannot be transferred.
      } )
 
 def write_time ( request ):

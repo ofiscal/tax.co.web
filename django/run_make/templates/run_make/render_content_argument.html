@@ -1,8 +1,12 @@
-Here are some arguments passed as the `content` argument to Django's `render` function.<br>
+Here are some arguments passed as the `content` argument to Django's `render` function,
+in turn passed in the HTML template: <br><br>
 
 The string is: {{the_string}}<br>
 The number is: {{the_number}}<br>
 The list is: {{the_list}}<br>
+The dict is: {{the_dict}}<br><br>
+
+Here are some computations performed on that data.<br><br>
 
 The number plus one is:
 <script>
@@ -14,5 +18,21 @@ The number plus one is:
 The second element of the list is:
 <script>
   document.write( {{the_list}}[1] )
+</script>
+<br>
+
+BEWARE: The key-value pairs in the dict are impossible to show.
+Basically it appears the JS cannot receive dictionaries from Django.<br>
+<script>
+  the_list = {{the_list}} // Change "list" to "dict" here and it breaks.
+
+  document.write( the_list[0].toString() )
+
+  // Therefore the rest of this code is moot.
+    // for ( const [k,v] of Object.entries( the_dict ) ) {
+    //   document.write(
+    //     "(key: " + k.toString()
+    //     + ", value: " + v.toString() + ")" )
+    // }
 </script>
 <br>
