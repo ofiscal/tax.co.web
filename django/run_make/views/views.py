@@ -11,7 +11,8 @@ if True:
   import run_make.views.lib as lib
 
 
-# PITFALL: Django treats as root every DocumentRoot folder
+# PITFALL: These start with '/'
+# because Django treats as root every DocumentRoot folder
 # configured in apache2.conf. Name collisions must be hell.
 rate_tables = {
   "/config/marginal_rates/most.csv" :

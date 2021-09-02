@@ -9,7 +9,12 @@ if True:
   from   typing import List
   #
   import run_make.common as common
+  from   run_make.forms import TaxConfigForm
 
+
+# PITFALL: Some of the path arguments below are absolute.
+# Those should not be hardcoded here;
+# instead, one can use `common.tax_co_root`.)
 
 global_requests_log = os.path.join ( common.tax_co_root,
                                      "requests-log.txt" )
@@ -22,22 +27,23 @@ def hash_from_str ( s : str ) -> str:
     . hexdigest () )
 
 def write_form_to_user_folder (
-    user_path : str,
-    form : ModelForm
+    user_path : str, # Absolute path to user folder.
+    form : TaxConfigForm
     ): # No return value; entirely IO.
-  with open ( os.path.join ( user_path, 'config/config.json' ),
+  with open ( os.path.join ( user_path,
+                             'config/config.json' ),
               'w' ) as f:
     json . dump ( form . cleaned_data,
                   f )
 
 def write_uploaded_files_to_user_folder (
     table_rel_paths : List [ str ],
-      # Relative to the user's config/ folder,
-      # or to the project root config/ folder for defaults.
-    user_path : str,
-    request_files # The Django docs are vague about what this is,
-                  # calling it only a "dictionary-like object"
-                  # from names (probably strings) to `UploadedFile`s.
+      # Relative to the user's config/ folder, or,
+      # for defaults, to the project root's config/ folder.
+    user_path : str, # Absolute path to user folder.
+    request_files # Django docs are vague, calling this only a
+                  # "dictionary-like object" from names
+                  # (probably strings) to `UploadedFile`s.
     ): # No return value; entirely IO.
 
   fs = FileSystemStorage ()
@@ -45,11 +51,11 @@ def write_uploaded_files_to_user_folder (
     trp_stripped = trp . strip ("/")
       # Remove leading slashes. Otherwise,
       # path.join discards any args preceding this one.
-    tapu = os . path . join ( # Table Absolute Path in User folder.
+    tapu = os . path . join ( # "Table Absolute Paths in User folder"
         user_path,
         trp_stripped )
     if os . path . exists ( tapu ):
-      os . remove ( tapu )
+      os . remove ( tapu ) # PITFALL: Overwrites user's preexisting data.
     if trp in request_files:
       fs . save (
         tapu,
