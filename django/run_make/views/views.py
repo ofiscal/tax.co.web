@@ -1,4 +1,5 @@
 if True:
+  import csv
   from   datetime import datetime # for datetime.datetime.now
   from   django.http import HttpResponseRedirect
   from   django.shortcuts import render
@@ -82,6 +83,26 @@ def ingest_full_spec ( request ):
       { 'advanced_specs_form' : TaxConfigForm (),
         "rate_tables"         : rate_tables
        } )
+
+# PITFALL: Django cannot pass dictionaries to Javascript.
+taxes = [ ( "dividends",   [(0,0), (10,0.1) ] ),
+          ( "most income", [(0,0), (20,0.2) ] ),
+        ]
+
+def manual_ingest ( request ):
+  "Based on `dynamic_form()` in `run_make/views/examples.py`."
+  if request . method == 'POST':
+    return HttpResponseRedirect (
+      reverse (
+        'run_make:thank-for-spec',
+        kwargs = {
+          "user_email" : "dynamic-form-user@nowhere.net" } ) )
+
+  else:
+    return render (
+      request,
+      'run_make/manual_tax_tables.html',
+      { "taxes" : taxes } )
 
 def thank_for_spec ( request, user_email ):
   return render ( request,

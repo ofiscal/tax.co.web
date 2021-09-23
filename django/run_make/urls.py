@@ -15,6 +15,10 @@ urlpatterns = [
           vx.render_content_argument,
           name='render_content_argument' ),
 
+    path( 'manual_ingest',
+          vs.manual_ingest,
+          name='manual_ingest'),
+
     path( 'ingest_full_spec',
           vs.ingest_full_spec,
           name='ingest_full_spec'),

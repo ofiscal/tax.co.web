@@ -1,0 +1,136 @@
+<!-- Based on django/run_make/templates/run_make/dynamic_form.html
+
+PITFALL: Global-ish names
+-------------------------
+Basically the names of HTML things are a hidden bowl of spaghetti.
+Don't even trust the names described in this comment.
+Instead, to consult the single source of truth, open the page in Firefox,
+and then open the Inspector with Ctrl-Shift-C, to see the generated DOM.
+
+At the moment, the ID "Income tax" resembles a global variable.
+  It does not change, but it does confuse at least this reader.
+There are also some elements called `tax_name + " table"`,
+  where `tax_name` is some tax. For each tax, there should be such a table.
+-->
+
+<script>
+  var uniqueIdSuffix = 1; // PITFALL: Mutates.
+
+  function deleteRow ( button ) {
+    console.log ( button.nodeName );
+    var cell  = button . parentNode;
+    var row   = cell   . parentNode;
+    var table = row    . parentNode;
+    if ( table.rows.length > 2 ) {
+      // PITFALL: If there is only one row of values --
+      // the first row being titles, not values --
+      // then the user is not allowed to delete it.
+      // This isn't critical; it just reduces user confusion.
+      table . deleteRow ( row . rowIndex );
+    }
+  }
+
+  function insertRow ( tax_name,
+                       rate = null,
+                       min_income = null ) {
+    // Duplicates some of the code in insertTable,
+    // and maybe some from insertRow.
+    var table = document . getElementById (
+      tax_name + " table" );
+    var row   = document . createElement ( "tr" );
+    table . appendChild ( row );
+    row . appendChild ( inputCell ( tax_name + ", tax rate",
+                                    value = rate ) );
+    row . appendChild ( inputCell ( tax_name + ", min income",
+                                    value = min_income ) );
+    row . appendChild ( deleteRow_cell () );
+  }
+
+  function insert_insertRowButton ( tableName ) {
+    var button = document . createElement ( "input" );
+    button . type = "button";
+    button . id = tableName + " button to add row";
+    button . value = "Add row";
+    button . onclick = function () {
+      insertRow ( tableName ) };
+    ( document . getElementById ( "Income tax" )
+      . appendChild ( button ) );
+  }
+
+  function deleteRow_cell () {
+    let cell = document . createElement ( "td" );
+    var button = document . createElement ( "input" );
+    cell . appendChild ( button );
+    button . type = "button";
+    button . id = "delete row id" + uniqueIdSuffix ++;
+    button . value = "delete row";
+    button . onclick = function () { deleteRow( button ) };
+    return cell;
+  }
+
+  function inputCell ( name, value = null ) {
+    let cell = document . createElement ( "td" );
+    let input = document . createElement ( "input" );
+    input . id   = name + " id";
+    input . name = name;
+    input . step = "any";
+    input . type = "number";
+    if (value != null) {input . value = 0; };
+    cell . appendChild ( input );
+    return cell;
+  }
+
+  function headingCell ( name ) {
+    let cell = document . createElement ( "th" );
+    cell . innerHTML = name;
+    return cell;
+  }
+
+  function createTable ( tax_name ) {
+    let table = document . createElement ( "table" );
+    table . id = tax_name + " table";
+    table . createCaption ();
+    table . innerHTML = tax_name; // Set the caption.
+    table . border = "1";
+
+    let row_1 = document . createElement ( "tr" );
+    row_1 . appendChild ( headingCell ( "Tax rate" ) );
+    row_1 . appendChild (
+      headingCell ( "Min income subject to rate" ) );
+    table . appendChild ( row_1 );
+
+    return table;
+  }
+
+  function insertTable ( tax_name ) {
+    let hostForm = document . getElementById ( "Income tax" )
+    let table = createTable ( tax_name );
+    let linebreak = document . createElement ( "hr" );
+      // PITFALL: Bizarrely,
+      // if a "br" rather than an "hr" is created here,
+      // it only works for the first table.
+    linebreak . id = tax_name + " id";
+
+    hostForm . appendChild ( linebreak );
+    hostForm . appendChild ( table );
+    insertRow ( tax_name, 0, 0 );
+      // Create row 2, the first data row.
+      // This is the only one that comes with default values.
+      // TODO: Move the call to `insertRow` into `createTable`.
+      // (Currently `insertRow` needs to lookup the table in the document.)
+    insert_insertRowButton ( tax_name );
+  }
+</script>
+
+<form id = "Income tax"
+      action = "{% url 'run_make:dynamic_form'%}"
+      enctype="multipart/form-data"
+      method = "post">
+  {% csrf_token %}
+  <script>
+    insertTable("Most income")
+    insertTable("Dividends")
+  </script>
+  <br>
+  <input type="submit" value="Submit">
+</form>
