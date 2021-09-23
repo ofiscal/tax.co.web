@@ -75,7 +75,8 @@ There are also some elements called `tax_name + " table"`,
     input . name = name;
     input . step = "any";
     input . type = "number";
-    if (value != null) {input . value = 0; };
+    if (value != null) {input . value = value; }
+    else               {input . value = 0; };
     cell . appendChild ( input );
     return cell;
   }
