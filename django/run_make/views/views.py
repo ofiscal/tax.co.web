@@ -45,18 +45,22 @@ def ingest_full_spec ( request ):
 
     if advanced_specs_form . is_valid ():
 
-      user_email = advanced_specs_form . cleaned_data [ "user_email" ]
+      user_email = ( advanced_specs_form
+                     . cleaned_data [ "user_email" ] )
       user_hash = lib . hash_from_str ( user_email )
       user_path = os . path . join ( common.tax_co_root,
                                      "users/",
                                      user_hash )
 
-      rmtree( user_path, ignore_errors = True )
-        # Remove the path; don't worry if it doesn't exist.
-      for p in [                    user_path,
-                 os . path . join ( user_path, "logs" ),
-                 os . path . join ( user_path, "config" ),
-                 os . path . join ( user_path, "config/marginal_rates" ) ]:
+      rmtree ( user_path, ignore_errors = True )
+        # Remove the path.
+        # If it already doesn't exist, no problem.
+      for p in [
+          (                  user_path),
+          os . path . join ( user_path, "logs" ),
+          os . path . join ( user_path, "config" ),
+          os . path . join ( user_path,
+                             "config/marginal_rates" ) ]:
          if not os . path . exists ( p ):
              os . mkdir ( p )
       lib . write_form_to_user_folder ( user_path,
