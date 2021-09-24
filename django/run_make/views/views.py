@@ -85,8 +85,13 @@ def ingest_full_spec ( request ):
        } )
 
 # PITFALL: Django cannot pass dictionaries to Javascript.
-taxes = [ ( "dividends",   [(0,0), (10,0.1) ] ),
-          ( "most income", [(0,0), (20,0.2) ] ),
+# PITFALL: Javascript does not offer tuples, only lists.
+# (Django can handle those things in the HTML,
+# to at least some extent, within constructs like
+# {% for ... %} ... {% endfor %},
+# but sticking to lists seems safer.
+taxes = [ [ "dividends",   [[0,0], [10,0.1] ] ],
+          [ "most income", [[0,0], [20,0.2] ] ],
         ]
 
 def manual_ingest ( request ):
