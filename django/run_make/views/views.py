@@ -12,10 +12,15 @@ if True:
   import run_make.views.lib as lib
 
 
+###
+### Paths
+###
+
 # PITFALL: These start with '/'
 # because Django treats as root every DocumentRoot folder
 # configured in apache2.conf. Name collisions must be hell.
-rate_tables = {
+
+marginal_rate_tables = {
   "/config/marginal_rates/most.csv" :
     "El impuesto para la mayoría de las categorías de ingreso:",
   "/config/marginal_rates/dividend.csv" :
@@ -24,10 +29,17 @@ rate_tables = {
     "El impuesto más alto para los ingresos ocasionales:",
   "/config/marginal_rates/ocasional_low.csv" :
     "El impuesto más bajo para los ingresos ocasionales:",
+}
+
+vat_tables = {
   "/config/vat_by_coicop.csv" :
     "El IVA, asignado por código COICOP:",
   "/config/vat_by_capitulo_c.csv" :
     "El IVA, asignado por código 'capitulo c'. (La mayoría de las compras en la ENPH son identificados por el COICOP, pero algunos usan este sistema alternativo.)" }
+
+# A union of two dicts.
+rate_tables = { **marginal_rate_tables,
+                **vat_tables }
 
 def ingest_full_spec ( request ):
   """
@@ -90,9 +102,9 @@ def ingest_full_spec ( request ):
 # to at least some extent, within constructs like
 # {% for ... %} ... {% endfor %},
 # but sticking to lists seems safer.
-taxes = [ [ "dividends",   [[0,0], [10,0.1] ] ],
-          [ "most income", [[0,0], [20,0.2] ] ],
-        ]
+fake_taxes = [ [ "dividends",   [[0,0], [10,0.1] ] ],
+               [ "most income", [[0,0], [20,0.2] ] ],
+              ]
 
 def manual_ingest ( request ):
   "Based on `dynamic_form()` in `run_make/views/examples.py`."
@@ -107,7 +119,7 @@ def manual_ingest ( request ):
     return render (
       request,
       'run_make/manual_tax_tables.html',
-      { "taxes" : taxes } )
+      { "taxes" : fake_taxes } )
 
 def thank_for_spec ( request, user_email ):
   return render ( request,
