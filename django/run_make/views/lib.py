@@ -1,4 +1,5 @@
 if True:
+  import csv
   from   datetime import datetime
   from   django.core.files.storage import FileSystemStorage
   from   django.forms import ModelForm
@@ -105,3 +106,55 @@ def append_request_to_db ( user_hash : str ):
                   "a" ) as f:
         f . write ( str ( datetime.now () ) + "\n" )
         f . write ( source . decode () )
+
+def rate_ceiling_pairs_to_rate_floor_pairs (
+    pairs : List[ List[ float ] ]
+    ) ->    List[ List[ float ] ]:
+  """
+  Leaves the rates (first) column unchanged.
+  Moves each ceiling down a cell,
+  which means the last ceiling (which should be infinity) is lost,
+  and sets the first ceiling to 0.
+  """
+  ceiling = 1 # Just an index, for the second elt of each pair.
+  ln = len ( pairs )
+  for i in range( 0, ln-1 ):
+    pairs  [ ln-i-1 ] [ ceiling ] = (
+      pairs[ ln-i-2 ] [ ceiling ]  )
+  pairs    [ 0 ]      [ ceiling ]  = 0
+  return pairs
+
+def read_rate_floor_table (
+    csvFilePath : str
+    ) -> List: # Sadly, this list cannot be typed further,
+               # as it is not homogenous,
+               # because it is pretending to be a tuple,
+               # which Javascript does not support.
+  #
+  # Fetch some portion of each row.
+  with open( csvFilePath ) as csvFile:
+    reader = csv . DictReader ( csvFile )
+    pairs = []
+    for row in reader:
+      pairs . append ( [ row [ "rate" ],
+                         row [ "ceiling" ] ] )
+  csvFileName = os.path.split ( csvFilePath ) [1]
+  return [ csvFileName,
+           rate_ceiling_pairs_to_rate_floor_pairs ( pairs ) ]
+
+def fetch_marginal_rate_floor_taxes ( paths_to_rate_tables ):
+  """
+  Returns a list of lists in which the first element is an income tax name,
+  and the second element is a list of 2-element lists,
+  the first element of which is a rate and the second an income floor
+  at which the rate begins to apply.
+  PITFALL: This (tax.co.web) uses floors, not ceilings as in tax.co,
+  because floors are easier to represent in the UI:
+  they don't require the user to understand the concept of infinity,
+  let alone floating-point approximations to it.
+  """
+  rates = []
+  for p in paths_to_rate_tables:
+    rates . append (
+      read_rate_floor_table ( p ) )
+  return rates

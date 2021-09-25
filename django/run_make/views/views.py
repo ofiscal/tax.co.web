@@ -96,16 +96,6 @@ def ingest_full_spec ( request ):
         "rate_tables"         : rate_tables
        } )
 
-# PITFALL: Django cannot pass dictionaries to Javascript.
-# PITFALL: Javascript does not offer tuples, only lists.
-# (Django can handle those things in the HTML,
-# to at least some extent, within constructs like
-# {% for ... %} ... {% endfor %},
-# but sticking to lists seems safer.
-fake_taxes = [ [ "dividends",   [[0,0], [10,0.1] ] ],
-               [ "most income", [[0,0], [20,0.2] ] ],
-              ]
-
 def manual_ingest ( request ):
   "Based on `dynamic_form()` in `run_make/views/examples.py`."
   if request . method == 'POST':
@@ -116,10 +106,23 @@ def manual_ingest ( request ):
           "user_email" : "dynamic-form-user@nowhere.net" } ) )
 
   else:
+    marginal_rate_floor_taxes = (
+      lib . fetch_marginal_rate_floor_taxes (
+        # TODO: It would be better if /mnt/tax_co
+        # was not hard-coded here.
+        [ "/mnt/tax_co" + abs_path for abs_path
+          in marginal_rate_tables . keys () ] ) )
     return render (
       request,
       'run_make/manual_tax_tables.html',
-      { "taxes" : fake_taxes } )
+      { # PITFALL: Django cannot pass dictionaries to Javascript.
+        # PITFALL: Javascript does not offer tuples, only lists.
+        # That's why `marginal_rate_tables` is an inhomogeneous list.
+        # (Django can handle those things in the HTML,
+        # to at least some extent, within constructs like
+        # {% for ... %} ... {% endfor %},
+        # but sticking to lists seems safer.)
+        "taxes" : marginal_rate_floor_taxes } )
 
 def thank_for_spec ( request, user_email ):
   return render ( request,
