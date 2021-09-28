@@ -47,26 +47,29 @@ def download ( request ):
 ######################
 
 def dynamic_form ( request ):
-  """  This draws a dynamic (the user can add and delete rows)
-       table of numeric input boxes.
-       It then writes the pickled POST data to a file,
-       so that I can see from a REPL what the table output looks like.
+  """
+  This draws a dynamic (the user can add and delete rows)
+  table of numeric input boxes.
+  It then converts the POST data to an ordinary dictionary,
+  pickles that, and writes it to a file,
+  so that I can see from a REPL what the table output looks like.
 
-       Test it from Bash by pasting the following after visiting the page:
+  Test it from Bash by pasting the following after visiting the page:
 cd /mnt/django
 python3 manage.py shell
 import pickle
 filename = '/home/appuser/dynamic_table.pickle'
 with open(filename,'rb') as file_object:
   req = pickle.loads( file_object . read () )
-
-req.getlist("min income")
+req
   """
   if request . method == 'POST':
     filename = 'dynamic_table.pickle'
+    d = dict ( request.POST )
+    d.pop( "csrfmiddlewaretoken" ) # No need to keep the CSRF token.
     with open ( filename,'wb' ) as f:
       f.write (
-        pickle.dumps ( request.POST ) )
+        pickle.dumps ( d ) )
     return HttpResponseRedirect (
       reverse (
         'run_make:thank-for-spec',
