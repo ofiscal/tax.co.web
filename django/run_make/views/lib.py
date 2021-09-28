@@ -138,7 +138,8 @@ def read_rate_floor_table (
     for row in reader:
       pairs . append ( [ row [ "rate" ],
                          row [ "ceiling" ] ] )
-  csvFileName = os.path.split ( csvFilePath ) [1]
+  csvFileName = ( os.path.split ( csvFilePath ) [1]
+                   . replace( ".csv", "" ) )
   return [ csvFileName,
            rate_ceiling_pairs_to_rate_floor_pairs ( pairs ) ]
 
