@@ -9,6 +9,21 @@ def make_dict_one_level_hierarchical_from_top (
   (This is probably easier to understand by seeing the test,
   defined immediately below this function..)
 
+  MOTIVATION:
+  The Django/Javascript UI returns in its `request.POST` object
+  a flat dictionary from column names to values.
+  That is, nothing but the name distinguishes a column in one table
+  from another column in a different table.
+  I've therefore used an organizing strategy whereby column names
+  are hierarchical, using commas to separate levels.
+  For instance,       "marginal income tax, ocasional_low, rate"
+  will be paired with "marginal income tax, ocasional_low, threshold",
+  while one level up, "marginal income tax, dividend, rate"
+  will be paired with "marginal income tax, dividend, threshold",
+  and yet a further level up there will be
+                      "vat, something, something".
+
+  WHAT IT DOES:
   Given a dict with keys that are strings,
   this first splits each key at the first instance of `splitter`.
   If we call that key's "head" the part before the splitter,
