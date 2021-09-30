@@ -99,6 +99,18 @@ def ingest_full_spec ( request ):
 def manual_ingest ( request ):
   "Based on `dynamic_form()` in `run_make/views/examples.py`."
   if request . method == 'POST':
+
+    d = dict ( request.POST )
+    d.pop( "csrfmiddlewaretoken" ) # No need to keep the CSRF token.
+
+    # Pickle and save the data.
+    # TODO : This is for interactive testing purposes only,
+    # and should be removed once it's not needed.
+    filename = 'dynamic_table.pickle'
+    with open ( filename,'wb' ) as f:
+      f.write (
+        pickle.dumps ( d ) )
+
     return HttpResponseRedirect (
       reverse (
         'run_make:thank-for-spec',
