@@ -93,13 +93,19 @@ def test_list_of_floors_to_list_of_ceilings():
   assert list_of_floors_to_list_of_ceilings( [] ) == []
   assert list_of_floors_to_list_of_ceilings( [0] ) == [9e99]
   assert list_of_floors_to_list_of_ceilings( [0,10] ) == [10,9e99]
+
+def rename_key_in_dict ( old_name, new_name, d ):
+  d[new_name] = d.pop( old_name )
+  return d
+
 for k in marginal_rates.keys():
   marginal_rates[k]["min income"] = (
     list_of_floors_to_list_of_ceilings(
       marginal_rates[k]["min income"] ) )
-  marginal_rates[k]["max income"] = (
-    # Rename the "min income" key to "max income".
-    marginal_rates[k].pop( "min income" ) )
+  marginal_rates[k] = rename_key_in_dict (
+    "tax rate", "rate", marginal_rates[k] )
+  marginal_rates[k] = rename_key_in_dict (
+    "min income", "ceiling", marginal_rates[k] )
 
 ###
 ### Write the marginal rates to a user's folder.
