@@ -112,8 +112,8 @@ for k in marginal_rates.keys():
 ###
 
 def rate_threshold_column_dict_to_row_list (
-    d : Dict[ str, List[float] ],
-    col_names : List[str]
+    col_names : List[str],
+    d : Dict[ str, List[float] ]
 ) -> List[ List[ float] ]:
   """
 PURPOSE:
@@ -138,10 +138,12 @@ where each list is the same length.
 def test_rate_threshold_column_dict_to_row_list ():
   d = { "a" : [1,2],
         "b" : [3,4] }
-  assert ( rate_threshold_column_dict_to_row_list ( d, ["b","a"] ) ==
-           [ [ "b", "a" ],
-             [  3 ,  1  ],
-             [  4 ,  2  ] ] )
+  assert (
+    rate_threshold_column_dict_to_row_list (
+      ["b","a"], d )
+    == [ [ "b", "a" ],
+         [  3 ,  1  ],
+         [  4 ,  2  ] ] )
 
 import os
 import csv
