@@ -81,12 +81,18 @@ marginal_rates = (
 def list_of_floors_to_list_of_ceilings (
     floors : List[float]
     ) -> List[float]:
+  if floors == []: # Without this, an empty list would trigger an out-of-range error.
+    return []
   acc = floors.copy()
   for i in range( 0, len(floors)-1 ):
     acc[i] = floors[i+1]
   acc[-1] = 9e99 # infinity, basically
   return acc
 
+def test_list_of_floors_to_list_of_ceilings():
+  assert list_of_floors_to_list_of_ceilings( [] ) == []
+  assert list_of_floors_to_list_of_ceilings( [0] ) == [9e99]
+  assert list_of_floors_to_list_of_ceilings( [0,10] ) == [10,9e99]
 for k in marginal_rates.keys():
   marginal_rates[k]["min income"] = (
     list_of_floors_to_list_of_ceilings(
