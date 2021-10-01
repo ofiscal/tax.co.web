@@ -111,6 +111,38 @@ for k in marginal_rates.keys():
 ### Write the marginal rates to a user's folder.
 ###
 
+def rate_threshold_column_dict_to_row_list (
+    d : Dict[ str, List[float] ],
+    col_names : List[str]
+) -> List[ List[ float] ]:
+  """
+PURPOSE:
+This takes a column whose values are columns of numbers,
+and returns a list whose values are mostly rows of numbers,
+except the first row is a list of the column names.
+The result is thus suitable for export via the `csv` library.
+
+PITFALL: Assumes d is a map from strings to lists,
+where each list is the same length.
+  """
+  d0 = d.copy()
+  acc = []
+  while d0[ col_names[0] ]:
+    r = []
+    for n in col_names: # pop the front of d[n] onto the end of r
+      r.append( d[n].pop(0) )
+    acc.append(r)
+  acc.insert(0, col_names)
+  return acc
+
+def test_rate_threshold_column_dict_to_row_list ():
+  d = { "a" : [1,2],
+        "b" : [3,4] }
+  assert ( rate_threshold_column_dict_to_row_list ( d, ["b","a"] ) ==
+           [ [ "b", "a" ],
+             [  3 ,  1  ],
+             [  4 ,  2  ] ] )
+
 import os
 import csv
 
