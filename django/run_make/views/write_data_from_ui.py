@@ -129,8 +129,8 @@ where each list is the same length.
   acc = []
   while d0[ col_names[0] ]:
     r = []
-    for n in col_names: # pop the front of d[n] onto the end of r
-      r.append( d[n].pop(0) )
+    for n in col_names: # pop the front of d[n], stick it onto the end of r
+      r.append( d0[n].pop(0) )
     acc.append(r)
   acc.insert(0, col_names)
   return acc
