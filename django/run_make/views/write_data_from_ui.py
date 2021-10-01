@@ -1,23 +1,7 @@
-###
-### Fetch the data created by views.manual_ingest().
-### For testing purposes; won't be part of the library.
-###
+from typing import List, Dict
+import os
+import csv
 
-from typing import List, Dict, Any
-import pickle
-pickle_path = '/home/appuser/dynamic_table.pickle'
-with open(pickle_path,'rb') as pickle_being_read:
-  req = pickle.loads( pickle_being_read . read () )
-
-del(pickle_being_read)
-req
-
-###
-### Turn that flat list of columns into a dictionary
-### from rate names (e.g. "most", "dividends")
-### to dictionaries with two "columns":
-### rate and income floor at which the rate starts applying.
-###
 
 def make_dict_one_level_hierarchical_from_top (
     d : Dict, # Alas, too polymorphic to be more specific than `Dict`.
@@ -68,19 +52,13 @@ def test_make_dict_one_level_hierarchical_from_top():
               "c"  :2 },
       "d" : { "e"  :3 } } )
 
-marginal_rates = (
-  make_dict_one_level_hierarchical_from_top (
-    req, ", " ) )
-
-
-###
-### Turn each list of floors (which is nice for the UI)
-### to a list of ceilings (which is what tax.co uses).
-###
-
 def list_of_floors_to_list_of_ceilings (
     floors : List[float]
     ) -> List[float]:
+  """
+  Turn each list of floors (which is nice for the UI)
+  to a list of ceilings (which is what tax.co uses).
+  """
   if floors == []: # Without this, an empty list would trigger an out-of-range error.
     return []
   acc = floors.copy()
@@ -98,28 +76,17 @@ def rename_key_in_dict ( old_name, new_name, d ):
   d[new_name] = d.pop( old_name )
   return d
 
-for k in marginal_rates.keys():
-  marginal_rates[k]["min income"] = (
-    list_of_floors_to_list_of_ceilings(
-      marginal_rates[k]["min income"] ) )
-  marginal_rates[k] = rename_key_in_dict (
-    "tax rate", "rate", marginal_rates[k] )
-  marginal_rates[k] = rename_key_in_dict (
-    "min income", "ceiling", marginal_rates[k] )
-
-###
-### Write the marginal rates to a user's folder.
-###
-
 def rate_threshold_column_dict_to_row_list (
     col_names : List[str],
     d : Dict[ str, List[float] ]
 ) -> List[ List[ float] ]:
   """
 PURPOSE:
-This takes a column whose values are columns of numbers,
-and returns a list whose values are mostly rows of numbers,
-except the first row is a list of the column names.
+This inputs a dictionary representing a table,
+the keys of which are column names
+and the values of which are columns of numbers.
+It returns a list of rows -- mostly numbers,
+except for the first row, which is a list of the column names.
 The result is thus suitable for export via the `csv` library.
 
 PITFALL: Assumes d is a map from strings to lists,
@@ -145,23 +112,59 @@ def test_rate_threshold_column_dict_to_row_list ():
          [  3 ,  1  ],
          [  4 ,  2  ] ] )
 
-import os
-import csv
+def reqest_to_csv_writeable_lists ( req ):
+  marginal_rates = (
+    make_dict_one_level_hierarchical_from_top (
+      req, ", " ) )
+  for k in marginal_rates.keys():
+    marginal_rates[k]["min income"] = (
+      list_of_floors_to_list_of_ceilings(
+        marginal_rates[k]["min income"] ) )
+    marginal_rates[k] = (
+      rate_threshold_column_dict_to_row_list(
+        ["ceiling", "rate"],
+        rename_key_in_dict (
+          "tax rate", "rate",
+          rename_key_in_dict (
+            "min income", "ceiling",
+            marginal_rates[k] ) ) ) )
+  return marginal_rates
 
-user_folder = "/mnt/tax_co/temp/"
-rates_folder = os.path.join( user_folder, "config/marginal_rates/" )
-marginal_rate_to_write = "most"
-file_to_write = os.path.join(
-  rates_folder, marginal_rate_to_write, ".csv" )
+def write_marginal_rates_to_user_folder (
+    user_marginal_rate_folder,
+    marginal_rates ):
+  def rate_filepath ( rate_name : str ):
+    return os.path.join(
+      user_marginal_rate_folder, rate_name + ".csv" )
+  for kind_of_income in marginal_rates.keys():
+    with open( rate_filepath( kind_of_income ), 'w'
+              ) as csvfile:
+      w = csv.writer( csvfile, delimiter=',', quotechar = '\"',
+                      quoting = csv.QUOTE_MINIMAL)
+      for row in marginal_rates[ kind_of_income ]:
+        w.writerow( row )
 
-with open( file_to_write, 'w'
-          ) as csvfile:
-  spamwriter = csv.writer(
-    csvfile, delimiter=',',
-    # PITFALL: I'm not sure I trust this quote algorithm for strings, because it writes the last item below as "quote char "" yeah". However, reading it back with the `csv` library or `pandas` both seem to work -- the ("") becomes a single (").
-    quotechar = '\"',
-    quoting = csv.QUOTE_MINIMAL)
-  spamwriter.writerow(["rate",
-  spamwriter.writerow(['Spam', 'Lovely Spam', 'Wonderful Spam',
-                       "quote char \" yeah"])
-  spamwriter.writerow(['a2','b2','c2','d2'])
+### # Here's a way to test this module.
+### #
+### # First, the view that handles the request.POST object
+### # must cast it as an ordinary dict and pickle it:
+#
+#   d = dict ( request.POST )
+#   d.pop( "csrfmiddlewaretoken" ) # drop the CSRF token
+#    filename = 'dynamic_table.pickle'
+#   with open ( filename,'wb' ) as f:
+#     f.write (
+#       pickle.dumps ( d ) )
+#
+### # Provided that's done, this (which can be run from any Python shell)
+### # will write the data to a `marginal_rates/` folder:
+#
+#   import pickle
+#   pickle_path = '/home/appuser/dynamic_table.pickle'
+#   with open(pickle_path,'rb') as pickle_being_read:
+#     req = pickle.loads( pickle_being_read . read () )
+#
+#   del(pickle_being_read)
+#   write_marginal_rates_to_user_folder(
+#     "/mnt/tax_co/temp/config/marginal_rates/",
+#     reqest_to_csv_writeable_lists( req ) )
