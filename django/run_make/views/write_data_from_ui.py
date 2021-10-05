@@ -25,11 +25,22 @@ def make_dict_one_level_hierarchical_from_top (
 
   This operates "from the top" in the sense that, if you call it on a dictionary whose values are further dictionaries, it splits the top dictionary, and none of its dictionary values.
   """
-  l = ( [ (ht[0], ht[1], value)
-          for (key,value) in d.items()
-          if ( ht :=
-               key.split( splitter,
-                          1 ) ) ] ) # max number of splits
+  l = []
+  for (key,value) in d.items():
+    ht = key.split( splitter,
+                    1 ) # max number of splits
+    l.append( ( ht[0], ht[1], value) )
+
+  # It would be nicer to write the above the following way,
+  # but until Apache starts using the right version of Python,
+  # I can't -- the walrus operator was only introduced in 3.8.
+  #
+  # l = ( [ (ht[0], ht[1], value)
+  #         for (key,value) in d.items()
+  #         if ( ht := # "head and tail"
+  #              key.split( splitter,
+  #                         1 ) ) ] ) # max number of splits
+
   dd = {}
   for (a,b,c) in l:
     new_pair = {b:c}
