@@ -128,6 +128,17 @@ There are also some elements called `tax_name + " table"`,
       method = "post">
   {% csrf_token %}
 
+  {% for field in advanced_specs_form %}
+    <div class="fieldWrapper">
+      {{ field.errors }}
+      {{ field.label_tag }} {{ field }}
+      {% if field.help_text %}
+        <p class="help">{{ field.help_text|safe }}</p>
+      {% endif %}
+      <br>
+    </div>
+  {% endfor %}
+
   {% for sched in taxes %}
     <script>
       var sched = {{sched|safe}}
@@ -139,6 +150,8 @@ There are also some elements called `tax_name + " table"`,
     </script>
   {% endfor %}
 
+  <br>
+  <hr>
   <br>
   <input type="submit" value="Submit">
 </form>

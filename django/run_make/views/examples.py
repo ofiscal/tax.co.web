@@ -61,6 +61,7 @@ import pickle
 filename = '/home/appuser/dynamic_table.pickle'
 with open(filename,'rb') as file_object:
   req = pickle.loads( file_object . read () )
+
 req
   """
   if request . method == 'POST':
