@@ -123,7 +123,7 @@ There are also some elements called `tax_name + " table"`,
 </script>
 
 <form id = "Income tax"
-      action = "{% url 'run_make:dynamic_form'%}"
+      action = "{% url 'run_make:manual_ingest'%}"
       enctype="multipart/form-data"
       method = "post">
   {% csrf_token %}
