@@ -38,10 +38,12 @@ There are also some elements called `tax_name + " table"`,
       tax_name + " table" );
     var row   = document . createElement ( "tr" );
     table . appendChild ( row );
-    row . appendChild ( inputCell ( tax_name + ", tax rate",
-                                    value = rate ) );
-    row . appendChild ( inputCell ( tax_name + ", min income",
-                                    value = min_income ) );
+    row . appendChild ( inputCell (
+      "income tax, " + tax_name + ", tax rate",
+      value = rate ) );
+    row . appendChild ( inputCell (
+      "income tax, " + tax_name + ", min income",
+      value = min_income ) );
     row . appendChild ( deleteRow_cell () );
   }
 

@@ -1,6 +1,8 @@
-from typing import List, Dict
-import os
 import csv
+import os
+from   typing import List, Dict
+
+from   run_make.forms import TaxConfigForm
 
 
 def make_dict_one_level_hierarchical_from_top (
@@ -83,7 +85,36 @@ def test_list_of_floors_to_list_of_ceilings():
   assert list_of_floors_to_list_of_ceilings( [0] ) == [9e99]
   assert list_of_floors_to_list_of_ceilings( [0,10] ) == [10,9e99]
 
-def rename_key_in_dict ( old_name, new_name, d ):
+def prefix_non_tax_fields ( d : Dict ) -> Dict:
+  """
+  PITFALL: Destructive, because `rename_key_in_dict` is.
+  PURPOSE: I would prefer to prefix "non-tax" to these fields
+  in the definition of `TaxConfigForm`, but I can't,
+  because Django treats a string with a comma in it as two separate strings
+  when passing the string to Javascript.
+  The "non-tax" prefix will distinguish these kinds of fields
+  from the "income tax" and "VAT" fields,
+  which will be prefixed as such.
+  """
+  for s in TaxConfigForm () . fields . keys ():
+    rename_key_in_dict ( s, "non-tax, " + s, d )
+  return d
+
+def test_prefix_non_tax_fields ():
+  d = {'user_email': ['quien@donde.net'],
+       'subsample': ['1'],
+       'strategy': ['detail'],
+       'regime_year': ['2019'],
+       'income tax, most, tax rate': [] } # list not important
+  assert ( prefix_non_tax_fields ( d ) ==
+           {'non-tax, user_email': ['quien@donde.net'],
+            'non-tax, subsample': ['1'],
+            'non-tax, strategy': ['detail'],
+            'non-tax, regime_year': ['2019'],
+            'income tax, most, tax rate': [] } )
+
+# PITFALL: Destructive.
+def rename_key_in_dict ( old_name, new_name, d : Dict ) -> Dict:
   d[new_name] = d.pop( old_name )
   return d
 

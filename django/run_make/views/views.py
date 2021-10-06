@@ -5,11 +5,13 @@ if True:
   from   django.shortcuts import render
   from   django.urls import reverse
   import os
+  import pickle
   from   shutil import rmtree
   #
   import run_make.common as common
   from   run_make.forms import TaxConfigForm
   import run_make.views.lib as lib
+  import run_make.views.write_data_from_ui as write_ui
 
 
 ###
@@ -106,8 +108,8 @@ def manual_ingest ( request ):
     # Pickle and save the data.
     # TODO : This is for interactive testing purposes only,
     # and should be removed once it's not needed.
-    filename = 'dynamic_table.pickle'
-    with open ( filename,'wb' ) as f:
+    d = write_ui.prefix_non_tax_fields ( d )
+    with open ( 'testing.pickle', 'wb' ) as f:
       f.write (
         pickle.dumps ( d ) )
 
