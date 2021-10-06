@@ -4,6 +4,7 @@ if True:
   from   django.http import HttpResponseRedirect
   from   django.shortcuts import render
   from   django.urls import reverse
+  import json
   import os
   import pickle
   #
@@ -89,27 +90,43 @@ def ingest_full_spec ( request ):
        } )
 
 def manual_ingest ( request ):
-  "Based on `dynamic_form()` in `run_make/views/examples.py`."
-  if request . method == 'POST':
+  """
+  A view that lets a user manually enter marginal rates in a GUI,
+  as well as non-tax details like their email address,
+  and submit a request to the microsimulation.
+  """
+  if request . method == 'POST': # once user submits form
+    advanced_specs_form = TaxConfigForm ( request . POST )
+    if advanced_specs_form . is_valid ():
+      # Compute / get user data.
+      user_email = ( advanced_specs_form
+                     . cleaned_data [ "user_email" ] )
+      user_hash = lib . hash_from_str ( user_email )
+      user_path = os . path . join ( common.tax_co_root,
+                                     "users/",
+                                     user_hash )
+      (non_tax, income_tax) = (
+        write_ui . divide_post_object_into_dicts (
+          request . POST ) )
 
-    d = dict ( request.POST )
-    d.pop( "csrfmiddlewaretoken" ) # No need to keep the CSRF token.
-
-    # Pickle and save the data.
-    # TODO : This is for interactive testing purposes only,
-    # and should be removed once it's not needed.
-    d = write_ui.prefix_non_tax_fields ( d )
-    with open ( 'testing.pickle', 'wb' ) as f:
-      f.write (
-        pickle.dumps ( d ) )
+      # Write user data.
+      lib . create_user_folder_tree ( user_path )
+      with open ( os.path.join ( user_path,
+                                 "config/config.json" ),
+                  'w' ) as f:
+        json.dump ( non_tax, f )
+      write_ui . write_marginal_rates_to_user_folder (
+        user_path,
+        write_ui . reqest_to_csv_writeable_lists (
+          income_tax ) )
 
     return HttpResponseRedirect (
       reverse (
         'run_make:thank-for-spec',
         kwargs = {
-          "user_email" : "dynamic-form-user@nowhere.net" } ) )
+          "user_email" : user_email } ) )
 
-  else:
+  else: # before user submits form
     marginal_rate_floor_taxes = (
       lib . fetch_marginal_rate_floor_taxes (
         # TODO: It would be better if /mnt/tax_co

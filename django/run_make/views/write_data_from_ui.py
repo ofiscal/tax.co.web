@@ -1,4 +1,5 @@
 import csv
+import json
 import os
 from   typing import List, Dict
 
@@ -173,11 +174,16 @@ def reqest_to_csv_writeable_lists ( req ):
   return marginal_rates
 
 def write_marginal_rates_to_user_folder (
-    user_marginal_rate_folder,
+    user_folder,
     marginal_rates ):
+  """
+  The `marginal_rates` argument should be a weird ill-typed list,
+  such as is output by `reqest_to_csv_writeable_lists`.
+  """
   def rate_filepath ( rate_name : str ):
     return os.path.join(
-      user_marginal_rate_folder, rate_name + ".csv" )
+      user_folder, "config/marginal_rates",
+      rate_name + ".csv" )
   for kind_of_income in marginal_rates.keys():
     with open( rate_filepath( kind_of_income ), 'w'
               ) as csvfile:
@@ -186,7 +192,17 @@ def write_marginal_rates_to_user_folder (
       for row in marginal_rates[ kind_of_income ]:
         w.writerow( row )
 
-### # Here's a way to test this module.
+def divide_post_object_into_dicts ( post_object ):
+  d = dict ( post_object )
+  d . pop ( "csrfmiddlewaretoken" ) # No need to keep the CSRF token.
+  d = prefix_non_tax_fields ( d )
+  d = make_dict_one_level_hierarchical_from_top ( d, ", " )
+  return ( d["non-tax"],
+           d["income tax"] )
+
+### # Here's a way to test the IO in this module.
+### # (The non-IO can be tested by simply running the functions
+### # whose names begin with "test_".)
 ### #
 ### # First, the view that handles the request.POST object
 ### # must cast it as an ordinary dict and pickle it:
