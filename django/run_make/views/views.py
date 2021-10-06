@@ -6,7 +6,6 @@ if True:
   from   django.urls import reverse
   import os
   import pickle
-  from   shutil import rmtree
   #
   import run_make.common as common
   from   run_make.forms import TaxConfigForm
@@ -46,7 +45,8 @@ rate_tables = { **marginal_rate_tables,
 def ingest_full_spec ( request ):
   """
   SEE ALSO:
-  To understand this it might be helpful to look at `upload_multiple` in `run_make.views.examples` too.
+  To understand this it might be helpful to look at
+  `upload_multiple` in `run_make.views.examples` too.
 
   PITFALL: Strange, slightly-recursive call structure.
   The user first visits this URL with a GET.
@@ -67,17 +67,7 @@ def ingest_full_spec ( request ):
                                      "users/",
                                      user_hash )
 
-      rmtree ( user_path, ignore_errors = True )
-        # Remove the path.
-        # If it already doesn't exist, no problem.
-      for p in [
-          (                  user_path),
-          os . path . join ( user_path, "logs" ),
-          os . path . join ( user_path, "config" ),
-          os . path . join ( user_path,
-                             "config/marginal_rates" ) ]:
-         if not os . path . exists ( p ):
-             os . mkdir ( p )
+      lib . create_user_folder_tree ( user_path )
       lib . write_form_to_user_folder ( user_path,
                                         advanced_specs_form )
       lib . write_uploaded_files_to_user_folder (
