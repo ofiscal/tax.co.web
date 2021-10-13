@@ -89,7 +89,7 @@ def append_request_to_db ( user_hash : str ):
     os . chdir ( common.tax_co_root )
 
     with open( global_requests_log, "a" ) as f:
-        f.write( "django: trying to append request\n" )
+        f.write( "\ndjango: trying to append request\n" )
 
     if True: # Refine the environment.
         my_env = os . environ . copy ()
