@@ -34,9 +34,9 @@ marginal_rate_tables = {
 }
 
 vat_tables = {
-  "/config/vat_by_coicop.csv" :
+  "/config/vat/vat_by_coicop.csv" :
     "El IVA, asignado por código COICOP:",
-  "/config/vat_by_capitulo_c.csv" :
+  "/config/vat/vat_by_capitulo_c.csv" :
     "El IVA, asignado por código 'capitulo c'. (La mayoría de las compras en la ENPH son identificados por el COICOP, pero algunos usan este sistema alternativo.)" }
 
 # A union of two dicts.

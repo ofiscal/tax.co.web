@@ -36,6 +36,7 @@ def create_user_folder_tree ( user_path : str ):
       (                  user_path),
       os . path . join ( user_path, "logs" ),
       os . path . join ( user_path, "config" ),
+      os . path . join ( user_path, "config/vat" ),
       os . path . join ( user_path, "config/marginal_rates" ) ]:
      if not os . path . exists ( p ):
          os . mkdir ( p )
