@@ -9,7 +9,7 @@ Do not even trust the names described in this comment.
 Instead, to consult the single source of truth, open the page in Firefox,
 and then open the Inspector with Ctrl-Shift-C, to see the generated DOM.
 
-At the moment, the ID "Income tax" resembles a global variable.
+At the moment, the ID "User input" resembles a global variable.
   It does not change, but it does confuse at least this reader.
 There are also some elements called `tax_name + " table"`,
   where `tax_name` is some tax. For each tax, there should be such a table.
@@ -53,7 +53,7 @@ There are also some elements called `tax_name + " table"`,
     button . id = tableName + " button to add row";
     button . value = "Add row";
     button . onclick = function () { insertRow ( tableName ) };
-    ( document . getElementById ( "Income tax" )
+    ( document . getElementById ( "User input" )
       . appendChild ( button ) );
   }
 
@@ -103,7 +103,7 @@ There are also some elements called `tax_name + " table"`,
   }
 
   function insertTable ( tax_name ) {
-    let hostForm = document . getElementById ( "Income tax" )
+    let hostForm = document . getElementById ( "User input" )
     let table = createTable ( tax_name );
     let linebreak = document . createElement ( "hr" );
       // PITFALL: Bizarrely, if a "br" rather than an "hr" is created here,
@@ -120,7 +120,7 @@ There are also some elements called `tax_name + " table"`,
   }
 </script>
 
-<form id = "Income tax"
+<form id = "User input"
       action = "{% url 'run_make:dynamic_form'%}"
       enctype="multipart/form-data"
       method = "post">
