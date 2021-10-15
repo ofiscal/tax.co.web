@@ -16,6 +16,28 @@ There are also some elements called `tax_name + " table"`,
 <script>
   var uniqueIdSuffix = 1; // PITFALL: Mutates.
 
+  // Returns a table cell, not yet part of any table,
+  // containing a numeric input without range limits.
+  function numericInputCell ( name, value = null ) {
+    let cell = document . createElement ( "td" );
+    let input = document . createElement ( "input" );
+    input . id   = name + " id";
+    input . name = name;
+    input . step = "any";
+    input . type = "number";
+    if (value != null) {input . value = value; }
+    else               {input . value = 0; };
+    cell . appendChild ( input );
+    return cell;
+  }
+
+  // Returns a table cell containing `name` as static text.
+  function headingCell ( name ) {
+    let cell = document . createElement ( "th" );
+    cell . innerHTML = name;
+    return cell;
+  }
+
   // Delete the row containing the button
   // that triggered the deletion.
   function deleteRow ( button ) {
@@ -29,6 +51,20 @@ There are also some elements called `tax_name + " table"`,
       // This isn't critical; it just reduces user confusion.
       table . deleteRow ( row . rowIndex );
     }
+  }
+
+  // Creates a table cell containing aa button which,
+  // when pressed, deletes the containing row
+  // (including itself).
+  function deleteRow_cell () {
+    let cell = document . createElement ( "td" );
+    var button = document . createElement ( "input" );
+    cell . appendChild ( button );
+    button . type = "button";
+    button . id = "delete row id" + uniqueIdSuffix ++;
+    button . value = "delete row";
+    button . onclick = function () { deleteRow( button ) };
+    return cell;
   }
 
   function marginalRate_insertRow (
@@ -60,42 +96,6 @@ There are also some elements called `tax_name + " table"`,
       marginalRate_insertRow ( tableName ) };
     ( document . getElementById ( "User input" )
       . appendChild ( button ) );
-  }
-
-  // Creates a table cell containing aa button which,
-  // when pressed, deletes the containing row
-  // (including itself).
-  function deleteRow_cell () {
-    let cell = document . createElement ( "td" );
-    var button = document . createElement ( "input" );
-    cell . appendChild ( button );
-    button . type = "button";
-    button . id = "delete row id" + uniqueIdSuffix ++;
-    button . value = "delete row";
-    button . onclick = function () { deleteRow( button ) };
-    return cell;
-  }
-
-  // Returns a table cell, not yet part of any table,
-  // containing a numeric input without range limits.
-  function numericInputCell ( name, value = null ) {
-    let cell = document . createElement ( "td" );
-    let input = document . createElement ( "input" );
-    input . id   = name + " id";
-    input . name = name;
-    input . step = "any";
-    input . type = "number";
-    if (value != null) {input . value = value; }
-    else               {input . value = 0; };
-    cell . appendChild ( input );
-    return cell;
-  }
-
-  // Returns a table cell containing `name` as static text.
-  function headingCell ( name ) {
-    let cell = document . createElement ( "th" );
-    cell . innerHTML = name;
-    return cell;
   }
 
   // TODO ? If sharing this across both types is feasible,
