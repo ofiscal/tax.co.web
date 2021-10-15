@@ -17,7 +17,6 @@ There are also some elements called `tax_name + " table"`,
   var uniqueIdSuffix = 1; // PITFALL: Mutates.
 
   function deleteRow ( button ) {
-    console.log ( button.nodeName );
     var cell  = button . parentNode;
     var row   = cell   . parentNode;
     var table = row    . parentNode;
