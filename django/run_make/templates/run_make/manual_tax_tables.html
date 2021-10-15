@@ -16,6 +16,8 @@ There are also some elements called `tax_name + " table"`,
 <script>
   var uniqueIdSuffix = 1; // PITFALL: Mutates.
 
+  // Delete the row containing the button
+  // that triggered the deletion.
   function deleteRow ( button ) {
     var cell  = button . parentNode;
     var row   = cell   . parentNode;
@@ -29,34 +31,40 @@ There are also some elements called `tax_name + " table"`,
     }
   }
 
-  function insertRow ( tax_name,
-                       rate = null,
-                       min_income = null ) {
-    // Duplicates some of the code in insertTable.
+  function marginalRate_insertRow (
+      tax_name,
+      rate = null,
+      min_income = null ) {
+    // Duplicates some of the code in insertTable_incomeTax.
     var table = document . getElementById (
       tax_name + " table" );
     var row   = document . createElement ( "tr" );
     table . appendChild ( row );
-    row . appendChild ( inputCell (
+    row . appendChild ( numericInputCell (
       "income tax, " + tax_name + ", tax rate",
       value = rate ) );
-    row . appendChild ( inputCell (
+    row . appendChild ( numericInputCell (
       "income tax, " + tax_name + ", min income",
       value = min_income ) );
     row . appendChild ( deleteRow_cell () );
   }
 
+  // Inserts a button that inserts a row
+  // in the table named `tableName`.
   function insert_insertRowButton ( tableName ) {
     var button = document . createElement ( "input" );
     button . type = "button";
     button . id = tableName + " button to add row";
     button . value = "Add row";
     button . onclick = function () {
-      insertRow ( tableName ) };
+      marginalRate_insertRow ( tableName ) };
     ( document . getElementById ( "User input" )
       . appendChild ( button ) );
   }
 
+  // Creates a table cell containing aa button which,
+  // when pressed, deletes the containing row
+  // (including itself).
   function deleteRow_cell () {
     let cell = document . createElement ( "td" );
     var button = document . createElement ( "input" );
@@ -68,7 +76,9 @@ There are also some elements called `tax_name + " table"`,
     return cell;
   }
 
-  function inputCell ( name, value = null ) {
+  // Returns a table cell, not yet part of any table,
+  // containing a numeric input without range limits.
+  function numericInputCell ( name, value = null ) {
     let cell = document . createElement ( "td" );
     let input = document . createElement ( "input" );
     input . id   = name + " id";
@@ -81,13 +91,18 @@ There are also some elements called `tax_name + " table"`,
     return cell;
   }
 
+  // Returns a table cell containing `name` as static text.
   function headingCell ( name ) {
     let cell = document . createElement ( "th" );
     cell . innerHTML = name;
     return cell;
   }
 
-  function createTable ( tax_name ) {
+  // TODO ? If sharing this across both types is feasible,
+  // Provide heading cell captions in a list
+  // as a function argument, so that this can be used
+  // for both VAT and income taxes.
+  function createTable_incomeTax ( tax_name ) {
     let table = document . createElement ( "table" );
     table . id = tax_name + " table";
     table . createCaption ();
@@ -95,7 +110,8 @@ There are also some elements called `tax_name + " table"`,
     table . border = "1";
 
     let row_1 = document . createElement ( "tr" );
-    row_1 . appendChild ( headingCell ( "Tax rate" ) );
+    row_1 . appendChild (
+      headingCell ( "Tax rate" ) );
     row_1 . appendChild (
       headingCell ( "Min income subject to rate" ) );
     table . appendChild ( row_1 );
@@ -103,22 +119,25 @@ There are also some elements called `tax_name + " table"`,
     return table;
   }
 
-  function insertTable ( tax_name, tax_rates ) {
+  // TODO ? If sharing this across both tax types is feasible,
+  // then pull everything preceding the loop,
+  // into a new function, to reuse for VAT rates.
+  function insertTable_incomeTax ( tax_name, tax_rates ) {
     let hostForm = document . getElementById ( "User input" )
-    let table = createTable ( tax_name );
+    let table = createTable_incomeTax ( tax_name );
     let linebreak = document . createElement ( "hr" );
       // PITFALL: Bizarrely,
       // if a "br" rather than an "hr" is created here,
       // it only works for the first table.
-    linebreak . id = tax_name + " id";
 
     hostForm . appendChild ( linebreak );
     hostForm . appendChild ( table );
     for (let row of tax_rates) {
-      insertRow( tax_name, row[0], row[1] ); }
-      // TODO: Move this `insertRow` call to `createTable`.
+      // TODO: Move this `marginalRate_insertRow`
+      // call to `createTable_incomeTax`.
       // That way it would not need to use `tax_name`
       // to look up the table to modify.
+      marginalRate_insertRow( tax_name, row[0], row[1] ); }
     insert_insertRowButton ( tax_name );
   }
 </script>
@@ -147,7 +166,7 @@ There are also some elements called `tax_name + " table"`,
       // Javascript won't recognize Django-passed variables
       // like {{sched}} inside of functions.
       // I don't know why the |safe is needed but it is.
-      insertTable( sched[0], sched[1] )
+      insertTable_incomeTax( sched[0], sched[1] )
     </script>
   {% endfor %}
 
