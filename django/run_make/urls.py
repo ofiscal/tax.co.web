@@ -35,6 +35,10 @@ urlpatterns = [
           examples.radio_table,
           name='radio_table'),
 
+    path( 'radio_table_generated',
+          examples.radio_table_generated,
+          name='radio_table_generated'),
+
     path( 'download',
           examples.download,
           name='download'),

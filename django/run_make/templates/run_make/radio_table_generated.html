@@ -1,0 +1,51 @@
+<script>
+
+  function numericInputCell ( name, value = null ) {
+    // PITFALL: This function is duplicated in manual_tax_tables.html.
+    // When incorporating this code there, omit this function.
+    let cell = document . createElement ( "td" );
+    let input = document . createElement ( "input" );
+    input . id   = name + " id";
+    input . name = name;
+    input . step = "any";
+    input . type = "number";
+    if (value != null) {input . value = value; }
+    else               {input . value = 0; };
+    cell . appendChild ( input );
+    return cell;
+  }
+
+  function createRow_VATRates ( table ) {
+    var row   = document . createElement ( "tr" );
+    table . appendChild ( row );
+    row . appendChild ( numericInputCell ( "VAT rate 0", 0    ) )
+    row . appendChild ( numericInputCell ( "VAT rate 1", 0.05 ) )
+    row . appendChild ( numericInputCell ( "VAT rate 2", 0.19 ) ) }
+    // Try the above in a loop once it works without one.
+    // rates = [0,0.05,0.19]
+    // for (let r in rates) {
+    //   row . appendChild ( numericInputCell ( rates[r] ) ) }
+
+  function insertTable_VAT () {
+    let hostForm = document . getElementById ( "User input" )
+    let table = document . createElement ( "table" )
+      // table . id = "VAT table" // I'd prefer not to use these.
+    table . createCaption ()
+    table . innerHTML = "VAT rates"
+    table . border = "1";
+    createRow_VATRates ( table )
+    hostForm . appendChild ( table ) }
+
+</script>
+<form id = "User input"
+      action = "{% url 'run_make:radio_table'%}"
+      enctype="multipart/form-data"
+      method = "post">
+  {% csrf_token %}
+
+  <script>
+    insertTable_VAT ()
+  </script>
+
+  <input type="submit" value="Submit">
+</form>
