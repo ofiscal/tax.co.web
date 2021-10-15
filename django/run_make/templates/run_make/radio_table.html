@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+  <form id = "User input"
+        action = "{% url 'run_make:radio_table'%}"
+        enctype="multipart/form-data"
+        method = "post">
+    {% csrf_token %}
+
+    <table>
+
+      <tr>
+        <td> Rates </td>
+        <td>
+          <!-- PITFALL: Without specifying `step="any"`,
+               the step sizes will be integers,
+               which makes no sense for tax rates. -->
+          <input type="number"
+                 value=0.0
+                 name="VAT group 0"
+                 min=0 max=1 step="any" >
+        </td>
+        <td>
+          <input type="number"
+                 value=0.05
+                 name="VAT group 1"
+                 min=0 max=1 step="any" >
+        </td>
+        <td>
+          <input type="number"
+                 value=0.19
+                 name="VAT group 2"
+                 min=0 max=1 step="any" >
+        </td>
+      </tr>
+
+      <tr>
+        <td> Some tax: </td>
+        <td>
+          <input type="radio"
+                 name="some tax"
+                 value="group 0">
+        </td>
+        <td>
+          <input type="radio"
+                 name="some tax"
+                 value="group 1">
+        </td>
+        <td>
+          <input type="radio"
+                 name="some tax"
+                 value="group 2">
+        </td>
+      </tr>
+
+      <tr>
+        <td> Another tax: </td>
+        <td>
+          <input type="radio"
+                 name="Another tax"
+                 value="group 0">
+        </td>
+        <td>
+          <input type="radio"
+                 name="Another tax"
+                 value="group 1">
+        </td>
+        <td>
+          <input type="radio"
+                 name="Another tax"
+                 value="group 2">
+        </td>
+      </tr>
+
+    </table>
+
+  <input type="submit" value="Submit">
+  </form>
+
+</body>
+</html>

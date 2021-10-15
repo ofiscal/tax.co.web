@@ -31,6 +31,10 @@ urlpatterns = [
           examples.dynamic_form,
           name='dynamic_form'),
 
+    path( 'radio_table',
+          examples.radio_table,
+          name='radio_table'),
+
     path( 'download',
           examples.download,
           name='download'),

@@ -42,6 +42,48 @@ def download ( request ):
                   'run_make/download.html' )
 
 
+########################
+#### Radio buttons #####
+########################
+
+def radio_table ( request ):
+  """
+  The template draws a table,
+  with mutually exclusive radio buttons in each row.
+  This view, when it receives a POST,
+  converts the data to an ordinary dictionary,
+  pickles that, and writes it to a file,
+  so that I can see from a REPL what the table output looks like.
+
+  # Test this from Bash by pasting the following after visiting the page:
+
+cd /mnt/django
+python3 manage.py shell
+
+import pickle
+filename = '/home/appuser/radio_table.pickle'
+with open(filename,'rb') as file_object:
+  req = pickle.loads( file_object . read () )
+
+req
+  """
+
+  if request . method == 'POST':
+    filename = 'radio_table.pickle'
+    d = dict ( request.POST )
+    d.pop( "csrfmiddlewaretoken" ) # No need to keep the CSRF token.
+    with open ( filename,'wb' ) as f:
+      f.write (
+        pickle.dumps ( d ) )
+    return HttpResponseRedirect (
+      reverse (
+        'run_make:thank-for-spec',
+        kwargs = { "user_email" : "whoever@wherever.net" } ) )
+  else: return render (
+      request,
+      'run_make/radio_table.html' )
+
+
 ######################
 #### Dynamic form ####
 ######################
