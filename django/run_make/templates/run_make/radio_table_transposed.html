@@ -1,0 +1,77 @@
+<form id = "User input"
+      action = "{% url 'run_make:radio_table_transposed'%}"
+      enctype="multipart/form-data"
+      method = "post">
+  {% csrf_token %}
+
+  <table>
+    <tr>
+      <td> VAT rate </td>
+      <td> Some tax </td>
+      <td> Another tax </td>
+    </tr>
+
+    <tr>
+      <td>
+        <!-- PITFALL: Without specifying `step="any"`,
+             the step sizes will be integers,
+             which makes no sense for tax rates. -->
+        <input type="number"
+               value=0.0
+               name="VAT rate 0"
+               min=0 max=1 step="any" >
+      </td>
+      <td>
+        <input type="radio"
+               name="Some tax"
+               value="VAT rate 0">
+      </td>
+      <td>
+        <input type="radio"
+               name="Another tax"
+               value="VAT rate 0">
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <input type="number"
+               value=0.05
+               name="VAT rate 1"
+               min=0 max=1 step="any" >
+      </td>
+      <td>
+        <input type="radio"
+               name="Some tax"
+               value="VAT rate 1">
+      </td>
+      <td>
+        <input type="radio"
+               name="Another tax"
+               value="VAT rate 1">
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <input type="number"
+               value=0.19
+               name="VAT rate 2"
+               min=0 max=1 step="any" >
+      </td>
+      <td>
+        <input type="radio"
+               name="Some tax"
+               value="VAT rate 2">
+      </td>
+      <td>
+        <input type="radio"
+               name="Another tax"
+               value="VAT rate 2">
+      </td>
+    </tr>
+  </table>
+
+  <input type="submit" value="Submit">
+
+</form>

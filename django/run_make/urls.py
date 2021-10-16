@@ -39,6 +39,10 @@ urlpatterns = [
           examples.radio_table_generated,
           name='radio_table_generated'),
 
+    path( 'radio_table_transposed',
+          examples.radio_table_transposed,
+          name='radio_table_transposed'),
+
     path( 'download',
           examples.download,
           name='download'),
