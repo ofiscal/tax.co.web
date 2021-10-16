@@ -1,5 +1,7 @@
 <script>
 
+  consumables = ["food", "medicine", "other"]
+
   function numericInputCell ( name, value = null ) {
     // PITFALL: This function is duplicated in manual_tax_tables.html.
     // When incorporating this code there, omit this function.
@@ -40,8 +42,10 @@
     var row   = document . createElement ( "tr" );
     table . appendChild ( row );
     row . appendChild ( headingCell ( "tax rate" ) )
-    row . appendChild ( headingCell ( "Food" ) )
-    row . appendChild ( headingCell ( "Medicine" ) ) }
+    for (let c in consumables) {
+      row . appendChild ( headingCell ( consumables[c] ) )
+    }
+  }
 
   function insertRow_VATRates ( table, rate_group_number, rate ) {
     // Modifies `table`. Returns nothing.
@@ -50,10 +54,10 @@
     table . appendChild ( row );
     row . appendChild (
       numericInputCell ( rate_group_name, rate ) )
-    row . appendChild (
-      radioCell ( "Food", rate_group_name ) )
-    row . appendChild (
-      radioCell ( "Medicine", rate_group_name ) )
+    for (let c in consumables) {
+      row . appendChild (
+        radioCell ( consumables[c], rate_group_name ) )
+    }
   }
 
   function insertTable_VAT () {
