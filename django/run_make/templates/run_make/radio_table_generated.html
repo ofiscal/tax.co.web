@@ -8,7 +8,6 @@
     let cell = document . createElement ( "td" );
     let input = document . createElement ( "input" );
     cell . appendChild ( input );
-    input . id   = name + " id";
     input . name = name;
     input . step = "any";
     input . type = "number";
@@ -64,7 +63,6 @@
     let hostForm = document . getElementById ( "User input" )
     let table = document . createElement ( "table" )
     hostForm . appendChild ( table )
-      // table . id = "VAT table" // I'd prefer not to use these.
     table . createCaption ()
     table . innerHTML = "VAT rates"
     table . border = "1";

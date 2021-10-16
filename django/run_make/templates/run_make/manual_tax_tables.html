@@ -14,14 +14,11 @@ There are also some elements called `tax_name + " table"`,
 -->
 
 <script>
-  var uniqueIdSuffix = 1; // PITFALL: Mutates.
-
   // Returns a table cell, not yet part of any table,
   // containing a numeric input without range limits.
   function numericInputCell ( name, value = null ) {
     let cell = document . createElement ( "td" );
     let input = document . createElement ( "input" );
-    input . id   = name + " id";
     input . name = name;
     input . step = "any";
     input . type = "number";
@@ -38,8 +35,7 @@ There are also some elements called `tax_name + " table"`,
     return cell;
   }
 
-  // Delete the row containing the button
-  // that triggered the deletion.
+  // Delete the row containing the button.
   function deleteRow ( button ) {
     var cell  = button . parentNode;
     var row   = cell   . parentNode;
@@ -61,12 +57,12 @@ There are also some elements called `tax_name + " table"`,
     var button = document . createElement ( "input" );
     cell . appendChild ( button );
     button . type = "button";
-    button . id = "delete row id" + uniqueIdSuffix ++;
     button . value = "delete row";
     button . onclick = function () { deleteRow( button ) };
     return cell;
   }
 
+  // Modifies the table. Returns nothing.
   function insertRow_marginalRate (
       tax_name,
       rate = null,
@@ -90,7 +86,6 @@ There are also some elements called `tax_name + " table"`,
   function insert_insertRowButton ( tableName ) {
     var button = document . createElement ( "input" );
     button . type = "button";
-    button . id = tableName + " button to add row";
     button . value = "Add row";
     button . onclick = function () {
       insertRow_marginalRate ( tableName ) };
@@ -162,7 +157,7 @@ There are also some elements called `tax_name + " table"`,
   {% for sched in taxes %}
     <script>
       var sched = {{sched|safe}}
-      // PITFALL: This is necessary!
+      // PITFALL: This is necessary.
       // Javascript won't recognize Django-passed variables
       // like {{sched}} inside of functions.
       // I don't know why the |safe is needed but it is.
