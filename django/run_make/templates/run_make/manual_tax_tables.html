@@ -67,7 +67,7 @@ There are also some elements called `tax_name + " table"`,
     return cell;
   }
 
-  function marginalRate_insertRow (
+  function insertRow_marginalRate (
       tax_name,
       rate = null,
       min_income = null ) {
@@ -93,7 +93,7 @@ There are also some elements called `tax_name + " table"`,
     button . id = tableName + " button to add row";
     button . value = "Add row";
     button . onclick = function () {
-      marginalRate_insertRow ( tableName ) };
+      insertRow_marginalRate ( tableName ) };
     ( document . getElementById ( "User input" )
       . appendChild ( button ) );
   }
@@ -133,11 +133,11 @@ There are also some elements called `tax_name + " table"`,
     hostForm . appendChild ( linebreak );
     hostForm . appendChild ( table );
     for (let row of tax_rates) {
-      // TODO: Move this `marginalRate_insertRow`
+      // TODO: Move this `insertRow_marginalRate`
       // call to `createTable_incomeTax`.
       // That way it would not need to use `tax_name`
       // to look up the table to modify.
-      marginalRate_insertRow( tax_name, row[0], row[1] ); }
+      insertRow_marginalRate( tax_name, row[0], row[1] ); }
     insert_insertRowButton ( tax_name );
   }
 </script>
