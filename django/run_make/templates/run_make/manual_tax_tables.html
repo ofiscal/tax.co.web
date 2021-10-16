@@ -62,16 +62,15 @@ There are also some elements called `tax_name + " table"`,
     return cell;
   }
 
-  // Modifies the table. Returns nothing.
+  // Modifies `tax_table`. Returns nothing.
   function insertRow_marginalRate (
+      tax_table,
       tax_name,
       rate = null,
       min_income = null ) {
     // Duplicates some of the code in insertTable_incomeTax.
-    var table = document . getElementById (
-      tax_name + " table" );
     var row   = document . createElement ( "tr" );
-    table . appendChild ( row );
+    tax_table . appendChild ( row );
     row . appendChild ( numericInputCell (
       "income tax, " + tax_name + ", tax rate",
       value = rate ) );
@@ -81,14 +80,13 @@ There are also some elements called `tax_name + " table"`,
     row . appendChild ( deleteRow_cell () );
   }
 
-  // Inserts a button that inserts a row
-  // in the table named `tableName`.
-  function insert_insertRowButton ( tableName ) {
+  // Inserts a button that inserts a row in `tax_table`.
+  function insert_insertRowButton ( tax_table, tax_name ) {
     var button = document . createElement ( "input" );
     button . type = "button";
     button . value = "Add row";
     button . onclick = function () {
-      insertRow_marginalRate ( tableName ) };
+      insertRow_marginalRate ( tax_table, tax_name ) };
     ( document . getElementById ( "User input" )
       . appendChild ( button ) );
   }
@@ -98,20 +96,20 @@ There are also some elements called `tax_name + " table"`,
   // as a function argument, so that this can be used
   // for both VAT and income taxes.
   function createTable_incomeTax ( tax_name ) {
-    let table = document . createElement ( "table" );
-    table . id = tax_name + " table";
-    table . createCaption ();
-    table . innerHTML = tax_name; // Set the caption.
-    table . border = "1";
+    let tax_table = document . createElement ( "table" );
+    tax_table . id = tax_name + " table";
+    tax_table . createCaption ();
+    tax_table . innerHTML = tax_name; // Set the caption.
+    tax_table . border = "1";
 
     let row_1 = document . createElement ( "tr" );
     row_1 . appendChild (
       headingCell ( "Tax rate" ) );
     row_1 . appendChild (
       headingCell ( "Min income subject to rate" ) );
-    table . appendChild ( row_1 );
+    tax_table . appendChild ( row_1 );
 
-    return table;
+    return tax_table;
   }
 
   // TODO ? If sharing this across both tax types is feasible,
@@ -119,21 +117,20 @@ There are also some elements called `tax_name + " table"`,
   // into a new function, to reuse for VAT rates.
   function insertTable_incomeTax ( tax_name, tax_rates ) {
     let hostForm = document . getElementById ( "User input" )
-    let table = createTable_incomeTax ( tax_name );
+    let tax_table = createTable_incomeTax ( tax_name );
     let linebreak = document . createElement ( "hr" );
       // PITFALL: Bizarrely,
       // if a "br" rather than an "hr" is created here,
       // it only works for the first table.
 
     hostForm . appendChild ( linebreak );
-    hostForm . appendChild ( table );
+    hostForm . appendChild ( tax_table );
     for (let row of tax_rates) {
       // TODO: Move this `insertRow_marginalRate`
       // call to `createTable_incomeTax`.
-      // That way it would not need to use `tax_name`
-      // to look up the table to modify.
-      insertRow_marginalRate( tax_name, row[0], row[1] ); }
-    insert_insertRowButton ( tax_name );
+      insertRow_marginalRate(
+        tax_table, tax_name, row[0], row[1] ); }
+    insert_insertRowButton ( tax_table, tax_name );
   }
 </script>
 
