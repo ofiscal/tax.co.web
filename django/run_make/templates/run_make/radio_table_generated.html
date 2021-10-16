@@ -5,37 +5,70 @@
     // When incorporating this code there, omit this function.
     let cell = document . createElement ( "td" );
     let input = document . createElement ( "input" );
+    cell . appendChild ( input );
     input . id   = name + " id";
     input . name = name;
     input . step = "any";
     input . type = "number";
     if (value != null) {input . value = value; }
     else               {input . value = 0; };
-    cell . appendChild ( input );
     return cell;
   }
 
-  // The first row of the VAT table lets the user specify the rates.
-  function insertRow_VATRates ( table ) {
+  function radioCell ( name, value ) {
+    let cell = document . createElement ( "td" )
+    let input = document . createElement ( "input" )
+    cell . appendChild ( input );
+    input . name = name // What it determines.
+                        // PITFALL: Radio buttons with the same name
+                        // are mutually exclusive alternatives.
+    input . value = value // What it would mean if checked.
+    input . type = "radio"
+    return cell
+  }
+
+  function headingCell ( name ) {
+    // PITFALL: This function is duplicated in manual_tax_tables.html.
+    // When incorporating this code there, omit this function.
+    let cell = document . createElement ( "th" );
+    cell . innerHTML = name;
+    return cell;
+  }
+
+  function insertRow_VATHeader ( table ) {
+    // Modifies `table`. Returns nothing.
     var row   = document . createElement ( "tr" );
     table . appendChild ( row );
-    row . appendChild ( numericInputCell ( "VAT rate 0", 0    ) )
-    row . appendChild ( numericInputCell ( "VAT rate 1", 0.05 ) )
-    row . appendChild ( numericInputCell ( "VAT rate 2", 0.19 ) ) }
-    // Try the above in a loop once it works without one.
-    // rates = [0,0.05,0.19]
-    // for (let r in rates) {
-    //   row . appendChild ( numericInputCell ( rates[r] ) ) }
+    row . appendChild ( headingCell ( "tax rate" ) )
+    row . appendChild ( headingCell ( "Food" ) )
+    row . appendChild ( headingCell ( "Medicine" ) ) }
+
+  function insertRow_VATRates ( table, rate_group_number, rate ) {
+    // Modifies `table`. Returns nothing.
+    var row   = document . createElement ( "tr" );
+    rate_group_name = "VAT rate " + rate_group_number.toString()
+    table . appendChild ( row );
+    row . appendChild (
+      numericInputCell ( rate_group_name, rate ) )
+    row . appendChild (
+      radioCell ( "Food", rate_group_name ) )
+    row . appendChild (
+      radioCell ( "Medicine", rate_group_name ) )
+  }
 
   function insertTable_VAT () {
     let hostForm = document . getElementById ( "User input" )
     let table = document . createElement ( "table" )
+    hostForm . appendChild ( table )
       // table . id = "VAT table" // I'd prefer not to use these.
     table . createCaption ()
     table . innerHTML = "VAT rates"
     table . border = "1";
-    insertRow_VATRates ( table )
-    hostForm . appendChild ( table ) }
+    insertRow_VATHeader ( table )
+    insertRow_VATRates ( table, 0, 0 )
+    insertRow_VATRates ( table, 1, 0.05 )
+    insertRow_VATRates ( table, 2, 0.19 )
+  }
 
 </script>
 <form id = "User input"
