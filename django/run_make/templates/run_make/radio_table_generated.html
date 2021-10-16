@@ -15,7 +15,8 @@
     return cell;
   }
 
-  function createRow_VATRates ( table ) {
+  // The first row of the VAT table lets the user specify the rates.
+  function insertRow_VATRates ( table ) {
     var row   = document . createElement ( "tr" );
     table . appendChild ( row );
     row . appendChild ( numericInputCell ( "VAT rate 0", 0    ) )
@@ -33,7 +34,7 @@
     table . createCaption ()
     table . innerHTML = "VAT rates"
     table . border = "1";
-    createRow_VATRates ( table )
+    insertRow_VATRates ( table )
     hostForm . appendChild ( table ) }
 
 </script>
