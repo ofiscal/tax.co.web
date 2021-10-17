@@ -46,16 +46,21 @@
     }
   }
 
-  function insertRow_VATRates ( table, rate_group_number, rate ) {
+  function insertRow_VATRates (
+      table,
+      rate_group_number,
+      rate ) {
     // Modifies `table`. Returns nothing.
     var row   = document . createElement ( "tr" );
-    rate_group_name = "VAT rate " + rate_group_number.toString()
     table . appendChild ( row );
     row . appendChild (
-      numericInputCell ( rate_group_name, rate ) )
+      numericInputCell (
+        "VAT, rate, " + rate_group_number.toString(),
+        rate ) )
     for (let c in consumables) {
       row . appendChild (
-        radioCell ( consumables[c], rate_group_name ) )
+        radioCell ( "VAT, consumable, " + consumables[c],
+                    rate_group_number ) )
     }
   }
 
