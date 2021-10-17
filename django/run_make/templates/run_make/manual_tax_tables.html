@@ -49,7 +49,7 @@ There are also some elements called `tax_name + " table"`,
     }
   }
 
-  // Creates a table cell containing aa button which,
+  // Creates a table cell containing a button which,
   // when pressed, deletes the containing row
   // (including itself).
   function deleteRow_cell () {
@@ -82,14 +82,13 @@ There are also some elements called `tax_name + " table"`,
 
   // Appends to the "User input" object
   // a button that inserts a row in `tax_table`.
-  function insert_insertRowButton ( tax_table, tax_name ) {
+  function insert_insertRowButton ( insertRow_function ) {
     var button = document . createElement ( "input" );
-    button . type = "button";
-    button . value = "Add row";
-    button . onclick = function () {
-      insertRow_marginalRate ( tax_table, tax_name ) };
     ( document . getElementById ( "User input" )
       . appendChild ( button ) );
+    button . type = "button";
+    button . value = "Add row";
+    button . onclick = insertRow_function;
   }
 
   // TODO ? If sharing this across both types is feasible,
@@ -131,8 +130,10 @@ There are also some elements called `tax_name + " table"`,
       // call to `createTable_incomeTax`.
       insertRow_marginalRate(
         tax_table, tax_name, row[0], row[1] ); }
-    insert_insertRowButton ( tax_table, tax_name );
-  }
+    insert_insertRowButton (
+      function () {
+        insertRow_marginalRate ( tax_table, tax_name ) } ) }
+
 </script>
 
 <form id = "User input"
