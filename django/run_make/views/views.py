@@ -94,9 +94,32 @@ def manual_ingest ( request ):
   A view that lets a user manually enter marginal rates in a GUI,
   as well as non-tax details like their email address,
   and submit a request to the microsimulation.
+
+  If `pickle_debug` below is set to True,
+  then this can be tested from Bash,
+  by pasting the following after visiting the page:
+
+cd /mnt/django
+python3 manage.py shell
+
+import pickle
+filename = '/home/appuser/manual_ingest.pickle'
+with open(filename,'rb') as file_object:
+  req = pickle.loads( file_object . read () )
+
   """
   if request . method == 'POST': # once user submits form
     advanced_specs_form = TaxConfigForm ( request . POST )
+
+    pickle_debug = False
+    if pickle_debug:
+      filename = 'manual_ingest.pickle'
+      d = dict ( request.POST )
+      d.pop( "csrfmiddlewaretoken" ) # No need to keep the CSRF token.
+      with open ( filename,'wb' ) as f:
+        f.write (
+          pickle.dumps ( d ) )
+
     if advanced_specs_form . is_valid ():
       # Compute / get user data.
       user_email = ( advanced_specs_form
