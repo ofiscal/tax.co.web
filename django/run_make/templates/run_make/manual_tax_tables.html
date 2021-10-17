@@ -92,12 +92,11 @@ There are also some elements called `tax_name + " table"`,
   }
 
   // TODO ? If sharing this across both types is feasible,
-  // Provide heading cell captions in a list
+  // then provide heading cell captions in a list
   // as a function argument, so that this can be used
   // for both VAT and income taxes.
   function createTable_incomeTax ( tax_name ) {
     let tax_table = document . createElement ( "table" );
-    tax_table . id = tax_name + " table";
     tax_table . createCaption ();
     tax_table . innerHTML = tax_name; // Set the caption.
     tax_table . border = "1";
