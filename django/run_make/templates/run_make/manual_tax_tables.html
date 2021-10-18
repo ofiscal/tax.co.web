@@ -155,8 +155,21 @@ There are also some elements called `tax_name + " table"`,
   // // // // VAT
   // // // //
 
-  // TODO: Delete once these are ingested from Django.
   consumables = ["food", "medicine", "other"]
+    // TODO: Delete once these are ingested from Django.
+
+  nonce_for_row_names = (
+    // PITFALL: Global variable.
+    // This number is arbitrary, but it must be
+    // greater than the number of VAT rates initially in the table.
+    // Each time a VAT rate is added,
+    // this becomes the name of that rate,
+    // and is incremented by one.
+    //
+    // This is not needed for the income tax,
+    // because there the name of the row added doesn't matter;
+    // in fact it doesn't even have one.
+    999 )
 
   function insertRow_VATHeader ( table ) {
     // Modifies `table`. Returns nothing.
@@ -186,7 +199,7 @@ There are also some elements called `tax_name + " table"`,
     }
   }
 
-  function insertTable_VAT () {
+  function insertTableAndContext_VAT () {
     let hostForm = document . getElementById ( "User input" )
     let table = document . createElement ( "table" )
     hostForm . appendChild ( table )
@@ -196,6 +209,11 @@ There are also some elements called `tax_name + " table"`,
     insertRow_VATRates ( table, 0, 0 )
     insertRow_VATRates ( table, 1, 0.05 )
     insertRow_VATRates ( table, 2, 0.19 )
+    insert_insertRowButton (
+      function () {
+        insertRow_VATRates ( table, nonce_for_row_names, 0 )
+        nonce_for_row_names = nonce_for_row_names + 1
+      } )
   }
 
 </script>
@@ -246,7 +264,7 @@ There are also some elements called `tax_name + " table"`,
   <h2> VAT </h2>
 
   <script>
-    insertTable_VAT ()
+    insertTableAndContext_VAT ()
   </script>
 
   <br> <hr> <hr>
