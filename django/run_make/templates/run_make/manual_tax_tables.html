@@ -155,9 +155,6 @@ There are also some elements called `tax_name + " table"`,
   // // // // VAT
   // // // //
 
-  consumables = ["food", "medicine", "other"]
-    // TODO: Delete once these are ingested from Django.
-
   nonce_for_row_names = (
     // PITFALL: Global variable.
     // This number is arbitrary, but it must be
@@ -171,7 +168,7 @@ There are also some elements called `tax_name + " table"`,
     // in fact it doesn't even have one.
     999 )
 
-  function insertRow_VATHeader ( table ) {
+  function insertRow_VATHeader ( table, consumables ) {
     // Modifies `table`. Returns nothing.
     var row   = document . createElement ( "tr" );
     table . appendChild ( row );
@@ -184,7 +181,8 @@ There are also some elements called `tax_name + " table"`,
   function insertRow_VATRates (
       table,
       rate_group_number,
-      rate ) {
+      rate,
+      consumables ) {
     // Modifies `table`. Returns nothing.
     var row   = document . createElement ( "tr" );
     table . appendChild ( row );
@@ -200,19 +198,21 @@ There are also some elements called `tax_name + " table"`,
     row . appendChild ( deleteRow_cell () );
   }
 
-  function insertTableAndContext_VAT () {
+  function insertTableAndContext_VAT ( rate_groups, consumables ) {
     let hostForm = document . getElementById ( "User input" )
     let table = document . createElement ( "table" )
     hostForm . appendChild ( table )
     table . createCaption ()
     table . border = "1";
-    insertRow_VATHeader ( table )
-    insertRow_VATRates ( table, 0, 0 )
-    insertRow_VATRates ( table, 1, 0.05 )
-    insertRow_VATRates ( table, 2, 0.19 )
+    insertRow_VATHeader ( table, consumables )
+    for (let r in rate_groups) {
+      insertRow_VATRates ( table,
+                           rate_groups[r][0],
+                           rate_groups[r][1],
+                           consumables ) }
     insert_insertRowButton (
       function () {
-        insertRow_VATRates ( table, nonce_for_row_names, 0 )
+        insertRow_VATRates ( table, nonce_for_row_names, 0, consumables )
         nonce_for_row_names = nonce_for_row_names + 1
       } )
   }
@@ -248,6 +248,9 @@ There are also some elements called `tax_name + " table"`,
 
   <script>
     {% for sched in taxes %}
+      // PITFALL: The `var` keyword must be used here,
+      // because these three variables are redefined
+      // each time Django evaluates this { } loop.
       var sched = {{sched|safe}}
         // PITFALL: This is necessary.
         // Javascript won't recognize Django-passed variables
@@ -265,7 +268,10 @@ There are also some elements called `tax_name + " table"`,
   <h2> VAT </h2>
 
   <script>
-    insertTableAndContext_VAT ()
+    var vat_rate_groups = {{vat_rate_groups|safe}}
+    var vat_consumables = {{vat_consumables|safe}}
+    insertTableAndContext_VAT ( vat_rate_groups,
+                                vat_consumables )
   </script>
 
   <br> <hr> <hr>

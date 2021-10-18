@@ -156,11 +156,12 @@ with open(filename,'rb') as file_object:
         # was not hard-coded here.
         [ "/mnt/tax_co" + abs_path for abs_path
           in marginal_rate_tables . keys () ] ) )
+
     return render (
       request,
       'run_make/manual_tax_tables.html',
       { 'advanced_specs_form' : TaxConfigForm (),
-        "taxes" : marginal_rate_floor_taxes
+        "taxes" : marginal_rate_floor_taxes,
           # PITFALL: Django cannot pass dictionaries to Javascript.
           # PITFALL: Javascript does not offer tuples, only lists.
           # That's why `marginal_rate_tables` is an inhomogeneous list.
@@ -168,6 +169,10 @@ with open(filename,'rb') as file_object:
           # to at least some extent, within constructs like
           # {% for ... %} ... {% endfor %},
           # but sticking to lists seems safer.)
+        "vat_rate_groups" : [ [ 0, 0 ] ,
+                          [ 1, 0.05 ] ,
+                          [ 2, 0.19 ] ],
+        "vat_consumables" : ["food", "medicine", "other"],
        } )
 
 def thank_for_spec ( request, user_email ):
