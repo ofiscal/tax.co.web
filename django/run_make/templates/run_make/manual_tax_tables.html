@@ -19,12 +19,12 @@ There are also some elements called `tax_name + " table"`,
   function numericInputCell ( name, value = null ) {
     let cell = document . createElement ( "td" );
     let input = document . createElement ( "input" );
+    cell . appendChild ( input );
     input . name = name;
     input . step = "any";
     input . type = "number";
     if (value != null) {input . value = value; }
     else               {input . value = 0; };
-    cell . appendChild ( input );
     return cell;
   }
 
@@ -95,18 +95,21 @@ There are also some elements called `tax_name + " table"`,
   // then provide heading cell captions in a list
   // as a function argument, so that this can be used
   // for both VAT and income taxes.
-  function createTable_incomeTax ( tax_name ) {
+  function createTable_incomeTax ( tax_name, tax_rates ) {
     let tax_table = document . createElement ( "table" );
     tax_table . createCaption ();
     tax_table . innerHTML = tax_name; // Set the caption.
     tax_table . border = "1";
 
     let row_1 = document . createElement ( "tr" );
+    tax_table . appendChild ( row_1 );
     row_1 . appendChild (
       headingCell ( "Tax rate" ) );
     row_1 . appendChild (
       headingCell ( "Min income subject to rate" ) );
-    tax_table . appendChild ( row_1 );
+    for (let row of tax_rates) {
+      insertRow_marginalRate(
+        tax_table, tax_name, row[0], row[1] ); }
 
     return tax_table;
   }
@@ -116,19 +119,13 @@ There are also some elements called `tax_name + " table"`,
   // into a new function, to reuse for VAT rates.
   function insertTable_incomeTax ( tax_name, tax_rates ) {
     let hostForm = document . getElementById ( "User input" )
-    let tax_table = createTable_incomeTax ( tax_name );
-    let linebreak = document . createElement ( "hr" );
+    let tax_table = createTable_incomeTax ( tax_name, tax_rates );
+    hostForm . appendChild (
       // PITFALL: Bizarrely,
       // if a "br" rather than an "hr" is created here,
       // it only works for the first table.
-
-    hostForm . appendChild ( linebreak );
+      document . createElement ( "hr" ) )
     hostForm . appendChild ( tax_table );
-    for (let row of tax_rates) {
-      // TODO: Move this `insertRow_marginalRate`
-      // call to `createTable_incomeTax`.
-      insertRow_marginalRate(
-        tax_table, tax_name, row[0], row[1] ); }
     insert_insertRowButton (
       function () {
         insertRow_marginalRate ( tax_table, tax_name ) } ) }
