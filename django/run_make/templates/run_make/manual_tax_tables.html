@@ -33,6 +33,18 @@ There are also some elements called `tax_name + " table"`,
     return cell;
   }
 
+  function radioCell ( name, value ) {
+    let cell = document . createElement ( "td" )
+    let input = document . createElement ( "input" )
+    cell . appendChild ( input );
+    input . name = name // What it determines.
+                        // PITFALL: Radio buttons with the same name
+                        // are mutually exclusive alternatives.
+    input . value = value // What it would mean if checked.
+    input . type = "radio"
+    return cell
+  }
+
   // Returns a table cell containing `name` as static text.
   function headingCell ( name ) {
     let cell = document . createElement ( "th" );
@@ -137,6 +149,55 @@ There are also some elements called `tax_name + " table"`,
       function () {
         insertRow_marginalRate ( tax_table, tax_name ) } ) }
 
+
+  // // // //
+  // // // // VAT
+  // // // //
+
+  // TODO: Delete once these are ingested from Django.
+  consumables = ["food", "medicine", "other"]
+
+  function insertRow_VATHeader ( table ) {
+    // Modifies `table`. Returns nothing.
+    var row   = document . createElement ( "tr" );
+    table . appendChild ( row );
+    row . appendChild ( headingCell ( "tax rate" ) )
+    for (let c in consumables) {
+      row . appendChild ( headingCell ( consumables[c] ) )
+    }
+  }
+
+  function insertRow_VATRates (
+      table,
+      rate_group_number,
+      rate ) {
+    // Modifies `table`. Returns nothing.
+    var row   = document . createElement ( "tr" );
+    table . appendChild ( row );
+    row . appendChild (
+      numericInputCell (
+        "VAT, rate, " + rate_group_number.toString(),
+        rate ) )
+    for (let c in consumables) {
+      row . appendChild (
+        radioCell ( "VAT, consumable, " + consumables[c],
+                    rate_group_number ) )
+    }
+  }
+
+  function insertTable_VAT () {
+    let hostForm = document . getElementById ( "User input" )
+    let table = document . createElement ( "table" )
+    hostForm . appendChild ( table )
+    table . createCaption ()
+    table . innerHTML = "VAT rates"
+    table . border = "1";
+    insertRow_VATHeader ( table )
+    insertRow_VATRates ( table, 0, 0 )
+    insertRow_VATRates ( table, 1, 0.05 )
+    insertRow_VATRates ( table, 2, 0.19 )
+  }
+
 </script>
 
 <form id = "User input"
@@ -168,8 +229,10 @@ There are also some elements called `tax_name + " table"`,
       insertTableAndContext_incomeTax ( tax_name, tax_rates )
     {% endfor %}
 
+    insertTable_VAT ()
 
   </script>
+
 
   <br>
   <hr>
