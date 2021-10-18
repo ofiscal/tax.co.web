@@ -62,6 +62,22 @@ There are also some elements called `tax_name + " table"`,
     return cell;
   }
 
+  // Appends to the "User input" object
+  // a button that inserts a row in `tax_table`.
+  function insert_insertRowButton ( insertRow_function ) {
+    var button = document . createElement ( "input" );
+    ( document . getElementById ( "User input" )
+      . appendChild ( button ) );
+    button . type = "button";
+    button . value = "Add row";
+    button . onclick = insertRow_function;
+  }
+
+
+  // // // //
+  // // // // Income tax
+  // // // //
+
   // Modifies `tax_table`. Returns nothing.
   function insertRow_marginalRate (
       tax_table,
@@ -80,21 +96,6 @@ There are also some elements called `tax_name + " table"`,
     row . appendChild ( deleteRow_cell () );
   }
 
-  // Appends to the "User input" object
-  // a button that inserts a row in `tax_table`.
-  function insert_insertRowButton ( insertRow_function ) {
-    var button = document . createElement ( "input" );
-    ( document . getElementById ( "User input" )
-      . appendChild ( button ) );
-    button . type = "button";
-    button . value = "Add row";
-    button . onclick = insertRow_function;
-  }
-
-  // TODO ? If sharing this across both types is feasible,
-  // then provide heading cell captions in a list
-  // as a function argument, so that this can be used
-  // for both VAT and income taxes.
   function createTable_incomeTax ( tax_name, tax_rates ) {
     let tax_table = document . createElement ( "table" );
     tax_table . createCaption ();
@@ -114,10 +115,7 @@ There are also some elements called `tax_name + " table"`,
     return tax_table;
   }
 
-  // TODO ? If sharing this across both tax types is feasible,
-  // then pull everything preceding the loop,
-  // into a new function, to reuse for VAT rates.
-  function insertTable_incomeTax ( tax_name, tax_rates ) {
+  function insertTableAndContext_incomeTax ( tax_name, tax_rates ) {
     let hostForm = document . getElementById ( "User input" )
     let tax_table = createTable_incomeTax ( tax_name, tax_rates );
     hostForm . appendChild (
@@ -152,11 +150,13 @@ There are also some elements called `tax_name + " table"`,
   {% for sched in taxes %}
     <script>
       var sched = {{sched|safe}}
-      // PITFALL: This is necessary.
-      // Javascript won't recognize Django-passed variables
-      // like {{sched}} inside of functions.
-      // I don't know why the |safe is needed but it is.
-      insertTable_incomeTax( sched[0], sched[1] )
+        // PITFALL: This is necessary.
+        // Javascript won't recognize Django-passed variables
+        // like {{sched}} inside of functions.
+        // I don't know why the |safe is needed but it is.
+      var tax_name = sched[0]
+      var tax_rates = sched[1]
+      insertTableAndContext_incomeTax ( tax_name, tax_rates )
     </script>
   {% endfor %}
 
