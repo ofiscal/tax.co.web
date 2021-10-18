@@ -143,11 +143,12 @@ There are also some elements called `tax_name + " table"`,
   function insertTableAndContext_incomeTax ( tax_name, tax_rates ) {
     let hostForm = document . getElementById ( "User input" )
     let tax_table = createTable_incomeTax ( tax_name, tax_rates );
-    insertHr ( hostForm )
     hostForm . appendChild ( tax_table );
     insert_insertRowButton (
       function () {
-        insertRow_marginalRate ( tax_table, tax_name ) } ) }
+        insertRow_marginalRate ( tax_table, tax_name ) } )
+    insertHr ( hostForm )
+  }
 
 
   // // // //
@@ -190,7 +191,6 @@ There are also some elements called `tax_name + " table"`,
     let table = document . createElement ( "table" )
     hostForm . appendChild ( table )
     table . createCaption ()
-    table . innerHTML = "VAT rates"
     table . border = "1";
     insertRow_VATHeader ( table )
     insertRow_VATRates ( table, 0, 0 )
@@ -200,11 +200,17 @@ There are also some elements called `tax_name + " table"`,
 
 </script>
 
+<h1> Change the taxes! </h1>
+
+<hr> <hr>
+
 <form id = "User input"
       action = "{% url 'run_make:manual_ingest'%}"
       enctype="multipart/form-data"
       method = "post">
   {% csrf_token %}
+
+  <h2> What should I call this section? </h2>
 
   {% for field in advanced_specs_form %}
     <div class="fieldWrapper">
@@ -216,6 +222,10 @@ There are also some elements called `tax_name + " table"`,
       <br>
     </div>
   {% endfor %}
+
+  <br> <hr> <hr>
+
+  <h2> Income taxes </h2>
 
   <script>
     {% for sched in taxes %}
@@ -229,13 +239,17 @@ There are also some elements called `tax_name + " table"`,
       insertTableAndContext_incomeTax ( tax_name, tax_rates )
     {% endfor %}
 
-    insertTable_VAT ()
-
   </script>
 
-
-  <br>
   <hr>
-  <br>
+
+  <h2> VAT </h2>
+
+  <script>
+    insertTable_VAT ()
+  </script>
+
+  <br> <hr> <hr>
+
   <input type="submit" value="Submit">
 </form>
