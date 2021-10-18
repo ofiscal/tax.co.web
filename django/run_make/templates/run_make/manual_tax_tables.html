@@ -14,6 +14,11 @@ There are also some elements called `tax_name + " table"`,
 -->
 
 <script>
+
+  // // // //
+  // // // // Tax-agnostic utilities
+  // // // //
+
   // Returns a table cell, not yet part of any table,
   // containing a numeric input without range limits.
   function numericInputCell ( name, value = null ) {
@@ -33,6 +38,14 @@ There are also some elements called `tax_name + " table"`,
     let cell = document . createElement ( "th" );
     cell . innerHTML = name;
     return cell;
+  }
+
+  // Modifies `hostForm`. Returns nothing.
+  function insertHr ( hostForm ) {
+    // PITFALL: Bizarrely, if a "br" rather than an "hr" is created here,
+    // it only works for the first table.
+    hostForm . appendChild (
+      document . createElement ( "hr" ) )
   }
 
   // Delete the row containing the button.
@@ -118,11 +131,7 @@ There are also some elements called `tax_name + " table"`,
   function insertTableAndContext_incomeTax ( tax_name, tax_rates ) {
     let hostForm = document . getElementById ( "User input" )
     let tax_table = createTable_incomeTax ( tax_name, tax_rates );
-    hostForm . appendChild (
-      // PITFALL: Bizarrely,
-      // if a "br" rather than an "hr" is created here,
-      // it only works for the first table.
-      document . createElement ( "hr" ) )
+    insertHr ( hostForm )
     hostForm . appendChild ( tax_table );
     insert_insertRowButton (
       function () {
@@ -147,8 +156,8 @@ There are also some elements called `tax_name + " table"`,
     </div>
   {% endfor %}
 
-  {% for sched in taxes %}
-    <script>
+  <script>
+    {% for sched in taxes %}
       var sched = {{sched|safe}}
         // PITFALL: This is necessary.
         // Javascript won't recognize Django-passed variables
@@ -157,8 +166,10 @@ There are also some elements called `tax_name + " table"`,
       var tax_name = sched[0]
       var tax_rates = sched[1]
       insertTableAndContext_incomeTax ( tax_name, tax_rates )
-    </script>
-  {% endfor %}
+    {% endfor %}
+
+
+  </script>
 
   <br>
   <hr>
