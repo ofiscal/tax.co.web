@@ -10,15 +10,15 @@ if True:
   import subprocess
   from   typing import List
   #
-  import run_make.common as common
+  from   run_make.common import tax_co_root
   from   run_make.forms import TaxConfigForm
 
 
 # PITFALL: Some of the path arguments below are absolute.
 # Those should not be hardcoded here;
-# instead, one can use `common.tax_co_root`.)
+# instead, one can use `tax_co_root`.)
 
-global_requests_log = os.path.join ( common.tax_co_root,
+global_requests_log = os.path.join ( tax_co_root,
                                      "requests-log.txt" )
 
 def hash_from_str ( s : str ) -> str:
@@ -77,16 +77,16 @@ def write_uploaded_files_to_user_folder (
         request_files [ trp ] )
     else:
       os . symlink (
-        os . path . join ( common.tax_co_root ,
+        os . path . join ( tax_co_root ,
                            trp_stripped ),
         tapu )
 
 def append_request_to_db ( user_hash : str ):
     user_root_path = os.path.join (
-      common.tax_co_root, "users/", user_hash )
+      tax_co_root, "users/", user_hash )
     user_logs_path = os.path.join (
       user_root_path, "logs" )
-    os . chdir ( common.tax_co_root )
+    os . chdir ( tax_co_root )
 
     with open( global_requests_log, "a" ) as f:
         f.write( "\ndjango: trying to append request\n" )
@@ -94,7 +94,7 @@ def append_request_to_db ( user_hash : str ):
     if True: # Refine the environment.
         my_env = os . environ . copy ()
         env_additions = ":" . join (
-            [ common.tax_co_root,
+            [ tax_co_root,
               "/opt/conda/lib/python3.8/site-packages" ] )
               # TODO ? Why must this second folder be specified?
               # It's the default when I run python3 from the shell.
@@ -110,7 +110,7 @@ def append_request_to_db ( user_hash : str ):
           os . path . join (         # Use this config file.
                 "users/", user_hash, "config/config.json" ),
           "add-to-temp-queue" ],     # Take this action.
-        cwd    = common.tax_co_root,
+        cwd    = tax_co_root,
         env    = my_env,
         stdout = subprocess . PIPE,
         stderr = subprocess . PIPE )

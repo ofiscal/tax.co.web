@@ -8,7 +8,7 @@ if True:
   import os
   import pickle
   #
-  import run_make.common as common
+  from   run_make.common import tax_co_root
   from   run_make.forms import TaxConfigForm
   import run_make.views.lib as lib
   import run_make.views.write_data_from_ui as write_ui
@@ -64,7 +64,7 @@ def ingest_full_spec ( request ):
       user_email = ( advanced_specs_form
                      . cleaned_data [ "user_email" ] )
       user_hash = lib . hash_from_str ( user_email )
-      user_path = os . path . join ( common.tax_co_root,
+      user_path = os . path . join ( tax_co_root,
                                      "users/",
                                      user_hash )
 
@@ -125,7 +125,7 @@ with open(filename,'rb') as file_object:
       user_email = ( advanced_specs_form
                      . cleaned_data [ "user_email" ] )
       user_hash = lib . hash_from_str ( user_email )
-      user_path = os . path . join ( common.tax_co_root,
+      user_path = os . path . join ( tax_co_root,
                                      "users/",
                                      user_hash )
       (non_tax, income_tax) = (
@@ -152,9 +152,8 @@ with open(filename,'rb') as file_object:
   else: # before user submits form
     marginal_rate_floor_taxes = (
       lib . fetch_marginal_rate_floor_taxes (
-        # TODO: It would be better if /mnt/tax_co
-        # was not hard-coded here.
-        [ "/mnt/tax_co" + abs_path for abs_path
+        [ tax_co_root + abs_path
+          for abs_path
           in marginal_rate_tables . keys () ] ) )
 
     return render (
