@@ -19,6 +19,14 @@ There are also some elements called `tax_name + " table"`,
   // // // // Tax-agnostic utilities
   // // // //
 
+  function column_from_list_of_rows (
+    column_index, // A number.  PITFALL: Range errors are possible.
+    rows          // A list of lists of equal length.
+  ) {
+    return rows . map (
+      function (row) {
+        return row [ column_index ] } ) }
+
   // Returns a table cell, not yet part of any table,
   // containing a numeric input without range limits.
   function numericInputCell ( name, value = null ) {
@@ -33,7 +41,7 @@ There are also some elements called `tax_name + " table"`,
     return cell;
   }
 
-  function radioCell ( name, value ) {
+  function radioCell ( name, value, checked = true ) {
     let cell = document . createElement ( "td" )
     let input = document . createElement ( "input" )
     cell . appendChild ( input );
@@ -42,6 +50,7 @@ There are also some elements called `tax_name + " table"`,
                         // are mutually exclusive alternatives.
     input . value = value // What it would mean if checked.
     input . type = "radio"
+    input . checked = checked
     return cell
   }
 
@@ -190,10 +199,14 @@ There are also some elements called `tax_name + " table"`,
       numericInputCell (
         "VAT, rate, " + rate_group_number.toString(),
         rate ) )
-    for (let c in consumables) {
+    for (let ci in consumables) {
+      good = consumables[ci]
+      good_name = good[0]
+      good_rate = good[1]
       row . appendChild (
-        radioCell ( "VAT, consumable, " + consumables[c],
-                    rate_group_number ) )
+        radioCell ( "VAT, consumable, " + good_name,
+                    rate_group_number,
+                    rate_group_number == good_rate ) )
     }
     row . appendChild ( deleteRow_cell () );
   }
@@ -204,7 +217,9 @@ There are also some elements called `tax_name + " table"`,
     hostForm . appendChild ( table )
     table . createCaption ()
     table . border = "1";
-    insertRow_VATHeader ( table, consumables )
+    insertRow_VATHeader ( table,
+                          column_from_list_of_rows (
+                            0, consumables ) )
     for (let r in rate_groups) {
       insertRow_VATRates ( table,
                            rate_groups[r][0],
