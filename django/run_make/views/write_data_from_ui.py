@@ -192,13 +192,59 @@ def write_marginal_rates_to_user_folder (
       for row in marginal_rates[ kind_of_income ]:
         w.writerow( row )
 
+def flat_vat_dict_to_consumables_list ( vat_dict ):
+  """
+  The test (next) explains what this does.
+  """
+  vat = make_dict_one_level_hierarchical_from_top ( vat_dict, ", " )
+  rates = vat["rate"]
+  consumables = vat["consumable"]
+  for d in (rates, consumables):
+    for k in d.keys():
+      d[k] = d[k][0] # Unwrap the list.
+  for k in consumables.keys():
+    # Replace a rate group name (e.g. "2") with a rate (e.g. "0.19").
+    consumables[k] = float ( rates [ consumables [ k ] ] )
+  return ( [ [ "consumable", "vat" ] ] +
+           [ [ k, consumables [ k ] ]
+             for k in consumables.keys() ] )
+
+def test_flat_vat_dict_to_consumables_list ():
+  flat = {"rate, 0": ["0.0"],
+          "consumable, food": ["0"],
+          "rate, 1": ["0.05"],
+          "consumable, medicine": ["1"],
+          "rate, 2": ["0.19"],
+          "consumable, travel": ["2"],
+          "consumable, entertainment": ["2"]}
+  assert ( flat_vat_dict_to_consumables_list ( flat )
+           == [ ["consumable", "vat"],
+                ["food", 0.0],
+                ["medicine", 0.05],
+                ["travel", 0.19],
+                ["entertainment", 0.19 ] ] )
+
+def write_vat_rates_to_user_folder (
+    user_folder,
+    consumable_groups ):
+  with open (
+      os.path.join (
+        user_folder, "config/vat",
+        "consumable_groups.csv" ),
+      'w' ) as csvfile:
+    w = csv.writer( csvfile, delimiter=',', quotechar = '\"',
+                    quoting = csv.QUOTE_MINIMAL)
+    for row in consumable_groups:
+      w.writerow ( row )
+
 def divide_post_object_into_dicts ( post_object ):
   d = dict ( post_object )
   d . pop ( "csrfmiddlewaretoken" ) # No need to keep the CSRF token.
   d = prefix_non_tax_fields ( d )
   d = make_dict_one_level_hierarchical_from_top ( d, ", " )
   return ( d["non-tax"],
-           d["income tax"] )
+           d["income tax"],
+           d["VAT"] )
 
 ### # Here's a way to test the IO in this module.
 ### # (The non-IO can be tested by simply running the functions

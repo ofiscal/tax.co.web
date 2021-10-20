@@ -126,7 +126,7 @@ with open(filename,"rb") as file_object:
       user_path = os . path . join ( tax_co_root,
                                      "users/",
                                      user_hash )
-      (non_tax, income_tax) = (
+      (non_tax, income_tax, vat) = (
         write_ui . divide_post_object_into_dicts (
           request . POST ) )
 
@@ -140,6 +140,9 @@ with open(filename,"rb") as file_object:
         user_path,
         write_ui . flat_marginal_rates_dict_to_csv_writeable_lists (
           income_tax ) )
+      write_ui . write_vat_rates_to_user_folder (
+        user_path,
+        write_ui . flat_vat_dict_to_consumables_list ( vat ) )
 
     return HttpResponseRedirect (
       reverse (
