@@ -55,7 +55,7 @@ def ingest_full_spec ( request ):
   to this same function, and goes through the first ("if") branch.
   """
 
-  if request . method == 'POST':
+  if request . method == "POST":
     advanced_specs_form = TaxConfigForm ( request . POST )
 
     if advanced_specs_form . is_valid ():
@@ -78,13 +78,13 @@ def ingest_full_spec ( request ):
 
       return HttpResponseRedirect (
         reverse (
-          'run_make:thank-for-spec',
+          "run_make:thank-for-spec",
           kwargs = { "user_email" : user_email } ) )
 
   else: return render (
       request,
-      'run_make/ingest_full_spec.html',
-      { 'advanced_specs_form' : TaxConfigForm (),
+      "run_make/ingest_full_spec.html",
+      { "advanced_specs_form" : TaxConfigForm (),
         "rate_tables"         : rate_tables
        } )
 
@@ -102,22 +102,21 @@ cd /mnt/django
 python3 manage.py shell
 
 import pickle
-filename = '/home/appuser/manual_ingest.pickle'
-with open(filename,'rb') as file_object:
+filename = "/home/appuser/manual_ingest.pickle"
+with open(filename,"rb") as file_object:
   req = pickle.loads( file_object . read () )
 
   """
-  if request . method == 'POST': # once user submits form
+  if request . method == "POST": # once user submits form
     advanced_specs_form = TaxConfigForm ( request . POST )
 
     pickle_debug = False
     if pickle_debug:
-      filename = 'manual_ingest.pickle'
+      filename = "manual_ingest.pickle"
       d = dict ( request.POST )
       d.pop( "csrfmiddlewaretoken" ) # No need to keep the CSRF token.
-      with open ( filename,'wb' ) as f:
-        f.write (
-          pickle.dumps ( d ) )
+      with open ( filename,"wb" ) as f:
+        f.write ( pickle.dumps ( d ) )
 
     if advanced_specs_form . is_valid ():
       # Compute / get user data.
@@ -135,7 +134,7 @@ with open(filename,'rb') as file_object:
       lib . create_user_folder_tree ( user_path )
       with open ( os.path.join ( user_path,
                                  "config/config.json" ),
-                  'w' ) as f:
+                  "w" ) as f:
         json.dump ( non_tax, f )
       write_ui . write_marginal_rates_to_user_folder (
         user_path,
@@ -144,7 +143,7 @@ with open(filename,'rb') as file_object:
 
     return HttpResponseRedirect (
       reverse (
-        'run_make:thank-for-spec',
+        "run_make:thank-for-spec",
         kwargs = {
           "user_email" : user_email } ) )
 
@@ -157,8 +156,8 @@ with open(filename,'rb') as file_object:
 
     return render (
       request,
-      'run_make/manual_tax_tables.html',
-      { 'advanced_specs_form' : TaxConfigForm (),
+      "run_make/manual_tax_tables.html",
+      { "advanced_specs_form" : TaxConfigForm (),
         "taxes" : marginal_rate_floor_taxes,
           # PITFALL: Django cannot pass dictionaries to Javascript.
           # PITFALL: Javascript does not offer tuples, only lists.
@@ -173,5 +172,5 @@ with open(filename,'rb') as file_object:
 
 def thank_for_spec ( request, user_email ):
   return render ( request,
-                  'run_make/thank_for_spec.html',
-                  { 'user_email' :  user_email } )
+                  "run_make/thank_for_spec.html",
+                  { "user_email" :  user_email } )
