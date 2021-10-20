@@ -154,10 +154,11 @@ def test_rate_threshold_column_dict_to_row_list ():
          [  3 ,  1  ],
          [  4 ,  2  ] ] )
 
-def reqest_to_csv_writeable_lists ( req ):
+def flat_marginal_rates_dict_to_csv_writeable_lists (
+    flat_marginal_rates_dict ):
   marginal_rates = (
     make_dict_one_level_hierarchical_from_top (
-      req, ", " ) )
+      flat_marginal_rates_dict, ", " ) )
   for k in marginal_rates.keys():
     marginal_rates[k]["min income"] = (
       list_of_floors_to_list_of_ceilings(

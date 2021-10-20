@@ -138,7 +138,7 @@ with open(filename,"rb") as file_object:
         json.dump ( non_tax, f )
       write_ui . write_marginal_rates_to_user_folder (
         user_path,
-        write_ui . reqest_to_csv_writeable_lists (
+        write_ui . flat_marginal_rates_dict_to_csv_writeable_lists (
           income_tax ) )
 
     return HttpResponseRedirect (
