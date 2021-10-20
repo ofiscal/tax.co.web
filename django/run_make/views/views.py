@@ -1,5 +1,4 @@
 if True:
-  import csv
   from   datetime import datetime # for datetime.datetime.now
   from   django.http import HttpResponseRedirect
   from   django.shortcuts import render
@@ -168,10 +167,10 @@ with open(filename,'rb') as file_object:
           # to at least some extent, within constructs like
           # {% for ... %} ... {% endfor %},
           # but sticking to lists seems safer.)
-        "vat_rate_groups" : [ [ 0, 0 ] ,
-                          [ 1, 0.05 ] ,
-                          [ 2, 0.19 ] ],
-        "vat_consumables" : ["food", "medicine", "other"],
+        "vat_rate_groups" : lib . get_VAT_rate_groups (),
+        "vat_consumables" : [ name
+                              for [ name, rate_group ]
+                              in lib.get_VAT_consumable_groups () ],
        } )
 
 def thank_for_spec ( request, user_email ):

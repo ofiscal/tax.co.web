@@ -21,6 +21,33 @@ if True:
 global_requests_log = os.path.join ( tax_co_root,
                                      "requests-log.txt" )
 
+def get_csv ( filename ):
+  with open( filename,
+            ) as csvfile:
+    rows = []
+    spamreader = csv.reader ( csvfile,
+                              delimiter = ',',
+                              quotechar = '"' )
+    for row in spamreader:
+      rows . append( row )
+  return rows
+
+fake_vat_group_data_path = "config/vat/fake_grouped"
+
+def get_VAT_rate_groups():
+  return get_csv (
+    os.path.join ( tax_co_root,
+                   fake_vat_group_data_path,
+                   "rate_groups.csv" )
+  ) [1:] # Drop column names.
+
+def get_VAT_consumable_groups():
+  return get_csv (
+    os.path.join ( tax_co_root,
+                   fake_vat_group_data_path,
+                   "consumable_groups.csv" )
+  ) [1:] # Drop column names.
+
 def hash_from_str ( s : str ) -> str:
   return (
     "u" + # Because Python library paths must start with letters, not numbers.
