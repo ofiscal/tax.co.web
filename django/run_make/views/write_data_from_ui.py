@@ -206,7 +206,7 @@ def flat_vat_dict_to_consumables_list ( vat_dict ):
   for k in consumables.keys():
     # Replace a rate group name (e.g. "2") with a rate (e.g. "0.19").
     consumables[k] = float ( rates [ consumables [ k ] ] )
-  return ( [ [ "consumable", "vat" ] ] +
+  return ( [ [ "consumable group", "vat" ] ] +
            [ [ k, consumables [ k ] ]
              for k in consumables.keys() ] )
 
