@@ -139,10 +139,15 @@ with open(filename,"rb") as file_object:
 
       # Write user data.
       lib . create_user_folder_tree ( user_path )
-      with open ( os.path.join ( user_path,
-                                 "config/config.json" ),
-                  "w" ) as f:
-        json.dump ( non_tax, f )
+      if True: # non-tax data
+        for k in non_tax.keys():
+          non_tax[k] = non_tax[k][0] # Unwrap lists.
+        non_tax [ "regime_year" ] = int ( non_tax [ "regime_year" ] )
+        non_tax [ "subsample" ]   = int ( non_tax [ "subsample" ] )
+        with open ( os.path.join ( user_path,
+                                   "config/config.json" ),
+                    "w" ) as f:
+          json.dump ( non_tax, f )
       write_ui . write_marginal_rates_to_user_folder (
         user_path,
         write_ui . flat_marginal_rates_dict_to_csv_writeable_lists (
