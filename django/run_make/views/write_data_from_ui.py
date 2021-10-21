@@ -188,6 +188,7 @@ def write_marginal_rates_to_user_folder (
     with open( rate_filepath( kind_of_income ), 'w'
               ) as csvfile:
       w = csv.writer( csvfile, delimiter=',', quotechar = '\"',
+                      lineterminator="\n",
                       quoting = csv.QUOTE_MINIMAL)
       for row in marginal_rates[ kind_of_income ]:
         w.writerow( row )
@@ -233,6 +234,7 @@ def write_vat_rates_to_user_folder (
         "consumable_groups.csv" ),
       'w' ) as csvfile:
     w = csv.writer( csvfile, delimiter=',', quotechar = '\"',
+                    lineterminator="\n",
                     quoting = csv.QUOTE_MINIMAL)
     for row in consumable_groups:
       w.writerow ( row )
