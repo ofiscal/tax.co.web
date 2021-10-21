@@ -130,6 +130,13 @@ with open(filename,"rb") as file_object:
         write_ui . divide_post_object_into_dicts (
           request . POST ) )
 
+      if pickle_debug:
+        for (name,obj) in [ ( "non_tax", non_tax ),
+                            ( "income_tax", income_tax ),
+                            ( "vat", vat ) ]:
+          with open ( name + ".pickle", "wb" ) as f:
+            f.write ( pickle.dumps ( obj ) )
+
       # Write user data.
       lib . create_user_folder_tree ( user_path )
       with open ( os.path.join ( user_path,
