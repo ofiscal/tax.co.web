@@ -1,4 +1,6 @@
 # USAGE:
+# This file is not a "script" per se;
+# rather, these commands must be copied and pasted into the shell.
 # Run the `jq` and `docker` commands from the host system,
 # from the root of tax.co.web.
 # The other commands are for running inside the docker container.
