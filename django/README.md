@@ -2,7 +2,7 @@
 
 To start the app, see docker/commands.txt.
 Once it's running, visit one of the URLs it defines in a browser --
-for instance, http://localhost:8000/myapp/polls/.
+for instance, http://localhost:8000/microsim/run_make/manual_ingest
 
 # References
 
