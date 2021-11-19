@@ -28,18 +28,28 @@ There are also some elements called `tax_name + " table"`,
       function (row) {
         return row [ column_index ] } ) }
 
-  // Returns a table cell, not yet part of any table,
-  // containing a numeric input without range limits.
-  function numericInputCell ( name, value = null ) {
-    let cell = document . createElement ( "td" );
+  function mkCell_text ( kind, // either "th" (header) or "td" (normal)
+                         text ) {
+    let cell = document . createElement ( kind )
+    cell . innerHTML = text
+    return cell
+  }
+
+  function mkCell ( kind, // either "th" (header) or "td" (normal)
+                    content ) {
+    let cell = document . createElement ( kind )
+    cell . appendChild ( content )
+    return cell
+  }
+
+  function mkInput_numeric ( name, value = null ) {
     let input = document . createElement ( "input" );
-    cell . appendChild ( input );
     input . name = name;
     input . step = "any";
     input . type = "number";
     if (value != null) {input . value = value; }
     else               {input . value = 0; };
-    return cell;
+    return input
   }
 
   // Returns a table cell, not yet part of any table,
@@ -62,11 +72,6 @@ There are also some elements called `tax_name + " table"`,
     let cell = document . createElement ( "th" );
     cell . innerHTML = name;
     return cell;
-  }
-
-  // Returns an empty table cell.
-  function emptyCell () {
-    return document . createElement ( "td" )
   }
 
   // Modifies `hostForm` by appending a horizontal rule (line).
@@ -155,12 +160,16 @@ There are also some elements called `tax_name + " table"`,
     // Duplicates some of the code in insertTable_incomeTax.
     var row   = document . createElement ( "tr" );
     tax_table . appendChild ( row );
-    row . appendChild ( numericInputCell (
-      "income tax, " + tax_name + ", tax rate",
-      value = rate ) );
-    row . appendChild ( numericInputCell (
-      "income tax, " + tax_name + ", min income",
-      value = min_income ) );
+    row . appendChild (
+      mkCell ( "td",
+               mkInput_numeric (
+                 "income tax, " + tax_name + ", tax rate",
+                 value = rate ) ) )
+    row . appendChild (
+      mkCell ( "td",
+               mkInput_numeric (
+                 "income tax, " + tax_name + ", min income",
+                 value = min_income ) ) )
     row . appendChild ( deleteRow_cell () );
   }
 
@@ -209,7 +218,7 @@ There are also some elements called `tax_name + " table"`,
     // This is not needed for the income tax,
     // because there the name of the row added doesn't matter;
     // in fact it doesn't even have one.
-    999 )
+    9999 )
 
   function insertRow_VATHeader ( table, consumables ) {
     // Modifies `table`. Returns nothing.
@@ -230,9 +239,10 @@ There are also some elements called `tax_name + " table"`,
     var row   = document . createElement ( "tr" );
     table . appendChild ( row );
     row . appendChild (
-      numericInputCell (
-        "VAT, rate, " + rate_group_number.toString(),
-        rate ) )
+      mkCell ( "td",
+               mkInput_numeric (
+                 "VAT, rate, " + rate_group_number.toString(),
+                 rate ) ) )
     for (let ci in consumables) {
       good = consumables[ci]
       good_name = good[0]
