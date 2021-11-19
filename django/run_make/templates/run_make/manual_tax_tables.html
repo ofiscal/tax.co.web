@@ -52,19 +52,15 @@ There are also some elements called `tax_name + " table"`,
     return input
   }
 
-  // Returns a table cell, not yet part of any table,
-  // containing a radio button input.
-  function radioCell ( name, value, checked = true ) {
-    let cell = document . createElement ( "td" )
+  function mkInput_radio ( name, value, checked = true ) {
     let input = document . createElement ( "input" )
-    cell . appendChild ( input );
     input . name = name // What it determines.
                         // PITFALL: Radio buttons with the same name
                         // are mutually exclusive alternatives.
     input . value = value // What it would mean if checked.
     input . type = "radio"
     input . checked = checked
-    return cell
+    return input
   }
 
   // Returns a table cell containing `name` as static text.
@@ -248,9 +244,11 @@ There are also some elements called `tax_name + " table"`,
       good_name = good[0]
       good_rate = good[1]
       row . appendChild (
-        radioCell ( "VAT, consumable, " + good_name,
-                    rate_group_number,
-                    rate_group_number == good_rate ) )
+        mkCell ( "td",
+                 mkInput_radio (
+                   "VAT, consumable, " + good_name,
+                   rate_group_number,
+                   rate_group_number == good_rate ) ) )
     }
     row . appendChild ( deleteRow_cell () );
   }
