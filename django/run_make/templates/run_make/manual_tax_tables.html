@@ -64,6 +64,11 @@ There are also some elements called `tax_name + " table"`,
     return cell;
   }
 
+  // Returns an empty table cell.
+  function emptyCell () {
+    return document . createElement ( "td" )
+  }
+
   // Modifies `hostForm` by appending a horizontal rule (line).
   // Returns nothing.
   function insertHr ( hostForm ) {
@@ -87,6 +92,18 @@ There are also some elements called `tax_name + " table"`,
     }
   }
 
+  // Delete the column containing the button.
+  function deleteColumn ( button ) {
+    var cell  = button . parentNode
+    var table = cell   . parentNode . parentNode // Cell -> Row -> Table
+    var colIndex = cell . cellIndex
+    if ( table . rows . length > 2 ) {
+      for (let ri = 0; ri < table.rows.length; ri++) {
+        table.rows [ri] . deleteCell (colIndex)
+      }
+    }
+  }
+
   // Creates a table cell containing a button which,
   // when pressed, deletes the containing row
   // (including itself).
@@ -97,6 +114,19 @@ There are also some elements called `tax_name + " table"`,
     button . type = "button";
     button . value = "delete row";
     button . onclick = function () { deleteRow( button ) };
+    return cell;
+  }
+
+  // Creates a table cell containing a button which,
+  // when pressed, deletes the containing column
+  // (including itself).
+  function deleteColumn_cell () {
+    let cell = document . createElement ( "td" );
+    var button = document . createElement ( "input" );
+    cell . appendChild ( button );
+    button . type = "button";
+    button . value = "delete column";
+    button . onclick = function () { deleteColumn (button) };
     return cell;
   }
 
