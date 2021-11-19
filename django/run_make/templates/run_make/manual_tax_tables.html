@@ -63,13 +63,6 @@ There are also some elements called `tax_name + " table"`,
     return input
   }
 
-  // Returns a table cell containing `name` as static text.
-  function headingCell ( name ) {
-    let cell = document . createElement ( "th" );
-    cell . innerHTML = name;
-    return cell;
-  }
-
   // Modifies `hostForm` by appending a horizontal rule (line).
   // Returns nothing.
   function insertHr ( hostForm ) {
@@ -178,9 +171,9 @@ There are also some elements called `tax_name + " table"`,
     let row_1 = document . createElement ( "tr" );
     tax_table . appendChild ( row_1 );
     row_1 . appendChild (
-      headingCell ( "Tax rate" ) );
+      mkCell_text ( "th", "Tax rate" ) )
     row_1 . appendChild (
-      headingCell ( "Min income subject to rate" ) );
+      mkCell_text ( "th", "Min income subject to rate" ) )
     for (let row of tax_rates) {
       insertRow_marginalRate(
         tax_table, tax_name, row[0], row[1] ); }
@@ -220,9 +213,11 @@ There are also some elements called `tax_name + " table"`,
     // Modifies `table`. Returns nothing.
     var row   = document . createElement ( "tr" );
     table . appendChild ( row );
-    row . appendChild ( headingCell ( "tax rate" ) )
+    row . appendChild (
+      mkCell_text ( "th", "tax rate" ) )
     for (let c in consumables) {
-      row . appendChild ( headingCell ( consumables[c] ) )
+      row . appendChild (
+        mkCell_text ( "th", consumables[c] ) )
     }
   }
 
