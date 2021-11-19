@@ -20,8 +20,9 @@ There are also some elements called `tax_name + " table"`,
   // // // //
 
   function column_from_list_of_rows (
-    column_index, // A number.  PITFALL: Range errors are possible.
-    rows          // A list of lists of equal length.
+    column_index, // A numeric index into each row.
+                  // PITFALL: Range errors are possible.
+    rows // A list of lists of equal length.
   ) {
     return rows . map (
       function (row) {
@@ -41,6 +42,8 @@ There are also some elements called `tax_name + " table"`,
     return cell;
   }
 
+  // Returns a table cell, not yet part of any table,
+  // containing a radio button input.
   function radioCell ( name, value, checked = true ) {
     let cell = document . createElement ( "td" )
     let input = document . createElement ( "input" )
@@ -61,7 +64,8 @@ There are also some elements called `tax_name + " table"`,
     return cell;
   }
 
-  // Modifies `hostForm`. Returns nothing.
+  // Modifies `hostForm` by appending a horizontal rule (line).
+  // Returns nothing.
   function insertHr ( hostForm ) {
     // PITFALL: Bizarrely, if a "br" rather than an "hr" is created here,
     // it only works for the first table.
