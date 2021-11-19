@@ -43,7 +43,8 @@ def make_dict_one_level_hierarchical_from_top (
   #              key.split( splitter,
   #                         1 ) ) ] ) # max number of splits
 
-  dd = {}
+  dd : Dict = {} # Can't get more specific because it could be
+                 # nested to any depth.
   for (a,b,c) in l:
     new_pair = {b:c}
     dd[a] = ( { **dd[a], **new_pair }
@@ -121,7 +122,8 @@ def rename_key_in_dict ( old_name, new_name, d : Dict ) -> Dict:
 def rate_threshold_column_dict_to_row_list (
     col_names : List[str],
     d : Dict[ str, List[float] ]
-) -> List[ List[ float] ]:
+) -> List[ List ]: # Can't get more specific because the first inner list
+                   # is of strings (column names), the rest of numbers.
   """
 PURPOSE:
 This inputs a dictionary representing a table,

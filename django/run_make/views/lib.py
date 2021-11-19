@@ -34,7 +34,7 @@ def get_csv ( filename ):
 
 fake_vat_group_data_path = "config/vat/fake_grouped"
 
-def get_VAT_rate_groups():
+def get_VAT_rate_groups () -> List[ float ]:
   return get_csv (
     os.path.join ( tax_co_root,
                    fake_vat_group_data_path,
