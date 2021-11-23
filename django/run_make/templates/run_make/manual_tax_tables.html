@@ -52,7 +52,7 @@ There are also some elements called `tax_name + " table"`,
     return input
   }
 
-  function mkInput_radio ( name, value, checked = true ) {
+  function mkInput_radio ( name, value, checked = false ) {
     let input = document . createElement ( "input" )
     input . name = name // What it determines.
                         // PITFALL: Radio buttons with the same name
@@ -101,7 +101,7 @@ There are also some elements called `tax_name + " table"`,
   // Creates a table cell containing a button which,
   // when pressed, deletes the containing row
   // (including itself).
-  function deleteRow_cell () {
+  function mkCell_deleteRow () {
     let cell = document . createElement ( "td" );
     var button = document . createElement ( "input" );
     cell . appendChild ( button );
@@ -114,7 +114,7 @@ There are also some elements called `tax_name + " table"`,
   // Creates a table cell containing a button which,
   // when pressed, deletes the containing column
   // (including itself).
-  function deleteColumn_cell () {
+  function mkCell_deleteColumn () {
     let cell = document . createElement ( "td" );
     var button = document . createElement ( "input" );
     cell . appendChild ( button );
@@ -126,13 +126,13 @@ There are also some elements called `tax_name + " table"`,
 
   // Appends to the "User input" object
   // a button that inserts a row in `tax_table`.
-  function insert_insertRowButton ( insertRow_function ) {
+  function insert_button ( label, onclick ) {
     var button = document . createElement ( "input" );
     ( document . getElementById ( "User input" )
       . appendChild ( button ) );
     button . type = "button";
-    button . value = "Add row";
-    button . onclick = insertRow_function;
+    button . value = label
+    button . onclick = onclick
   }
 
 
@@ -159,7 +159,7 @@ There are also some elements called `tax_name + " table"`,
                mkInput_numeric (
                  "income tax, " + tax_name + ", min income",
                  value = min_income ) ) )
-    row . appendChild ( deleteRow_cell () );
+    row . appendChild ( mkCell_deleteRow () );
   }
 
   function createTable_incomeTax ( tax_name, tax_rates ) {
@@ -177,7 +177,6 @@ There are also some elements called `tax_name + " table"`,
     for (let row of tax_rates) {
       insertRow_marginalRate(
         tax_table, tax_name, row[0], row[1] ); }
-
     return tax_table;
   }
 
@@ -185,7 +184,8 @@ There are also some elements called `tax_name + " table"`,
     let hostForm = document . getElementById ( "User input" )
     let tax_table = createTable_incomeTax ( tax_name, tax_rates );
     hostForm . appendChild ( tax_table );
-    insert_insertRowButton (
+    insert_button (
+      "insert new tax bracket",
       function () {
         insertRow_marginalRate ( tax_table, tax_name ) } )
     insertHr ( hostForm )
@@ -222,30 +222,36 @@ There are also some elements called `tax_name + " table"`,
   }
 
   function insertRow_VATRates (
-      table,
-      rate_group_number,
-      rate,
-      consumables ) {
+    table,
+    rate_index,
+    rate,
+    consumable_pairs // a list of (good name, vat rate index) pairs,
+                // where <vat rate index> is an int starting from 0
+                // meant to index rate_groups.
+  ) {
     // Modifies `table`. Returns nothing.
     var row   = document . createElement ( "tr" );
     table . appendChild ( row );
     row . appendChild (
       mkCell ( "td",
                mkInput_numeric (
-                 "VAT, rate, " + rate_group_number.toString(),
+                 "VAT, rate, " + rate_index.toString(),
                  rate ) ) )
-    for (let ci in consumables) {
-      good = consumables[ci]
-      good_name = good[0]
-      good_rate = good[1]
+    for (let ci in consumable_pairs) {
+      good               = consumable_pairs[ci]
+      good_name          = good[0]
+      rate_index_of_good = good[1]
       row . appendChild (
         mkCell ( "td",
                  mkInput_radio (
-                   "VAT, consumable, " + good_name,
-                   rate_group_number,
-                   rate_group_number == good_rate ) ) )
+                   name    = "VAT, consumable, " + good_name,
+                   value   = rate_index,
+                   checked = rate_index == rate_index_of_good ) ) )
     }
-    row . appendChild ( deleteRow_cell () );
+    row . appendChild ( mkCell_deleteRow () );
+  }
+
+    }
   }
 
   function insertTableAndContext_VAT ( rate_groups, consumables ) {
@@ -262,7 +268,8 @@ There are also some elements called `tax_name + " table"`,
                            rate_groups[r][0],
                            rate_groups[r][1],
                            consumables ) }
-    insert_insertRowButton (
+    insert_button (
+      "insert new tax bracket",
       function () {
         insertRow_VATRates ( table, nonce_for_row_names, 0, consumables )
         nonce_for_row_names = nonce_for_row_names + 1
