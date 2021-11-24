@@ -124,6 +124,20 @@ There are also some elements called `tax_name + " table"`,
     return cell;
   }
 
+  // Creates a row with one blank cell,
+  // the rest buttons to delete that column.
+  function insertRow_deleteColumns (
+    table, // where the table is inserted
+    n      // How many columns will need a button to delete it.
+  ) {
+    var row   = document . createElement ( "tr" );
+    table . appendChild ( row );
+    row . appendChild ( mkCell_text ( "td", "" ) )
+    for (let i = 0; i < n; i++) {
+      row . appendChild ( mkCell_deleteColumn () )
+    }
+  }
+
   // Appends to the "User input" object
   // a button that inserts a row in `tax_table`.
   function insert_button ( label, onclick ) {
@@ -195,21 +209,6 @@ There are also some elements called `tax_name + " table"`,
   // // // //
   // // // // VAT
   // // // //
-
-  // Creates a row with one blank cell,
-  // the rest buttons to delete that column.
-  // TODO Move to the utilities section.
-  function insertRow_deleteColumns (
-    table, // where the table is inserted
-    n      // How many columns will need a button to delete it.
-  ) {
-    var row   = document . createElement ( "tr" );
-    table . appendChild ( row );
-    row . appendChild ( mkCell_text ( "td", "" ) )
-    for (let i = 0; i < n; i++) {
-      row . appendChild ( mkCell_deleteColumn () )
-    }
-  }
 
   nonce_for_column_names = (
     // PITFALL: Global variable.
