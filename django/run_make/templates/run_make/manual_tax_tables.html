@@ -196,63 +196,9 @@ There are also some elements called `tax_name + " table"`,
   // // // // VAT
   // // // //
 
-  nonce_for_row_names = (
-    // PITFALL: Global variable.
-    // This number is arbitrary, but it must be
-    // greater than the number of VAT rates initially in the table.
-    // Each time a VAT rate is added,
-    // this becomes the name of that rate,
-    // and is incremented by one.
-    //
-    // This is not needed for the income tax,
-    // because there the name of the row added doesn't matter;
-    // in fact it doesn't even have one.
-    9999 )
-
-  function insertRow_VATHeader ( table, consumables ) {
-    // Modifies `table`. Returns nothing.
-    var row   = document . createElement ( "tr" );
-    table . appendChild ( row );
-    row . appendChild (
-      mkCell_text ( "th", "tax rate" ) )
-    for (let c of consumables) {
-      row . appendChild (
-        mkCell_text ( "th", c ) )
-    }
-  }
-
-  function insertRow_VATRates (
-    table,
-    rate_index,
-    rate,
-    consumable_pairs // a list of (good name, vat rate index) pairs,
-                // where <vat rate index> is an int starting from 0
-                // meant to index rate_groups.
-  ) {
-    // Modifies `table`. Returns nothing.
-    var row   = document . createElement ( "tr" );
-    table . appendChild ( row );
-    row . appendChild (
-      mkCell ( "td",
-               mkInput_numeric (
-                 "VAT, rate, " + rate_index.toString(),
-                 rate ) ) )
-    for (let ci in consumable_pairs) {
-      good               = consumable_pairs[ci]
-      good_name          = good[0]
-      rate_index_of_good = good[1]
-      row . appendChild (
-        mkCell ( "td",
-                 mkInput_radio (
-                   name    = "VAT, consumable, " + good_name,
-                   value   = rate_index,
-                   checked = rate_index == rate_index_of_good ) ) )
-    }
-    row . appendChild ( mkCell_deleteRow () );
-  }
-
   // Creates a row with one blank cell,
   // the rest buttons to delete that column.
+  // TODO Move to the utilities section.
   function insertRow_deleteColumns (
     table, // where the table is inserted
     n      // How many columns will need a button to delete it.
@@ -264,33 +210,6 @@ There are also some elements called `tax_name + " table"`,
       row . appendChild ( mkCell_deleteColumn () )
     }
   }
-
-  function insertTableAndContext_VAT ( rate_groups, consumables ) {
-    let hostForm = document . getElementById ( "User input" )
-    let table = document . createElement ( "table" )
-    hostForm . appendChild ( table )
-    table . createCaption ()
-    table . border = "1";
-    insertRow_VATHeader ( table,
-                          column_from_list_of_rows (
-                            0, consumables ) )
-    for (let r of rate_groups) {
-      insertRow_VATRates ( table,
-                           r[0],
-                           r[1],
-                           consumables ) }
-    insert_button (
-      "insert new tax bracket",
-      function () {
-        insertRow_VATRates ( table, nonce_for_row_names, 0, consumables )
-        nonce_for_row_names = nonce_for_row_names + 1
-      } )
-  }
-
-
-  // // // //
-  // // // // Experimental: VAT with header column at left
-  // // // //
 
   nonce_for_column_names = (
     // PITFALL: Global variable.
@@ -450,13 +369,6 @@ There are also some elements called `tax_name + " table"`,
   <script>
     var vat_rate_groups = {{vat_rate_groups|safe}}
     var vat_consumables = {{vat_consumables|safe}}
-    // insertTableAndContext_VAT ( vat_rate_groups,
-    //                             vat_consumables )
-  </script>
-
-  <h2> VAT, transposed </h2>
-
-  <script>
     insertTableAndContext_VAT_transposed ( vat_rate_groups,
                                            vat_consumables )
   </script>
