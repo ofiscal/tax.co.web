@@ -32,19 +32,20 @@ def get_csv ( filename ):
       rows . append( row )
   return rows
 
-fake_vat_group_data_path = "config/vat/fake_grouped"
+vat_data_path = "config/vat"
 
 def get_VAT_rate_groups () -> List[ float ]:
   return get_csv (
     os.path.join ( tax_co_root,
-                   fake_vat_group_data_path,
+                   vat_data_path,
                    "rate_groups.csv" )
   ) [1:] # Drop column names.
 
 def get_VAT_consumable_groups():
   return get_csv (
     os.path.join ( tax_co_root,
-                   fake_vat_group_data_path,
+                   vat_data_path,
+                   "fake_grouped",
                    "consumable_groups.csv" )
   ) [1:] # Drop column names.
 
