@@ -92,8 +92,8 @@ There are also some elements called `tax_name + " table"`,
     var table = cell   . parentNode . parentNode // Cell -> Row -> Table
     var colIndex = cell . cellIndex
     if ( table . rows . length > 2 ) {
-      for (let ri = 0; ri < table.rows.length; ri++) {
-        table.rows [ri] . deleteCell (colIndex)
+      for (let row of table.rows) {
+        row . deleteCell (colIndex)
       }
     }
   }
@@ -215,9 +215,9 @@ There are also some elements called `tax_name + " table"`,
     table . appendChild ( row );
     row . appendChild (
       mkCell_text ( "th", "tax rate" ) )
-    for (let c in consumables) {
+    for (let c of consumables) {
       row . appendChild (
-        mkCell_text ( "th", consumables[c] ) )
+        mkCell_text ( "th", c ) )
     }
   }
 
@@ -263,10 +263,10 @@ There are also some elements called `tax_name + " table"`,
     insertRow_VATHeader ( table,
                           column_from_list_of_rows (
                             0, consumables ) )
-    for (let r in rate_groups) {
+    for (let r of rate_groups) {
       insertRow_VATRates ( table,
-                           rate_groups[r][0],
-                           rate_groups[r][1],
+                           r[0],
+                           r[1],
                            consumables ) }
     insert_button (
       "insert new tax bracket",
