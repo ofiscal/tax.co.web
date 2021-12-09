@@ -23,6 +23,7 @@ global_requests_log = os.path.join ( tax_co_root,
 
 def get_csv ( filename ):
   with open( filename,
+             encoding = 'utf-8'
             ) as csvfile:
     rows = []
     spamreader = csv.reader ( csvfile,
@@ -45,7 +46,7 @@ def get_VAT_consumable_groups():
   return get_csv (
     os.path.join ( tax_co_root,
                    vat_data_path,
-                   "fake_grouped",
+                   "grouped",
                    "consumable_groups.csv" )
   ) [1:] # Drop column names.
 

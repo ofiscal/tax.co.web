@@ -234,7 +234,8 @@ def write_vat_rates_to_user_folder (
       os.path.join (
         user_folder, "config/vat",
         "consumable_groups.csv" ),
-      'w' ) as csvfile:
+      mode = 'w',
+      encoding = "utf-8" ) as csvfile:
     w = csv.writer( csvfile, delimiter=',', quotechar = '\"',
                     lineterminator="\n",
                     quoting = csv.QUOTE_MINIMAL)
