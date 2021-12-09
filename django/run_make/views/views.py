@@ -162,7 +162,7 @@ with open(filename,"rb") as file_object:
         kwargs = {
           "user_email" : user_email } ) )
 
-  else: # before user submits form
+  else: # Before user submits form
     marginal_rate_floor_taxes = (
       lib . fetch_marginal_rate_floor_taxes (
         [ tax_co_root + abs_path
@@ -173,7 +173,7 @@ with open(filename,"rb") as file_object:
       request,
       "run_make/manual_tax_tables.html",
       { "advanced_specs_form" : TaxConfigForm (),
-        "taxes" : marginal_rate_floor_taxes,
+        "income_taxes" : marginal_rate_floor_taxes,
           # PITFALL: Django cannot pass dictionaries to Javascript.
           # PITFALL: Javascript does not offer tuples, only lists.
           # That's why `marginal_rate_tables` is an inhomogeneous list.
@@ -181,8 +181,8 @@ with open(filename,"rb") as file_object:
           # to at least some extent, within constructs like
           # {% for ... %} ... {% endfor %},
           # but sticking to lists seems safer.)
-        "vat_rate_groups" : lib . get_VAT_rate_groups (),
-        "vat_consumables" : lib.get_VAT_consumable_groups (),
+        "vat_rate_groups"   : lib . get_VAT_rate_groups (),
+        "consumable_groups" : lib . get_VAT_consumable_groups (),
        } )
 
 def thank_for_spec ( request, user_email ):

@@ -345,7 +345,7 @@ There are also some elements called `tax_name + " table"`,
   <h2> Income taxes </h2>
 
   <script>
-    {% for sched in taxes %}
+    {% for sched in income_taxes %}
       // PITFALL: The `var` keyword must be used here,
       // because these three variables are redefined
       // each time Django evaluates this { } loop.
@@ -367,9 +367,9 @@ There are also some elements called `tax_name + " table"`,
 
   <script>
     var vat_rate_groups = {{vat_rate_groups|safe}}
-    var vat_consumables = {{vat_consumables|safe}}
+    var consumable_groups = {{consumable_groups|safe}}
     insertTableAndContext_VAT_transposed ( vat_rate_groups,
-                                           vat_consumables )
+                                           consumable_groups )
   </script>
 
   <br> <hr> <hr>
