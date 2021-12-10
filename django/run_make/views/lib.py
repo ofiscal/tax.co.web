@@ -50,6 +50,14 @@ def get_consumable_coicop_groups():
                    "consumable_groups.csv" )
   ) [1:] # Drop column names.
 
+def get_consumable_other_groups():
+  return get_csv (
+    os.path.join ( tax_co_root,
+                   vat_data_path,
+                   "fake_grouped",
+                   "consumable_groups_other.csv" )
+  ) [1:] # Drop column names.
+
 def hash_from_str ( s : str ) -> str:
   return (
     "u" + # Because Python library paths must start with letters, not numbers.
