@@ -42,19 +42,19 @@ def get_VAT_rate_groups () -> List[ float ]:
                    "rate_groups.csv" )
   ) [1:] # Drop column names.
 
-def get_consumable_coicop_groups():
+def get_consumable_groups_by_coicop():
   return get_csv (
     os.path.join ( tax_co_root,
                    vat_data_path,
                    "grouped",
-                   "consumable_groups.csv" )
+                   "consumable_groups_by_coicop.csv" )
   ) [1:] # Drop column names.
 
-def get_consumable_other_groups():
+def get_consumable_groups_other():
   return get_csv (
     os.path.join ( tax_co_root,
                    vat_data_path,
-                   "fake_grouped",
+                   "grouped",
                    "consumable_groups_other.csv" )
   ) [1:] # Drop column names.
 

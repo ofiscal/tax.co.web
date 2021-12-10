@@ -366,15 +366,15 @@ There are also some elements called `tax_name + " table"`,
   <h2> VAT </h2>
 
   <script>
-    var vat_rate_groups          = {{vat_rate_groups|safe}}
-    var consumable_coicop_groups = {{consumable_coicop_groups|safe}}
-    var consumable_other_groups  = {{consumable_other_groups|safe}}
+    var vat_rate_groups             = {{vat_rate_groups|safe}}
+    var consumable_groups_by_coicop = {{consumable_groups_by_coicop|safe}}
+    var consumable_groups_other     = {{consumable_groups_other|safe}}
     insertTableAndContext_VAT_transposed (
       vat_rate_groups,
-      consumable_coicop_groups )
+      consumable_groups_by_coicop )
     insertTableAndContext_VAT_transposed (
       vat_rate_groups,
-      consumable_other_groups )
+      consumable_groups_other )
   </script>
 
   <br> <hr> <hr>
