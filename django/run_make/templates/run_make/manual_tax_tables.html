@@ -291,9 +291,10 @@ There are also some elements called `tax_name + " table"`,
     consumables_by_coicop
   ) {
     let hostForm = document . getElementById ( "User input" )
+
     let table = document . createElement ( "table" )
     hostForm . appendChild ( table )
-    table . createCaption ()
+
     table . border = "1"
     insertRow_VATHeader_transposed ( table, rate_groups )
 
@@ -365,6 +366,9 @@ There are also some elements called `tax_name + " table"`,
 
   <h2> VAT </h2>
 
+  Base VAT rates by COICOP prefix. <br>
+  Every good is in exactly one of these groups. <br>
+
   <script>
     var vat_rate_groups             = {{vat_rate_groups|safe}}
     var consumable_groups_by_coicop = {{consumable_groups_by_coicop|safe}}
@@ -372,6 +376,14 @@ There are also some elements called `tax_name + " table"`,
     insertTableAndContext_VAT_transposed (
       vat_rate_groups,
       consumable_groups_by_coicop )
+  </script>
+
+  <br> <br>
+  VAT rates for other groupings of goods. <br>
+  Some goods are in more than one of these groups, some are in none. <br>
+  Negative numbers are valid; they represent subsidies. <br>
+
+  <script>
     insertTableAndContext_VAT_transposed (
       vat_rate_groups,
       consumable_groups_other )
