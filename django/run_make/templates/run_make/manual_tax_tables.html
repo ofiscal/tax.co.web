@@ -288,7 +288,7 @@ There are also some elements called `tax_name + " table"`,
 
   function insertTableAndContext_VAT_transposed (
     rate_groups,
-    consumables
+    consumables_by_coicop
   ) {
     let hostForm = document . getElementById ( "User input" )
     let table = document . createElement ( "table" )
@@ -297,7 +297,7 @@ There are also some elements called `tax_name + " table"`,
     table . border = "1"
     insertRow_VATHeader_transposed ( table, rate_groups )
 
-    for (let ci of consumables) {
+    for (let ci of consumables_by_coicop) {
       let consumable               = ci [0]
       let rate_index_of_consumable = ci [1]
       insertRow_VAT_transposed (
@@ -311,7 +311,7 @@ There are also some elements called `tax_name + " table"`,
       "insert new VAT rate",
       function () {
         insertColumn_VAT_transposed (
-          table, consumables )
+          table, consumables_by_coicop )
       } )
   }
 
@@ -367,9 +367,9 @@ There are also some elements called `tax_name + " table"`,
 
   <script>
     var vat_rate_groups = {{vat_rate_groups|safe}}
-    var consumable_groups = {{consumable_groups|safe}}
+    var consumable_coicop_groups = {{consumable_coicop_groups|safe}}
     insertTableAndContext_VAT_transposed ( vat_rate_groups,
-                                           consumable_groups )
+                                           consumable_coicop_groups )
   </script>
 
   <br> <hr> <hr>

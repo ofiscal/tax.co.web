@@ -182,7 +182,7 @@ with open(filename,"rb") as file_object:
           # {% for ... %} ... {% endfor %},
           # but sticking to lists seems safer.)
         "vat_rate_groups"   : lib . get_VAT_rate_groups (),
-        "consumable_groups" : lib . get_VAT_consumable_groups (),
+        "consumable_coicop_groups" : lib . get_consumable_coicop_groups (),
        } )
 
 def thank_for_spec ( request, user_email ):
