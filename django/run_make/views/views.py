@@ -23,13 +23,13 @@ if True:
 
 marginal_rate_tables = {
   "/config/marginal_rates/most.csv" :
-    "El impuesto para la mayoría de las categorías de ingreso:",
+    "la mayoría de los ingresos",
   "/config/marginal_rates/dividend.csv" :
-    "El impuesto para los dividendos:",
+    "dividendos",
   "/config/marginal_rates/ocasional_high.csv" :
-    "El impuesto más alto para los ingresos ocasionales:",
+    "tasa alta de ingresos ocasionales",
   "/config/marginal_rates/ocasional_low.csv" :
-    "El impuesto más bajo para los ingresos ocasionales:",
+    "tasa baja de ingresos ocasionales",
 }
 
 vat_tables = {
@@ -165,7 +165,8 @@ with open(filename,"rb") as file_object:
   else: # Before user submits form
     marginal_rate_floor_taxes = (
       lib . fetch_marginal_rate_floor_taxes (
-        [ tax_co_root + abs_path
+        [ ( tax_co_root + abs_path,
+           marginal_rate_tables [ abs_path ] )
           for abs_path
           in marginal_rate_tables . keys () ] ) )
 

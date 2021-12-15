@@ -176,10 +176,12 @@ There are also some elements called `tax_name + " table"`,
     row . appendChild ( mkCell_deleteRow () );
   }
 
-  function createTable_incomeTax ( tax_name, tax_rates ) {
+  function createTable_incomeTax (
+    tax_name, tax_rates, tax_name_in_spanish
+  ) {
     let tax_table = document . createElement ( "table" );
     tax_table . createCaption ();
-    tax_table . innerHTML = tax_name; // Set the caption.
+    tax_table . innerHTML = tax_name_in_spanish; // Set the caption.
     tax_table . border = "1";
 
     let row_1 = document . createElement ( "tr" );
@@ -194,9 +196,12 @@ There are also some elements called `tax_name + " table"`,
     return tax_table;
   }
 
-  function insertTableAndContext_incomeTax ( tax_name, tax_rates ) {
+  function insertTableAndContext_incomeTax (
+    tax_name, tax_rates, tax_name_in_spanish
+  ) {
     let hostForm = document . getElementById ( "User input" )
-    let tax_table = createTable_incomeTax ( tax_name, tax_rates );
+    let tax_table = createTable_incomeTax (
+      tax_name, tax_rates, tax_name_in_spanish );
     hostForm . appendChild ( tax_table );
     insert_button (
       "agregar intervalo de impuestos",
@@ -355,9 +360,11 @@ There are also some elements called `tax_name + " table"`,
         // Javascript won't recognize Django-passed variables
         // like {{sched}} inside of functions.
         // I don't know why the |safe is needed but it is.
-      var tax_name = sched[0]
-      var tax_rates = sched[1]
-      insertTableAndContext_incomeTax ( tax_name, tax_rates )
+      var tax_name            = sched[0]
+      var tax_rates           = sched[1]
+      var tax_name_in_spanish = sched[2]
+      insertTableAndContext_incomeTax (
+        tax_name, tax_rates, tax_name_in_spanish )
     {% endfor %}
 
   </script>

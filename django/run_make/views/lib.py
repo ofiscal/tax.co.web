@@ -196,10 +196,15 @@ def read_rate_floor_table (
 
 def fetch_marginal_rate_floor_taxes ( paths_to_rate_tables ):
   """
-  Returns a list of lists in which the first element is an income tax name,
-  and the second element is a list of 2-element lists,
-  the first element of which is a rate and the second an income floor
-  at which the rate begins to apply.
+  INPUT: A list of (path, Spanish description) pairs.
+  #
+  OUTPUT: a list of lists in which:
+    the first element is an income tax name,
+    the second element is a list of 2-element lists,
+      the first element of which is a rate and the second an income floor
+      at which the rate begins to apply,
+    and the third element is a label in Spanish of the tax.
+  #
   PITFALL: This (tax.co.web) uses floors, not ceilings as in tax.co,
   because floors are easier to represent in the UI:
   they don't require the user to understand the concept of infinity,
@@ -207,6 +212,8 @@ def fetch_marginal_rate_floor_taxes ( paths_to_rate_tables ):
   """
   rates = []
   for p in paths_to_rate_tables:
+    (path, description) = (p[0], p[1])
     rates . append (
-      read_rate_floor_table ( p ) )
+      read_rate_floor_table ( path ) + [ description ]
+    )
   return rates
