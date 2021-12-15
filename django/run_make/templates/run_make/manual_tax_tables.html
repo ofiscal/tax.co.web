@@ -106,7 +106,7 @@ There are also some elements called `tax_name + " table"`,
     var button = document . createElement ( "input" );
     cell . appendChild ( button );
     button . type = "button";
-    button . value = "delete row";
+    button . value = "borrar fila"
     button . onclick = function () { deleteRow( button ) };
     return cell;
   }
@@ -119,7 +119,7 @@ There are also some elements called `tax_name + " table"`,
     var button = document . createElement ( "input" );
     cell . appendChild ( button );
     button . type = "button";
-    button . value = "delete column";
+    button . value = "borrar columna";
     button . onclick = function () { deleteColumn (button) };
     return cell;
   }
@@ -185,9 +185,9 @@ There are also some elements called `tax_name + " table"`,
     let row_1 = document . createElement ( "tr" );
     tax_table . appendChild ( row_1 );
     row_1 . appendChild (
-      mkCell_text ( "th", "Tax rate" ) )
+      mkCell_text ( "th", "Tasa impositiva" ) )
     row_1 . appendChild (
-      mkCell_text ( "th", "Min income subject to rate" ) )
+      mkCell_text ( "th", "Ingreso mínimo para aplicar la tasa" ) )
     for (let row of tax_rates) {
       insertRow_marginalRate(
         tax_table, tax_name, row[0], row[1] ); }
@@ -199,7 +199,7 @@ There are also some elements called `tax_name + " table"`,
     let tax_table = createTable_incomeTax ( tax_name, tax_rates );
     hostForm . appendChild ( tax_table );
     insert_button (
-      "insert new tax bracket",
+      "agregar intervalo de impuestos",
       function () {
         insertRow_marginalRate ( tax_table, tax_name ) } )
     insertHr ( hostForm )
@@ -309,7 +309,7 @@ There are also some elements called `tax_name + " table"`,
     }
     insertRow_deleteColumns ( table, rate_groups.length )
     insert_button (
-      "insert new VAT rate",
+      "agregue otra tasa del IVA",
       function () {
         insertColumn_VAT_transposed (
           table, consumables_by_coicop )
@@ -318,7 +318,7 @@ There are also some elements called `tax_name + " table"`,
 
 </script>
 
-<h1> Change the taxes! </h1>
+<h1> ¡Simula tu propia reforma tributaría! </h1>
 
 <hr> <hr>
 
@@ -328,7 +328,7 @@ There are also some elements called `tax_name + " table"`,
       method = "post">
   {% csrf_token %}
 
-  <h2> What should I call this section? </h2>
+  <h2> Datos para enviarte los resultados. </h2>
 
   {% for field in advanced_specs_form %}
     <div class="fieldWrapper">
@@ -343,7 +343,7 @@ There are also some elements called `tax_name + " table"`,
 
   <br> <hr> <hr>
 
-  <h2> Income taxes </h2>
+  <h2> Impuesto de renta </h2>
 
   <script>
     {% for sched in income_taxes %}
@@ -364,10 +364,10 @@ There are also some elements called `tax_name + " table"`,
 
   <hr>
 
-  <h2> VAT </h2>
+  <h2> IVA </h2>
 
-  Base VAT rates by COICOP prefix. <br>
-  Every good is in exactly one of these groups. <br>
+  Tasa base del IVA según código COICOP <br>
+  (Cada bien esta en uno y solo uno de estos grupos.) <br>
 
   <script>
     var vat_rate_groups             = {{vat_rate_groups|safe}}
@@ -379,9 +379,10 @@ There are also some elements called `tax_name + " table"`,
   </script>
 
   <br> <br>
-  VAT rates for other groupings of goods. <br>
-  Some goods are in more than one of these groups, some are in none. <br>
-  Negative numbers are valid; they represent subsidies. <br>
+  Tasas del IVA para grupos particulares de bienes. <br>
+  Hay bienes que están en varios grupos
+  y hay otros que no estan en ningún grupo. <br>
+  Las tasas negativas son válidas y representan subsidios. <br>
 
   <script>
     insertTableAndContext_VAT_transposed (
