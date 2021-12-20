@@ -81,7 +81,7 @@ There are also some elements called `tax_name + " table"`,
       // PITFALL: If there is only one row of values --
       // the first row being titles, not values --
       // then the user is not allowed to delete it.
-      // This isn't critical; it just reduces user confusion.
+      // This isn't critical. It just reduces user confusion.
       table . deleteRow ( row . rowIndex );
     }
   }
@@ -248,9 +248,10 @@ There are also some elements called `tax_name + " table"`,
   }
 
   function insertRow_VAT_transposed (
-    table,       // what to modify
-    rate_groups, // a list of (index starting from 0, VAT rate) pairs
-    consumable,  // what this new row will describe, e.g. "medicines"
+    table,         // what to modify
+    kind_of_group, // either "coicop_prefix" or "other_groups"
+    rate_groups,   // a list of (index starting from 0, VAT rate) pairs
+    consumable,    // what this new row will describe, e.g. "medicines"
     rate_index_of_consumable, // an index into rate_groups, starting at 0
   ) {
     var row   = document . createElement ( "tr" );
@@ -262,7 +263,7 @@ There are also some elements called `tax_name + " table"`,
       row . appendChild (
         mkCell ( "td",
                  mkInput_radio (
-                   name    = "VAT, consumable, " + consumable,
+                   name    = "VAT, " + kind_of_group + ", " + consumable,
                    value   = rate_index,
                    checked = rate_index == rate_index_of_consumable ) ) )
     }
@@ -270,6 +271,7 @@ There are also some elements called `tax_name + " table"`,
 
   function insertColumn_VAT_transposed (
     table, // what to modify
+    kind_of_group, // either "coicop_prefix" or "other_groups"
     consumable_pairs // (name, rate index) pairs for each consumable group,
                      // e.g. [ ("medicine",0), ..]
   ) {
@@ -285,13 +287,14 @@ There are also some elements called `tax_name + " table"`,
       table.rows [ ci+1 ] . appendChild ( // +1 to skip the header row
         mkCell ( "td",
                  mkInput_radio (
-                   name    = "VAT, consumable, " + consumable,
+                   name    = "VAT, " + kind_of_group + ", " + consumable,
                    value   = nonce_for_column_names ) ) ) }
     table.rows [ consumable_pairs.length + 1 ] . appendChild (
       mkCell_deleteColumn () )
   }
 
   function insertTableAndContext_VAT_transposed (
+    kind_of_group, // either "coicop_prefix" or "other_groups"
     rate_groups,
     consumables_by_coicop
   ) {
@@ -308,6 +311,7 @@ There are also some elements called `tax_name + " table"`,
       let rate_index_of_consumable = ci [1]
       insertRow_VAT_transposed (
         table                    = table,
+        kind_of_group            = kind_of_group,
         rate_groups              = rate_groups,
         consumable               = consumable,
         rate_index_of_consumable = rate_index_of_consumable )
@@ -317,7 +321,9 @@ There are also some elements called `tax_name + " table"`,
       "agregue otra tasa del IVA",
       function () {
         insertColumn_VAT_transposed (
-          table, consumables_by_coicop )
+          table,
+          kind_of_group,
+          consumables_by_coicop )
       } )
   }
 
@@ -381,6 +387,7 @@ There are also some elements called `tax_name + " table"`,
     var consumable_groups_by_coicop = {{consumable_groups_by_coicop|safe}}
     var consumable_groups_other     = {{consumable_groups_other|safe}}
     insertTableAndContext_VAT_transposed (
+      "coicop_prefix",
       vat_rate_groups,
       consumable_groups_by_coicop )
   </script>
@@ -392,9 +399,14 @@ There are also some elements called `tax_name + " table"`,
   Las tasas negativas son válidas y representan subsidios. <br>
 
   <script>
+    // PITFALL:  The columns of the two VAT tables must use different rate group indices.
+    // That's why nonce_for_column_names is used below, and then incremented.
     insertTableAndContext_VAT_transposed (
-      vat_rate_groups,
+      "other_groups",
+      [[ nonce_for_column_names, 0 ]],
       consumable_groups_other )
+    nonce_for_column_names = (
+      nonce_for_column_names + 1 )
   </script>
 
   <br> <hr> <hr>

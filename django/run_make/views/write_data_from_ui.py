@@ -197,21 +197,33 @@ def write_marginal_rates_to_user_folder (
 
 def flat_vat_dict_to_consumables_list ( vat_dict ):
   """
-  The test (next) explains what this does.
+  The test (next) *used to* explain what this does.
   """
   vat = make_dict_one_level_hierarchical_from_top ( vat_dict, ", " )
-  rates = vat["rate"]
-  consumables = vat["consumable"]
-  for d in (rates, consumables):
-    for k in d.keys():
+  rates                        = vat["rate"]
+  consumables_by_coicop_prefix = vat["coicop_prefix"]
+  consumables_other_groups     = vat["other_groups"]
+  for d in ( rates,
+             consumables_by_coicop_prefix,
+             consumables_other_groups ):
+    for k in d.keys ():
       d[k] = d[k][0] # Unwrap the list.
-  for k in consumables.keys():
-    # Replace a rate group name (e.g. "2") with a rate (e.g. "0.19").
-    consumables[k] = float ( rates [ consumables [ k ] ] )
-  return ( [ [ "consumable group", "vat" ] ] +
-           [ [ k, consumables [ k ] ]
-             for k in consumables.keys() ] )
+  for d in ( consumables_by_coicop_prefix,
+             consumables_other_groups ):
+    for k in d.keys():
+      # Replace an integer rate group name (e.g. "2")
+      # with a percentage rate (e.g. "0.19").
+      d [k] = float ( rates [ d [ k ] ] )
+  return ( ( [ [ "group", "vat" ] ] +
+             [ [ k, consumables_by_coicop_prefix [ k ] ]
+               for k in consumables_by_coicop_prefix.keys() ] ),
+           ( [ [ "group", "vat" ] ] +
+             [ [ k, consumables_other_groups [ k ] ]
+               for k in consumables_other_groups.keys() ] ) )
 
+# TODO: This is obsolete.
+# It worked when the input data was only a single table,
+# but now it's a pair of tables.
 def test_flat_vat_dict_to_consumables_list ():
   flat = {"rate, 0": ["0.0"],
           "consumable, food": ["0"],
@@ -230,17 +242,20 @@ def test_flat_vat_dict_to_consumables_list ():
 def write_vat_rates_to_user_folder (
     user_folder,
     consumable_groups ):
-  with open (
-      os.path.join (
-        user_folder, "config/vat",
-        "consumable_groups.csv" ),
-      mode = 'w',
-      encoding = "utf-8" ) as csvfile:
-    w = csv.writer( csvfile, delimiter=',', quotechar = '\"',
-                    lineterminator="\n",
-                    quoting = csv.QUOTE_MINIMAL)
-    for row in consumable_groups:
-      w.writerow ( row )
+  for (data, name) in [
+      ( consumable_groups[0], "consumable_groups_by_coicop_prefix" ),
+      ( consumable_groups[1], "consumable_groups_other" ) ]:
+    with open (
+        os.path.join (
+          user_folder, "config/vat",
+          name + ".csv" ),
+        mode = 'w',
+        encoding = "utf-8" ) as csvfile:
+      w = csv.writer( csvfile, delimiter=',', quotechar = '\"',
+                      lineterminator="\n",
+                      quoting = csv.QUOTE_MINIMAL)
+      for row in data:
+        w.writerow ( row )
 
 def divide_post_object_into_dicts ( post_object ):
   d = dict ( post_object )
