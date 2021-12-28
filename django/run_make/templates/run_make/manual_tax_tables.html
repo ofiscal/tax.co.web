@@ -253,6 +253,8 @@ There are also some elements called `tax_name + " table"`,
     rate_groups,   // a list of (index starting from 0, VAT rate) pairs
     consumable,    // what this new row will describe, e.g. "medicines"
     rate_index_of_consumable, // an index into rate_groups, starting at 0
+    check_all // Whether to check every radio button created.
+              // Reasonable only if there's only one column of radio buttons.
   ) {
     var row   = document . createElement ( "tr" );
     table . appendChild ( row );
@@ -265,7 +267,9 @@ There are also some elements called `tax_name + " table"`,
                  mkInput_radio (
                    name    = "VAT, " + kind_of_group + ", " + consumable,
                    value   = rate_index,
-                   checked = rate_index == rate_index_of_consumable ) ) )
+                   checked = ( check_all ||
+                               (rate_index == rate_index_of_consumable) )
+                               ) ) )
     }
   }
 
@@ -296,7 +300,8 @@ There are also some elements called `tax_name + " table"`,
   function insertTableAndContext_VAT_transposed (
     kind_of_group, // either "coicop_prefix" or "other_groups"
     rate_groups,
-    consumables_by_coicop
+    consumables_by_coicop,
+    check_all = false
   ) {
     let hostForm = document . getElementById ( "User input" )
 
@@ -314,7 +319,9 @@ There are also some elements called `tax_name + " table"`,
         kind_of_group            = kind_of_group,
         rate_groups              = rate_groups,
         consumable               = consumable,
-        rate_index_of_consumable = rate_index_of_consumable )
+        rate_index_of_consumable = rate_index_of_consumable,
+        check_all                = check_all
+      )
     }
     insertRow_deleteColumns ( table, rate_groups.length )
     insert_button (
@@ -387,9 +394,9 @@ There are also some elements called `tax_name + " table"`,
     var consumable_groups_by_coicop = {{consumable_groups_by_coicop|safe}}
     var consumable_groups_other     = {{consumable_groups_other|safe}}
     insertTableAndContext_VAT_transposed (
-      "coicop_prefix",
-      vat_rate_groups,
-      consumable_groups_by_coicop )
+      kind_of_group         = "coicop_prefix",
+      rate_groups           = vat_rate_groups,
+      consumables_by_coicop = consumable_groups_by_coicop )
   </script>
 
   <br> <br>
@@ -402,9 +409,10 @@ There are also some elements called `tax_name + " table"`,
     // PITFALL:  The columns of the two VAT tables must use different rate group indices.
     // That's why nonce_for_column_names is used below, and then incremented.
     insertTableAndContext_VAT_transposed (
-      "other_groups",
-      [[ nonce_for_column_names, 0 ]],
-      consumable_groups_other )
+      kind_of_group         = "other_groups",
+      rate_groups           = [[ nonce_for_column_names, 0 ]],
+      consumables_by_coicop = consumable_groups_other,
+      check_all             = true )
     nonce_for_column_names = (
       nonce_for_column_names + 1 )
   </script>
