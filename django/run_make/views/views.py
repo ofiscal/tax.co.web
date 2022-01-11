@@ -155,6 +155,7 @@ with open(filename,"rb") as file_object:
       write_ui . write_vat_rates_to_user_folder (
         user_path,
         write_ui . flat_vat_dict_to_consumables_list ( vat ) )
+      lib . append_request_to_db ( user_hash )
 
     return HttpResponseRedirect (
       reverse (
