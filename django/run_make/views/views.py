@@ -42,52 +42,6 @@ vat_tables = {
 rate_tables = { **marginal_rate_tables,
                 **vat_tables }
 
-def ingest_full_spec ( request ):
-  """
-  SEE ALSO:
-  To understand this it might be helpful to look at
-  `upload_multiple` in `run_make.views.examples` too.
-
-  PITFALL: Strange, slightly-recursive call structure.
-  The user first visits this URL with a GET.
-  They see a blank form, corresponding to the second ("else") branch below.
-  Once they fill out and submit the form, it is sent via POST
-  to this same function, and goes through the first ("if") branch.
-  """
-
-  if request . method == "POST":
-    advanced_specs_form = TaxConfigForm ( request . POST )
-
-    if advanced_specs_form . is_valid ():
-
-      user_email = ( advanced_specs_form
-                     . cleaned_data [ "user_email" ] )
-      user_hash = lib . hash_from_str ( user_email )
-      user_path = os . path . join ( tax_co_root,
-                                     "users/",
-                                     user_hash )
-
-      lib . create_user_folder_tree ( user_path )
-      lib . write_form_to_user_folder ( user_path,
-                                        advanced_specs_form )
-      lib . write_uploaded_files_to_user_folder (
-        table_rel_paths = list ( rate_tables . keys () ),
-        user_path = user_path,
-        request_files = request . FILES )
-      lib . append_request_to_db ( user_hash )
-
-      return HttpResponseRedirect (
-        reverse (
-          "run_make:thank-for-spec",
-          kwargs = { "user_email" : user_email } ) )
-
-  else: return render (
-      request,
-      "run_make/ingest_full_spec.html",
-      { "advanced_specs_form" : TaxConfigForm (),
-        "rate_tables"         : rate_tables
-       } )
-
 def manual_ingest ( request ):
   """
   A view that lets a user manually enter marginal rates in a GUI,

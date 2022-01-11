@@ -1,6 +1,7 @@
 from django.urls import path
 
 import run_make.views.views    as views
+import run_make.views.rare     as rare
 import run_make.views.examples as examples
 
 
@@ -19,9 +20,9 @@ urlpatterns = [
           views.manual_ingest,
           name='manual_ingest'),
 
-    path( 'ingest_full_spec',
-          views.ingest_full_spec,
-          name='ingest_full_spec'),
+    path( 'ingest_spec_as_tables',
+          rare.ingest_spec_as_tables,
+          name='ingest_spec_as_tables'),
 
     path( 'thank-for-spec/<user_email>',
           views.thank_for_spec,
