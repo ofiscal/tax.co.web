@@ -102,7 +102,7 @@ cd /mnt/django
 python3 manage.py shell
 
 import pickle
-filename = "/home/appuser/manual_ingest.pickle"
+filename = "/home/jeff/manual_ingest.pickle"
 with open(filename,"rb") as file_object:
   req = pickle.loads( file_object . read () )
 

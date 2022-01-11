@@ -27,7 +27,7 @@ def render_content_argument ( request ):
 def write_time ( request ):
   """Demonstrates how visiting a URL can be made to (create and) write to a file."""
   now = datetime . now () . timestamp()
-  with open( "/home/appuser/" + str ( now ),
+  with open( "/home/jeff/" + str ( now ),
              'w' ) as f:
     f . write( "Writing time (for run_make/write_time.html)\n" )
   return render (
@@ -61,7 +61,7 @@ cd /mnt/django
 python3 manage.py shell
 
 import pickle
-filename = '/home/appuser/radio_table.pickle'
+filename = '/home/jeff/radio_table.pickle'
 with open(filename,'rb') as file_object:
   req = pickle.loads( file_object . read () )
 
@@ -100,7 +100,7 @@ cd /mnt/django
 python3 manage.py shell
 
 import pickle
-filename = '/home/appuser/radio_table_transposed.pickle'
+filename = '/home/jeff/radio_table_transposed.pickle'
 with open(filename,'rb') as file_object:
   req = pickle.loads( file_object . read () )
 
@@ -143,7 +143,7 @@ cd /mnt/django
 python3 manage.py shell
 
 import pickle
-filename = '/home/appuser/radio_table_generated.pickle'
+filename = '/home/jeff/radio_table_generated.pickle'
 with open(filename,'rb') as file_object:
   req = pickle.loads( file_object . read () )
 
@@ -182,7 +182,7 @@ def dynamic_form ( request ):
 cd /mnt/django
 python3 manage.py shell
 import pickle
-filename = '/home/appuser/dynamic_table.pickle'
+filename = '/home/jeff/dynamic_table.pickle'
 with open(filename,'rb') as file_object:
   req = pickle.loads( file_object . read () )
 

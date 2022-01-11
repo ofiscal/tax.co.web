@@ -16,7 +16,7 @@ echo "" > /etc/cron.deny
 service cron stop && service cron start
 exit
 
-# Enter Docker container as appuser, set up Apache, stay in Docker.
+# Enter Docker container as jeff, set up Apache, stay in Docker.
 docker exec -it tax.co.web bash
 bash /mnt/apache2/offline/link.sh
 service apache2 stop && service apache2 start

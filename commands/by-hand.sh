@@ -57,7 +57,7 @@ docker run --name tax.co.web -it                     \
 docker start tax.co.web
 
 # Enter Docker container as root, set up cron, exit
-# (so that one can next enter it as appuser).
+# (so that one can next enter it as jeff).
 docker exec -it -u 0 tax.co.web bash
 cp /mnt/tax_co/cron/*_cron /etc/cron.d
 echo "" > /etc/cron.deny
@@ -65,14 +65,14 @@ service cron stop && service cron start
 exit
 
 # ONLINE use:
-# Enter Docker container as appuser, set up Apache.
+# Enter Docker container as jeff, set up Apache.
 docker exec -it tax.co.web bash
 bash /mnt/apache2/online/link.sh
 service apache2 stop && service apache2 start
 cd /mnt/
 
 # OFFLINE use:
-# Enter Docker container as appuser, set up Apache.
+# Enter Docker container as jeff, set up Apache.
 docker exec -it tax.co.web bash
 bash /mnt/apache2/offline/link.sh
 service apache2 stop && service apache2 start

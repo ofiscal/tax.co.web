@@ -1,4 +1,4 @@
-# PITFALL: Currently this operates from /home/appuser,
+# PITFALL: Currently this operates from /home/jeff,
 # so it requires copying the code
 # (specifically go.py and the Makefile) to that folder,
 # before visiting the view will trigger this code.

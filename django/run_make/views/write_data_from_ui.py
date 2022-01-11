@@ -284,7 +284,7 @@ def divide_post_object_into_dicts ( post_object ):
 ### # will write the data to a `marginal_rates/` folder:
 #
 #   import pickle
-#   pickle_path = '/home/appuser/dynamic_table.pickle'
+#   pickle_path = '/home/jeff/dynamic_table.pickle'
 #   with open(pickle_path,'rb') as pickle_being_read:
 #     req = pickle.loads( pickle_being_read . read () )
 #
