@@ -96,7 +96,8 @@ with open(filename,"rb") as file_object:
       if True: # non-tax data
         for k in non_tax.keys():
           non_tax[k] = non_tax[k][0] # Unwrap lists.
-        non_tax [ "regime_year" ] = int ( non_tax [ "regime_year" ] )
+        non_tax [ "strategy" ]    = "detail"
+        non_tax [ "regime_year" ] = 2019
         non_tax [ "subsample" ]   = int ( non_tax [ "subsample" ] )
         with open ( os.path.join ( user_path,
                                    "config/config.json" ),
