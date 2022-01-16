@@ -26,10 +26,9 @@ def get_csv ( filename ):
              encoding = 'utf-8'
             ) as csvfile:
     rows = []
-    spamreader = csv.reader ( csvfile,
-                              delimiter = ',',
-                              quotechar = '"' )
-    for row in spamreader:
+    for row in csv.reader ( csvfile,
+                            delimiter = ',',
+                            quotechar = '"' ):
       rows . append( row )
   return rows
 
