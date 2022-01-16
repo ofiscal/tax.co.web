@@ -420,4 +420,22 @@ There are also some elements called `tax_name + " table"`,
   <br> <hr> <hr>
 
   <input type="submit" value="Submit">
+
+  <br> <hr> <hr>
+
+  <h1> Algunas definiciones <h1>
+
+    <script>
+      {% for e in explainiers %}
+      dummy = document . createElement ( "span" )
+      dummy . innerHTML = ( "\"" +
+                            {{ e | safe }} [0] + "\"  ->  " +
+                            {{ e | safe }} [1] )
+      document . body . appendChild ( dummy )
+      for ( let i of [1,2] ) {
+        document . body . appendChild (
+          document . createElement ( "br" ) ) }
+      {% endfor %}
+    </script>
+
 </form>

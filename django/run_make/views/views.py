@@ -141,6 +141,8 @@ with open(filename,"rb") as file_object:
         "vat_rate_groups"             : lib . get_VAT_rate_groups (),
         "consumable_groups_by_coicop" : lib . get_consumable_groups_by_coicop (),
         "consumable_groups_other"     : lib . get_consumable_groups_other (),
+        "explainiers"                 : lib . get_csv (
+          "/mnt/tax_co/config/vat/grouped/dicc_coicop.csv" ),
        } )
 
 def thank_for_spec ( request, user_email ):
