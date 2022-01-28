@@ -251,7 +251,8 @@ There are also some elements called `tax_name + " table"`,
     table,         // what to modify
     kind_of_group, // either "coicop_prefix" or "other_groups"
     rate_groups,   // a list of (index starting from 0, VAT rate) pairs
-    consumable,    // what this new row will describe, e.g. "medicines"
+    consumable_id, // what this new row will describe, e.g. "medicines"
+    consumable_label, // how it is described to the user
     rate_index_of_consumable, // an index into rate_groups, starting at 0
     check_all // Whether to check every radio button created.
               // Reasonable only if there's only one column of radio buttons.
@@ -259,13 +260,13 @@ There are also some elements called `tax_name + " table"`,
     var row   = document . createElement ( "tr" );
     table . appendChild ( row );
     row . appendChild (
-      mkCell_text ( "td", consumable ) )
+      mkCell_text ( "td", consumable_label ) )
     for (let rgi of rate_groups) {
       let rate_index = rgi [0]
       row . appendChild (
         mkCell ( "td",
                  mkInput_radio (
-                   name    = "VAT, " + kind_of_group + ", " + consumable,
+                   name    = "VAT, " + kind_of_group + ", " + consumable_id,
                    value   = rate_index,
                    checked = ( check_all ||
                                (rate_index == rate_index_of_consumable) )
@@ -312,13 +313,15 @@ There are also some elements called `tax_name + " table"`,
     insertRow_VATHeader_transposed ( table, rate_groups )
 
     for (let ci of consumable_groups) {
-      let consumable               = ci [0]
+      let consumable_id            = ci [0]
       let rate_index_of_consumable = ci [1]
+      let consumable_label         = ci [2]
       insertRow_VAT_transposed (
         table                    = table,
         kind_of_group            = kind_of_group,
         rate_groups              = rate_groups,
-        consumable               = consumable,
+        consumable_id            = consumable_id,
+        consumable_label         = consumable_label,
         rate_index_of_consumable = rate_index_of_consumable,
         check_all                = check_all
       )
