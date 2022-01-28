@@ -142,7 +142,7 @@ with open(filename,"rb") as file_object:
         "consumable_groups_by_coicop" : lib . get_consumable_groups_by_coicop (),
         "consumable_groups_other"     : lib . get_consumable_groups_other (),
         "explainiers"                 : lib . get_csv (
-          "/mnt/tax_co/config/vat/grouped/dicc_coicop.csv" ),
+          "/mnt/tax_co/config/vat/grouped/dicc_non_coicop.csv" ),
        } )
 
 def thank_for_spec ( request, user_email ):
