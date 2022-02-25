@@ -54,6 +54,25 @@ There are also some elements called `tax_name + " table"`,
     return input
   }
 
+  function tie_numeric_inputs_via_a_factor ( in1, in2, factor ) {
+    // PURPOSE: Whenever a value `x` is input into `in1`,
+    // `factor*x` will appear in `in2`. Similarly, whenever `x`
+    // is input into `in2`, `x / factor` will appear in `in1`.
+    //
+    // ILLUSTRATION:
+    // See two_views_of_the_same_data.html
+    //
+    // PITFALL: Currently this generates no infinite loop,
+    // but if the evaluation rules defined by Javascript ever change,
+    /// it might.
+    in1.addEventListener(
+      'change',
+      function() { in2.value = in1.value * factor } )
+    in2.addEventListener(
+      'change',
+      function() { in1.value = in2.value / factor } )
+  }
+
   function mkInput_radio ( name, value, checked = false ) {
     let input = document . createElement ( "input" )
     input . name = name // What it determines.
@@ -175,17 +194,8 @@ There are also some elements called `tax_name + " table"`,
     threshold_in_cop = mkInput_numeric (
         "income tax, " + tax_name + ", min income in 2022 COP",
       value = min_income * cop_per_uvt )
-    threshold_in_uvt . addEventListener (
-      'change',
-      function() {
-        console.log ( "uvt changed. New value: " +
-                      String( this.value ) ) // TODO: Why do I need to write "this", rather than "threshold_in_uvt"? (If I do the latter, the value never updates.)
-        console.log ( "cop_per_uvt: " + String ( cop_per_uvt ) )
-        threshold_in_cop.value = this.value * cop_per_uvt
-      },
-      // capture = true // no obvious effect
-      // useCapture = true // no obvious effect
-    )
+    tie_numeric_inputs_via_a_factor (
+      threshold_in_uvt, threshold_in_cop, cop_per_uvt )
     row . appendChild ( mkCell ( "td", threshold_in_uvt ) )
     row . appendChild ( mkCell ( "td", threshold_in_cop ) )
     row . appendChild ( mkCell_deleteRow () );

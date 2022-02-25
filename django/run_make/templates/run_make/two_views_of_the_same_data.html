@@ -1,5 +1,5 @@
 <!-- This creates a table with two cells.
-The second cell is always `cop_per_uvt` times the first. -->
+The second cell is always `view_factor` times the first. -->
 
 <body>
   <script>
@@ -12,18 +12,25 @@ The second cell is always `cop_per_uvt` times the first. -->
       return input
     }
 
-    cop_per_uvt = 40
+    function tie_numeric_inputs_via_a_factor ( in1, in2, factor ) {
+      // Whenever a value `x` is input into `in1`,
+      // `3*x` will appear in `in2`. Similarly, whenever `3x`
+      // is input into `in2`, `x` will appear in `in1`.
+      in1.addEventListener(
+        'change',
+        function() { in2.value = in1.value * factor } )
+      in2.addEventListener(
+        'change',
+        function() { in1.value = in2.value / factor } )
+    }
+
+    view_factor = 3
 
     table = document . createElement ( "table" )
     row   = document . createElement ( "tr" )
     in1 = mkInput_numeric ( 1 )
-    in2 = mkInput_numeric ( cop_per_uvt )
-    in1.addEventListener(
-      'change',
-      function() { in2.value = in1.value * cop_per_uvt } )
-    in2.addEventListener(
-      'change',
-      function() { in1.value = in2.value / cop_per_uvt } )
+    in2 = mkInput_numeric ( view_factor )
+    tie_numeric_inputs_via_a_factor ( in1, in2, view_factor )
     row . appendChild ( in1 )
     row . appendChild ( in2 )
     table . appendChild ( row )
