@@ -1,0 +1,32 @@
+<!-- This creates a table with two cells.
+The second cell is always `cop_per_uvt` times the first. -->
+
+<body>
+  <script>
+    function mkInput_numeric ( value = null ) {
+      let input = document . createElement ( "input" )
+      input . step = "any"
+      input . type = "number"
+      if (value != null) {input . value = value }
+      else               {input . value = 0 }
+      return input
+    }
+
+    cop_per_uvt = 40
+
+    table = document . createElement ( "table" )
+    row   = document . createElement ( "tr" )
+    in1 = mkInput_numeric ( 1 )
+    in2 = mkInput_numeric ( cop_per_uvt )
+    in1.addEventListener(
+      'change',
+      function() { in2.value = in1.value * cop_per_uvt } )
+    in2.addEventListener(
+      'change',
+      function() { in1.value = in2.value / cop_per_uvt } )
+    row . appendChild ( in1 )
+    row . appendChild ( in2 )
+    table . appendChild ( row )
+    document . body . appendChild ( table )
+  </script>
+</body>

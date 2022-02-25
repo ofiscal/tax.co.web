@@ -8,6 +8,11 @@ import run_make.views.examples as examples
 app_name = 'run_make'
 
 urlpatterns = [
+
+    path ( "two_views_of_the_same_data",
+           examples . two_views_of_the_same_data,
+           name = "two_views_of_the_same_data" ),
+
     path( 'write_time',
           examples.write_time,
           name='write_time' ),

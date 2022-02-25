@@ -19,6 +19,8 @@ There are also some elements called `tax_name + " table"`,
   // // // // Tax-agnostic utilities
   // // // //
 
+  cop_per_uvt = 38.004
+
   function column_from_list_of_rows (
     column_index, // A numeric index into each row.
                   // PITFALL: Range errors are possible.
@@ -162,18 +164,32 @@ There are also some elements called `tax_name + " table"`,
       min_income = null ) {
     // Duplicates some of the code in insertTable_incomeTax.
     var row   = document . createElement ( "tr" );
-    tax_table . appendChild ( row );
     row . appendChild (
       mkCell ( "td",
                mkInput_numeric (
                  "income tax, " + tax_name + ", tax rate",
                  value = rate ) ) )
-    row . appendChild (
-      mkCell ( "td",
-               mkInput_numeric (
-                 "income tax, " + tax_name + ", min income",
-                 value = min_income ) ) )
+    threshold_in_uvt = mkInput_numeric (
+        "income tax, " + tax_name + ", min income",
+        value = min_income )
+    threshold_in_cop = mkInput_numeric (
+        "income tax, " + tax_name + ", min income in 2022 COP",
+      value = min_income * cop_per_uvt )
+    threshold_in_uvt . addEventListener (
+      'change',
+      function() {
+        console.log ( "uvt changed. New value: " +
+                      String( this.value ) ) // TODO: Why do I need to write "this", rather than "threshold_in_uvt"? (If I do the latter, the value never updates.)
+        console.log ( "cop_per_uvt: " + String ( cop_per_uvt ) )
+        threshold_in_cop.value = this.value * cop_per_uvt
+      },
+      // capture = true // no obvious effect
+      // useCapture = true // no obvious effect
+    )
+    row . appendChild ( mkCell ( "td", threshold_in_uvt ) )
+    row . appendChild ( mkCell ( "td", threshold_in_cop ) )
     row . appendChild ( mkCell_deleteRow () );
+    tax_table . appendChild ( row );
   }
 
   function createTable_incomeTax (
@@ -189,7 +205,13 @@ There are also some elements called `tax_name + " table"`,
     row_1 . appendChild (
       mkCell_text ( "th", "Tasa impositiva" ) )
     row_1 . appendChild (
-      mkCell_text ( "th", "Ingreso mínimo para aplicar la tasa" ) )
+      mkCell_text (
+        "th",
+        "Ingreso mínimo para aplicar la tasa, en UVTs" ) )
+    row_1 . appendChild (
+      mkCell_text (
+        "th",
+        "Ingreso mínimo para aplicar la tasa,en COP (2022)" ) )
     for (let row of tax_rates) {
       insertRow_marginalRate(
         tax_table, tax_name, row[0], row[1] ); }

@@ -13,6 +13,12 @@ from   run_make.forms import TaxConfigForm
 import run_make.views.lib as lib
 
 
+def two_views_of_the_same_data ( request ):
+  return render (
+    request,
+    'run_make/two_views_of_the_same_data.html'
+)
+
 def render_content_argument ( request ):
   """ This demonstrates how to pass in (at least somewhat) arbitrary data from Django to Javascript. Happily, non-strings are not converted to strings."""
   return render (
