@@ -221,7 +221,7 @@ There are also some elements called `tax_name + " table"`,
     row_1 . appendChild (
       mkCell_text (
         "th",
-        "Ingreso mínimo para aplicar la tasa,en COP (2022)" ) )
+        "Ingreso mínimo para aplicar la tasa, en COP (2022)" ) )
     for (let row of tax_rates) {
       insertRow_marginalRate(
         tax_table, tax_name, row[0], row[1] ); }
@@ -358,7 +358,8 @@ There are also some elements called `tax_name + " table"`,
         check_all                = check_all
       )
     }
-    insertRow_deleteColumns ( table, rate_groups.length )
+    // insertRow_deleteColumns ( table, rate_groups.length )
+      // We decided this is confusing.
     insert_button (
       "agregue otra tasa del IVA",
       function () {
