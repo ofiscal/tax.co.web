@@ -1,16 +1,17 @@
 if True:
-  from   datetime import datetime # for datetime.datetime.now
-  from   django.http import HttpResponseRedirect
+  from   datetime         import datetime # for datetime.datetime.now
+  from   django.http      import HttpResponseRedirect
   from   django.shortcuts import render
-  from   django.urls import reverse
+  from   django.urls      import reverse
   import json
   import os
   import pickle
   #
   from   run_make.common import tax_co_root
-  from   run_make.forms import TaxConfigForm
-  import run_make.views.lib as lib
-  import run_make.views.write_data_from_ui as write_ui
+  from   run_make.forms  import TaxConfigForm
+  from   run_make.models import TaxConfig
+  import run_make.views.lib                 as lib
+  import run_make.views.write_data_from_ui  as write_ui
 
 
 ###
@@ -98,7 +99,9 @@ with open(filename,"rb") as file_object:
           non_tax[k] = non_tax[k][0] # Unwrap lists.
         non_tax [ "strategy" ]    = "detail"
         non_tax [ "regime_year" ] = 2019
-        non_tax [ "subsample" ]   = int ( non_tax [ "subsample" ] )
+        non_tax [ "subsample" ]   = TaxConfig.subsample.field.default
+          # Earlier, when reading it from the form, had to do this:
+          # non_tax [ "subsample" ] = int ( non_tax [ "subsample" ] )
         with open ( os.path.join ( user_path,
                                    "config/config.json" ),
                     "w" ) as f:
