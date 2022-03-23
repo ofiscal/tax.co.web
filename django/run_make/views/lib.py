@@ -21,6 +21,15 @@ if True:
 global_requests_log = os.path.join ( tax_co_root,
                                      "requests-log.txt" )
 
+def get_client_ip(request):
+  """https://stackoverflow.com/questions/4581789/how-do-i-get-user-ip-address-in-django/4581997#4581997"""
+  x_forwarded_for = request.META.get ( 'HTTP_X_FORWARDED_FOR' )
+  if x_forwarded_for:
+      ip = x_forwarded_for.split (',') [0]
+  else:
+      ip = request.META.get ( 'REMOTE_ADDR' )
+  return ip
+
 def get_csv ( filename ):
   with open( filename,
              encoding = 'utf-8'

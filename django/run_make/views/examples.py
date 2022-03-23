@@ -13,6 +13,12 @@ from   run_make.forms import TaxConfigForm
 import run_make.views.lib as lib
 
 
+def show_client_ip ( request ):
+  return render (
+    request,
+    "run_make/show_client_ip.html",
+    { "client_ip" : lib.get_client_ip ( request ) } )
+
 def two_views_of_the_same_data ( request ):
   return render (
     request,

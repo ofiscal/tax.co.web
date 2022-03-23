@@ -9,6 +9,10 @@ app_name = 'run_make'
 
 urlpatterns = [
 
+    path ( "show_client_ip",
+           examples . show_client_ip,
+           name = "show_client_ip" ),
+
     path ( "two_views_of_the_same_data",
            examples . two_views_of_the_same_data,
            name = "two_views_of_the_same_data" ),
