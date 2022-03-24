@@ -81,6 +81,19 @@ with open(filename,"rb") as file_object:
       user_path = os . path . join ( com.tax_co_root,
                                      "users/",
                                      user_hash )
+
+      if True: # Reject the request if an earlier one from same user is ongoing (but not if it's merely queued)
+        ongoing_path = os.path.join (
+          com.tax_co_root, "data", "request-ongoing" )
+        if os.path.exists ( ongoing_path ):
+          ongoing = com.readOneLineFile ( ongoing_path )
+          if ongoing == user_hash:
+            return HttpResponseRedirect (
+              reverse (
+                "run_make:reject_greedy_request",
+                kwargs = {
+                  "user_email" : user_email } ) )
+
       (non_tax, income_tax, vat) = (
         write_ui . divide_post_object_into_dicts (
           request . POST ) )
