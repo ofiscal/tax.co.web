@@ -152,3 +152,9 @@ def thank_for_spec ( request, user_email ):
   return render ( request,
                   "run_make/thank_for_spec.html",
                   { "user_email" :  user_email } )
+
+def reject_greedy_request ( request, user_email ):
+  """ If someone asks for a request while a previous request of theirs is being processed, they'll have to wait until it's done. (If it's merely queued, they can submit a new one; the old one will be deleted.) """
+  return render ( request,
+                  "run_make/reject_greedy_request.html",
+                  { "user_email" :  user_email } )

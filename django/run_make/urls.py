@@ -9,6 +9,10 @@ app_name = 'run_make'
 
 urlpatterns = [
 
+    path ( "reject_greedy_request/<user_email>",
+           views . reject_greedy_request,
+           name = "reject_greedy_request" ),
+
     path ( "show_client_ip",
            examples . show_client_ip,
            name = "show_client_ip" ),
