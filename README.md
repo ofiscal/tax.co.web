@@ -6,6 +6,13 @@ and gets the results to the user somehow -- maybe via email,
 as that would avoid a multiuser storage problem.
 
 
+# How to set up this repo
+
+Clone the repo `git@github.com:ofiscal/tax.co.web-system.specific.git`
+and make that a subfolder of this one, called `system-specific/`.
+In that clone, checkout the branch corresponding to the system it's on.
+
+
 # PITFALL: Django's "debug mode" is off by default.
 
 In debug mode, whenever something goes wrong,
