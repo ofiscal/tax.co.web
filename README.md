@@ -9,7 +9,7 @@ as that would avoid a multiuser storage problem.
 # How to set up this repo
 
 Clone the repo `git@github.com:ofiscal/tax.co.web-system.specific.git`
-and make that a subfolder of this one, called `system-specific/`.
+and make that a subfolder of this one, called `system_specific/`.
 In that clone, checkout the branch corresponding to the system it's on.
 
 
