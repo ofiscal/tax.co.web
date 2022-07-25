@@ -128,11 +128,13 @@ with open(filename,"rb") as file_object:
         write_ui . flat_vat_dict_to_consumables_list ( vat ) )
       lib . append_request_to_db ( user_hash )
 
-    return HttpResponseRedirect (
-      reverse (
-        "run_make:thank-for-spec",
-        kwargs = {
-          "user_email" : user_email } ) )
+      return HttpResponseRedirect (
+        reverse (
+          "run_make:thank-for-spec",
+          kwargs = {
+            "user_email" : user_email } ) )
+
+    # TODO: Handle the case that the user input is invalid.
 
   else: # Before user submits form
     marginal_rate_floor_taxes = (
