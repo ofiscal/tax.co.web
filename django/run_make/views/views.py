@@ -110,7 +110,8 @@ with open(filename,"rb") as file_object:
       if True: # non-tax data
         for k in non_tax.keys():
           non_tax[k] = non_tax[k][0] # Unwrap lists.
-        non_tax [ "strategy" ]    = "detail"
+        non_tax [ "strategy" ]    = ( advanced_specs_form
+                                      . cleaned_data [ "strategy" ] )
         non_tax [ "regime_year" ] = 2019
         non_tax [ "subsample" ]   = TaxConfig.subsample.field.default
           # Earlier, when reading it from the form, had to do this:

@@ -5,4 +5,4 @@ from .models import TaxConfig
 class TaxConfigForm ( ModelForm ):
   class Meta:
     model = TaxConfig
-    fields = [ "user_email"]
+    fields = [ "user_email", "strategy" ]

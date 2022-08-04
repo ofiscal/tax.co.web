@@ -12,7 +12,7 @@ class TaxConfig ( models . Model ):
       verbose_name = "Tamaño de la submuestra usado",
       default = 1,
       choices =
-          [ ( 1, "Use todos los datos del ENPH." )
+          [ (1, "Use todos los datos del ENPH." )
           , (10, "Use 1/10 de los datos del ENPH.")
           , (100, "Use 1/100 de los datos del ENPH.")
           , (1000, "Use 1/1000 de los datos del ENPH.") ] )
@@ -20,7 +20,14 @@ class TaxConfig ( models . Model ):
       max_length = 64, # PITFALL: Mandatory for CharFields
       verbose_name = "Estrategia",
       default = "detail",
-      choices = [ ("detail", "(Por ahora solomente hay una estrategia disponible.)") ] )
+      choices = [
+        ("detail",
+         "El defecto."),
+        ("single_2052_UVT_income_tax_deduction",
+         "Solamente 2052 UVTs deducible de la renta laboral."),
+        ("second_stage_2052_UVT_income_tax_deduction",
+         "Solamente 2052 UVTs deducible en la segunda etapa de deducciones.")
+      ] )
   regime_year = models . IntegerField (
       verbose_name = "Año de la ley de impuestos",
       default = 2019,
