@@ -24,9 +24,7 @@ class TaxConfig ( models . Model ):
         ("detail",
          "El defecto."),
         ("single_2052_UVT_income_tax_deduction",
-         "Solamente 2052 UVTs deducible de la renta laboral."),
-        ("second_stage_2052_UVT_income_tax_deduction",
-         "Solamente 2052 UVTs deducible en la segunda etapa de deducciones.")
+         "Solamente 2052 UVTs deducible de la renta laboral.")
       ] )
   regime_year = models . IntegerField (
       verbose_name = "Año de la ley de impuestos",
