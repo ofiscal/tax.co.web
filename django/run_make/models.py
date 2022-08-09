@@ -23,6 +23,8 @@ class TaxConfig ( models . Model ):
       choices = [
         ("detail",
          "El defecto."),
+        ( "single_cedula_with_single_1210_uvt_threshold",
+          "Una sola cédula con una sola deducible de 1210 UVTs."),
         ("single_2052_UVT_income_tax_deduction",
          "Solamente 2052 UVTs deducible de la renta laboral.")
       ] )
