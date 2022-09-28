@@ -25,8 +25,8 @@ class TaxConfig ( models . Model ):
          "El defecto."),
         ( "single_cedula_with_single_1210_uvt_threshold",
           "Una sola cédula con una sola deducible de 1210 UVTs."),
-        ("single_2052_UVT_income_tax_deduction",
-         "Solamente 2052 UVTs deducible de la renta laboral.")
+        ("reduce_income_tax_deduction_to_1210_uvts",
+         "Como el status quo desde 2022 mayo, pero con un máximo de 1210 UVTs deducible de la renta laboral en vez de 5040.")
       ] )
   regime_year = models . IntegerField (
       verbose_name = "Año de la ley de impuestos",
