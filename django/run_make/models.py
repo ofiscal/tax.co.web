@@ -23,6 +23,8 @@ class TaxConfig ( models . Model ):
       choices = [
         ("detail",
          "El defecto."),
+        ("max_1340_uvt_deduction_and_max_4_dependents_72_uvt_each",
+         "Máximo 1340 UVT deducción, máximo 4 dependientes por cada ganador, 72 UVT deducidos por cada dependiente."),
         ( "single_cedula_with_single_1210_uvt_threshold",
           "Una sola cédula con una sola deducible de 1210 UVTs."),
         ("reduce_income_tax_deduction_to_1210_uvts",
