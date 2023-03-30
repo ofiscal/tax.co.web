@@ -1,3 +1,8 @@
+# DEPRECATED. Use online/create.sh or offline/create.sh instead.
+# They're simpler, and they mount the system_specific/ folder,
+# which this appears not to do. (Without mounting that,
+# the makefile targets are not defined.)
+
 # USAGE:
 # This file is not a "script" per se;
 # rather, these commands must be copied and pasted into the shell.
@@ -24,6 +29,7 @@ docker stop tax.co.web && docker rm tax.co.web
 # PITFALL: Run this from the root of the tax.co.web repo,
 # which defines paths.json.
 
+cd /home/jeff/of/tax.co.web
 eval "$(jq -r '.paths.base_system | to_entries | .[] | "base_system_" + .key + "=\"" + .value + "\""' < paths/paths.json)"
 eval "$(jq -r '.paths.docker | to_entries | .[] | "docker_" + .key + "=\"" + .value + "\""' < paths/paths.json)"
 
