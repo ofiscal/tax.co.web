@@ -12,19 +12,16 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import sys
-sys.path.insert(1,'/mnt/apache2')
+sys.path.insert(1,'/mnt/apache2') # so that secret.django is defined
 from secret.django import DJANGO_SECRET_KEY
   # PITFALL: The whole .secret module cannot, for some reason, be imported,
   # but individual defs from it can be.
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...).
-# TODO ? What magic is this? I can't evaluate __file__ in a shell.
-# But if I import this file, BASE_DIR evaluates to `/mnt/django`.
-# Each call to os.path.dirname returns the parent folder of its argument,
-# so I'm guessing __file__ is this `settings.py` file,
-# located at <project root>/django/ebdjango/settings.py.
-# At least, that's consistent with
-# dirname( dirname( __file__ ) ) = /mnt/django.
+# PITFALL: `__file__` is this `settings.py` file,
+# located at <project root>/django/ebdjango/settings.py --
+# but only if this code is evaluated *as* a file.
+# If this code is pasted into a REPL, `__file__` is not defined.
 BASE_DIR = os . path . dirname (
     os . path . dirname (
         os . path . abspath (  __file__ ) ) )
