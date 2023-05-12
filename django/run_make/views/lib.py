@@ -139,18 +139,14 @@ def append_request_to_db ( user_hash : str ):
     if True: # Refine the environment.
         my_env = os . environ . copy ()
         env_additions = ":" . join (
-            [ tax_co_root,
-              "/opt/conda/lib/python3.9/site-packages" ] )
-              # TODO ? Why must this second folder be specified?
-              # It's the default when I run python3 from the shell.
+            [ tax_co_root ] )
         my_env["PYTHONPATH"] = (
             ":" . join ( [ env_additions,
                            my_env [ "PYTHONPATH" ] ] )
             if "PYTHONPATH" in my_env . keys ()
             else env_additions )
     sp = subprocess . run (
-        [ "/opt/conda/bin/python3.9", # TODO : Why do I have to specify this?
-                                      # It's the default python in the shell.
+        [ "python3.9",
           "python/requests/main.py", # Run this program.
           os . path . join (         # Use this config file.
                 "users/", user_hash, "config/config.json" ),
