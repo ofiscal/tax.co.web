@@ -21,6 +21,7 @@
         "django"   : "/mnt/django",
         "apache"   : "/mnt/apache2",
         "paths"    : "/mnt/paths",
+        "system_specific" : "/mnt/system_specific",
         "commands" : "/mnt/commands"
     }
 } }
